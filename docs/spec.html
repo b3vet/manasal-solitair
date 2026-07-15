@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manasal Solitaire — Oyun Spesifikasyonu v1.0</title>
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --ink: #26221c;
+    --ink-soft: #5c554a;
+    --accent: #0e7a6d;
+    --accent-soft: #e0f2ef;
+    --line: #e4ddd2;
+    --code-bg: #f2efe8;
+    --warn-bg: #fdf3dc;
+    --warn-line: #e8c66a;
+    --user-badge: #1a7f37; --user-badge-bg: #e2f5e6;
+    --derived-badge: #1857b0; --derived-badge-bg: #e3edfb;
+    --proposal-badge: #9a6700; --proposal-badge-bg: #fbf0d7;
+    --danger: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #191713;
+      --surface: #211e19;
+      --ink: #ece7de;
+      --ink-soft: #b3a998;
+      --accent: #4fc2b2;
+      --accent-soft: #12332f;
+      --line: #3a352c;
+      --code-bg: #26221b;
+      --warn-bg: #33290f;
+      --warn-line: #8a6d1d;
+      --user-badge: #57c46d; --user-badge-bg: #12351a;
+      --derived-badge: #6ba3ee; --derived-badge-bg: #14263f;
+      --proposal-badge: #e0b34c; --proposal-badge-bg: #3a2d08;
+      --danger: #ef8a84;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 16px 80px;
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--ink);
+    line-height: 1.65; font-size: 16px;
+  }
+  main { max-width: 960px; margin: 0 auto; }
+  header.doc {
+    max-width: 960px; margin: 0 auto; padding: 48px 0 24px;
+    border-bottom: 3px solid var(--accent);
+  }
+  header.doc h1 { margin: 0 0 8px; font-size: 2rem; letter-spacing: -0.5px; }
+  header.doc .meta { color: var(--ink-soft); font-size: 0.95rem; }
+  header.doc .meta strong { color: var(--accent); }
+  h2 {
+    margin-top: 56px; padding-bottom: 8px; font-size: 1.45rem;
+    border-bottom: 1px solid var(--line);
+  }
+  h2 .no { color: var(--accent); margin-right: 8px; }
+  h3 { margin-top: 32px; font-size: 1.12rem; }
+  p, li { max-width: 76ch; }
+  a { color: var(--accent); }
+  code {
+    background: var(--code-bg); padding: 1px 6px; border-radius: 5px;
+    font-size: 0.88em; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5;
+  }
+  pre code { background: none; padding: 0; }
+  table {
+    border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 0.92rem;
+    background: var(--surface); border-radius: 10px; overflow: hidden;
+  }
+  .tablewrap { overflow-x: auto; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+  td.ok { color: var(--user-badge); font-weight: 600; }
+  td.no { color: var(--danger); font-weight: 600; }
+  .badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.4px;
+    padding: 2px 8px; border-radius: 999px; vertical-align: middle; white-space: nowrap;
+  }
+  .badge.user { color: var(--user-badge); background: var(--user-badge-bg); }
+  .badge.derived { color: var(--derived-badge); background: var(--derived-badge-bg); }
+  .badge.proposal { color: var(--proposal-badge); background: var(--proposal-badge-bg); }
+  .callout {
+    background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 10px;
+    padding: 12px 16px; margin: 16px 0;
+  }
+  .callout.info { background: var(--accent-soft); border-color: var(--accent); }
+  nav.toc {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px 24px; margin: 28px 0; columns: 2; column-gap: 40px;
+  }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc li { margin: 4px 0; break-inside: avoid; }
+  nav.toc a { text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  .sketch { display: block; margin: 20px auto; max-width: 100%; }
+  .example {
+    background: var(--surface); border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 12px 18px; margin: 16px 0;
+  }
+  .example .t { font-weight: 700; color: var(--accent); font-size: 0.85rem; letter-spacing: 0.5px; }
+  footer { max-width: 960px; margin: 64px auto 0; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 0.85rem; }
+  @media (max-width: 720px) { nav.toc { columns: 1; } }
+</style>
+</head>
+<body>
+
+<header class="doc">
+  <h1>🃏 Manasal Solitaire<br><span style="font-size:1.1rem; font-weight:500; color:var(--ink-soft)">Oyun Spesifikasyonu — v1.0</span></h1>
+  <div class="meta">
+    Tarih: <strong>15 Temmuz 2026</strong> &nbsp;·&nbsp; Durum: <strong>Onay bekliyor</strong> &nbsp;·&nbsp; Platform: <strong>Flutter (önce web'de test, sonra Android/iOS)</strong><br>
+    Bu doküman geliştirme sürecinin tamamında başvurulacak <em>tek doğruluk kaynağıdır</em>. Kural değişiklikleri önce burada güncellenir, sonra koda yansıtılır.
+  </div>
+</header>
+
+<main>
+
+<div class="callout info">
+  <strong>Rozet sistemi:</strong> Bu dokümandaki her önemli karar kaynağına göre işaretlenmiştir.<br>
+  <span class="badge user">KULLANICI KARARI</span> Ürün sahibinin brief'te veya soru-cevap turlarında verdiği kesin karar.<br>
+  <span class="badge derived">TÜRETİLMİŞ</span> Verilen kararlardan mantıksal olarak çıkan, tutarlılık için netleştirilmiş kural (incelemeye açık).<br>
+  <span class="badge proposal">ÖNERİ</span> Spesifikasyonu tamamlamak için sunulan, onay bekleyen öneri. Reddedilirse kolayca çıkarılabilir.
+</div>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#vizyon">Vizyon ve Genel Bakış</a></li>
+    <li><a href="#sozluk">Terimler Sözlüğü</a></li>
+    <li><a href="#kartlar">Kartlar</a></li>
+    <li><a href="#alan">Oyun Alanı ve Ekran Düzeni</a></li>
+    <li><a href="#kurulum">Bölüm Kurulumu (Dağıtım)</a></li>
+    <li><a href="#yerlestirme">Yerleştirme Kuralları</a></li>
+    <li><a href="#ekonomi">Hamle Ekonomisi</a></li>
+    <li><a href="#supurme">Süpürme ve Kategori Tamamlama</a></li>
+    <li><a href="#sonuc">Kazanma, Kaybetme, Çıkmaz Tespiti</a></li>
+    <li><a href="#geri-alma">Geri Alma, Cüzdan ve Başarımlar</a></li>
+    <li><a href="#bolum">Bölüm Sistemi ve Üretim Hattı</a></li>
+    <li><a href="#icerik">İçerik Kütüphanesi (Türkçe)</a></li>
+    <li><a href="#uxui">UX / UI ve Animasyon</a></li>
+    <li><a href="#mimari">Teknik Mimari</a></li>
+    <li><a href="#kapsam">Kapsam: v1 ve Sonrası</a></li>
+    <li><a href="#kararlar">Karar Kaydı</a></li>
+    <li><a href="#onay">Onay Bekleyen Maddeler</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="vizyon"><span class="no">1.</span>Vizyon ve Genel Bakış</h2>
+<p>
+<strong>Manasal Solitaire</strong> (çalışma adı), klasik solitaire'in iskelet yapısını alıp sayı/renk
+eşleştirmesini <strong>anlam eşleştirmesiyle</strong> değiştiren, Türkçe, bölüm tabanlı bir mobil bulmaca
+oyunudur. Kartların üzerinde kelimeler yazar; oyuncu hangi kelimelerin aynı kategoriye ait olduğunu
+<em>düşünerek</em> bulur ve onları zincirler halinde toplayıp kategori kartlarıyla birlikte toplama
+alanında eritir.
+</p>
+<p>Oyunu klasik solitaire'den ayıran ana özellikler:</p>
+<ul>
+  <li><strong>Anlam mekaniği:</strong> Kartlar sayıyla değil, kategori üyeliğiyle eşleşir. Kelime kartlarının üzerinde kategorisi <em>yazmaz</em>; bilmek/bulmak oyuncunun işidir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Hamle limiti:</strong> Her bölüm sınırlı hamle hakkıyla oynanır. Her eylem, taşınan kart sayısından bağımsız 1 hamledir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Bölüm (level) yapısı:</strong> Her bölüm önceden üretilmiş ve çözülebilirliği kanıtlanmış bir dağılımdır; kategori ve kelime sayıları bölümden bölüme değişir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>5 sütun, 5 toplama slotu:</strong> v1'de sabittir; motor ileride farklı sütun sayılarını destekleyecek şekilde parametrik yazılır. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Tamamen Türkçe</strong> içerik ve arayüz.</li>
+</ul>
+<p>
+<strong>Geliştirme stratejisi:</strong> Flutter ile tek kod tabanı. Test ve iterasyon hızı için önce
+web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paketlemesi yapılır.
+<span class="badge user">KULLANICI KARARI</span>
+</p>
+
+<!-- ============================================================ -->
+<h2 id="sozluk"><span class="no">2.</span>Terimler Sözlüğü</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:220px">Terim</th><th>Tanım</th></tr>
+  <tr><td><strong>Kelime kartı</strong></td><td>Üzerinde tek bir Türkçe kelime/kısa ifade yazan düz kart. Bölümdeki her kelime kartı, o bölümdeki kategorilerden tam olarak birine aittir.</td></tr>
+  <tr><td><strong>Kategori kartı</strong></td><td>Bir kategoriyi temsil eden özel kart (iskambildeki as benzeri). Üzerinde kategori adı ve o bölümde bu kategoriden kaç kelime kartı olduğu yazar. Toplama slotunu açan karttır.</td></tr>
+  <tr><td><strong>Sütun</strong> (tableau)</td><td>Oyun alanındaki 5 dikey kart yığınından biri. Altta kapalı kartlar, üstte açık kartlar bulunur.</td></tr>
+  <tr><td><strong>Toplama slotu</strong> (foundation)</td><td>Üstteki 5 slottan biri. Boş bir slota kategori kartı koyularak "aktifleşir"; sonra o kategorinin kelimeleri buraya toplanır.</td></tr>
+  <tr><td><strong>Deste</strong> (stock)</td><td>Kapalı duran çekme destesi. Buradan kart açmak 1 hamledir.</td></tr>
+  <tr><td><strong>Atık</strong> (waste)</td><td>Desteden açılan kartların açık olarak biriktiği yığın. Yalnızca en üstteki kart oynanabilir.</td></tr>
+  <tr><td><strong>Devir</strong> (recycle)</td><td>Deste bittiğinde atık yığınının ters çevrilip yeniden deste yapılması. 1 hamledir. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td><strong>Zincir</strong> (run)</td><td>Bir sütunda üstten itibaren kesintisiz olarak aynı kategoriye ait açık kelime kartları dizisi. Tek kart, uzunluğu 1 olan zincirdir.</td></tr>
+  <tr><td><strong>Süpürme birimi</strong></td><td>Sütunun tepesindeki kategori kartı + hemen altındaki kesintisiz eşleşen kelime zinciri. Tek parça olarak taşınır.</td></tr>
+  <tr><td><strong>Kilitli sütun</strong></td><td>En üstünde açık kategori kartı bulunan sütun. Üzerine hiçbir kart koyulamaz.</td></tr>
+  <tr><td><strong>Hamle</strong></td><td>Oyuncunun hamle hakkından düşen her geçerli eylem: çekme, devir veya herhangi bir yerleştirme.</td></tr>
+  <tr><td><strong>Bölüm</strong> (level)</td><td>Sabit tohumla üretilmiş, çözülebilirliği kanıtlanmış, hamle limiti belirlenmiş tek bir el.</td></tr>
+  <tr><td><strong>Tohum</strong> (seed)</td><td>Bölüm üretiminde kullanılan rastgelelik çekirdeği. Aynı tohum + aynı üretici sürümü = aynı bölüm.</td></tr>
+  <tr><td><strong>Havuz</strong></td><td>Tüm kategorilerin ve kelimelerinin bulunduğu içerik kütüphanesi.</td></tr>
+  <tr><td><strong>Geri alma kredisi</strong></td><td>Oyun geneli (bölümden bağımsız) tüketilebilir geri alma hakkı. Başarımlarla kazanılır. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td><strong>Çözücü</strong> (solver)</td><td>Bölüm üretim hattında dağılımın çözülebilir olduğunu kanıtlayan ve çözüm uzunluğunu ölçen arama algoritması.</td></tr>
+  <tr><td><strong>Çıkmaz</strong> (deadlock)</td><td>Tahtayı değiştirebilecek hiçbir geçerli hamlenin kalmadığı durum; kayıp sebebidir.</td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="kartlar"><span class="no">3.</span>Kartlar</h2>
+
+<h3>3.1 Kelime kartı</h3>
+<ul>
+  <li>Üzerinde yalnızca kelime yazar. Kategorisini gösteren <strong>hiçbir renk, ikon veya işaret yoktur</strong>; kategoriyi bulmak oyunun özüdür. <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Kelime, kartın <strong>üst şeridinde</strong> yazar; böylece üst üste istiflenmiş kartlarda her kartın kelimesi okunur kalır (iskambilde köşedeki sayı/sembol mantığı). <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Uzun kelimeler (örn. "Karnabahar") otomatik ölçeklenir; tek satır hedeflenir, gerekirse 2 satıra düşer.</li>
+</ul>
+
+<h3>3.2 Kategori kartı</h3>
+<ul>
+  <li>Kelime kartlarından <strong>ilk bakışta ayırt edilir</strong> bir görsel kimliği vardır (farklı zemin, çerçeve ve rozet). Kategori kartının <em>kendisi</em> gizli bilgi değildir; gizli olan kelimelerin üyeliğidir.</li>
+  <li>Destede, atıkta veya sütundayken üzerinde: <strong>kategori adı + bu bölümdeki toplam kelime sayısı</strong> (örn. <code>MEYVELER · 6</code>). <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Toplama slotundayken: <strong>toplanan / kalan</strong> formatı (örn. 6 kelimenin 2'si toplandıysa <code>MEYVELER · 2/4</code>). <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Her bölümde her kategoriden <strong>tam olarak 1</strong> kategori kartı bulunur; aynı kategori bir bölümde iki kez yer almaz. <span class="badge derived">TÜRETİLMİŞ</span></li>
+</ul>
+
+<h3>3.3 Kart yüzleri</h3>
+<ul>
+  <li><strong>Kapalı kart:</strong> Sırtı görünür, içeriği bilinmez. Sütunlarda alt katmanlarda ve destede bulunur.</li>
+  <li><strong>Açık kart:</strong> İçeriği görünür. Bir sütunun kapalı kartı, üzerindeki tüm açık kartlar taşındığında <strong>otomatik ve bedava</strong> açılır. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Kategori kartları da dağıtımda kapalı katmanlarda veya destede olabilir ("yerden kategori çıkması"). <span class="badge user">KULLANICI KARARI</span></li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="alan"><span class="no">4.</span>Oyun Alanı ve Ekran Düzeni</h2>
+
+<svg class="sketch" viewBox="0 0 360 560" width="320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Oyun ekranı taslağı">
+  <style>
+    .zone { fill: none; stroke: currentColor; stroke-width: 1.4; rx: 8; opacity: 0.85; }
+    .card { fill: currentColor; opacity: 0.12; stroke: currentColor; stroke-width: 1; }
+    .lbl { font: 600 11px sans-serif; fill: currentColor; }
+    .sm  { font: 500 9px sans-serif; fill: currentColor; opacity: 0.75; }
+  </style>
+  <rect x="4" y="4" width="352" height="552" rx="22" class="zone"/>
+  <!-- HUD -->
+  <rect x="16" y="16" width="328" height="38" rx="8" class="zone"/>
+  <text x="26" y="40" class="lbl">☰  Bölüm 12</text>
+  <text x="130" y="40" class="lbl">Hamle: 23</text>
+  <text x="216" y="40" class="lbl">Kategori: 2/5</text>
+  <text x="316" y="40" class="lbl">↩ 3</text>
+  <!-- Foundations -->
+  <text x="16" y="74" class="sm">TOPLAMA ALANI (5 slot)</text>
+  <g>
+    <rect x="16"  y="80" width="60" height="84" rx="7" class="card"/>
+    <rect x="84"  y="80" width="60" height="84" rx="7" class="card"/>
+    <rect x="152" y="80" width="60" height="84" rx="7" class="card"/>
+    <rect x="220" y="80" width="60" height="84" rx="7" class="zone" stroke-dasharray="4 3"/>
+    <rect x="288" y="80" width="56" height="84" rx="7" class="zone" stroke-dasharray="4 3"/>
+    <text x="22" y="100" class="sm">MEYVE</text><text x="22" y="112" class="sm">2/4</text>
+    <text x="90" y="100" class="sm">HAYVAN</text><text x="90" y="112" class="sm">0/5</text>
+    <text x="158" y="100" class="sm">RENK</text><text x="158" y="112" class="sm">3/3✓</text>
+    <text x="236" y="126" class="sm">boş</text>
+    <text x="302" y="126" class="sm">boş</text>
+  </g>
+  <!-- Tableau -->
+  <text x="16" y="186" class="sm">OYUN ALANI (5 sütun)</text>
+  <g>
+    <rect x="16"  y="192" width="60" height="84" rx="7" class="card"/>
+    <rect x="16"  y="216" width="60" height="84" rx="7" class="card"/>
+    <rect x="16"  y="240" width="60" height="84" rx="7" class="card"/>
+    <text x="22" y="256" class="sm">Elma</text>
+    <rect x="84"  y="192" width="60" height="84" rx="7" class="card"/>
+    <rect x="84"  y="216" width="60" height="84" rx="7" class="card"/>
+    <text x="90" y="232" class="sm">Kedi</text>
+    <rect x="152" y="192" width="60" height="84" rx="7" class="card"/>
+    <rect x="152" y="216" width="60" height="84" rx="7" class="card"/>
+    <rect x="152" y="240" width="60" height="84" rx="7" class="card"/>
+    <rect x="152" y="264" width="60" height="84" rx="7" class="card"/>
+    <text x="158" y="280" class="sm">Çilek</text>
+    <rect x="220" y="192" width="60" height="84" rx="7" class="card"/>
+    <text x="226" y="208" class="sm">SEBZE · 4 🔒</text>
+    <rect x="288" y="192" width="56" height="84" rx="7" class="zone" stroke-dasharray="4 3"/>
+    <text x="300" y="238" class="sm">boş</text>
+  </g>
+  <!-- Bottom bar -->
+  <rect x="16" y="458" width="60" height="84" rx="7" class="card"/>
+  <text x="26" y="504" class="lbl">🂠</text>
+  <text x="16" y="452" class="sm">DESTE (9)</text>
+  <rect x="84" y="458" width="60" height="84" rx="7" class="card"/>
+  <text x="90" y="480" class="sm">Lahana</text>
+  <text x="84" y="452" class="sm">ATIK</text>
+  <text x="240" y="500" class="sm">(alt bar: baş parmak erişimi)</text>
+</svg>
+
+<p>Dikey (portrait) telefon düzeni, yukarıdan aşağıya:</p>
+<ol>
+  <li><strong>HUD çubuğu:</strong> menü, bölüm numarası, <strong>kalan hamle</strong> (en belirgin öğe), tamamlanan kategori sayacı (örn. <code>2/5</code>), geri alma düğmesi + kredi bakiyesi.</li>
+  <li><strong>Toplama alanı:</strong> 5 slot. Boş slotlar kesikli çerçeveli; aktif slotlar kategori adı + toplanan/kalan gösterir.</li>
+  <li><strong>Oyun alanı:</strong> 5 sütun; kartlar üst şeritleri görünecek şekilde bindirilir. Kilitli sütunlarda kategori kartının üzerinde kilit rozeti görünür.</li>
+  <li><strong>Alt bar:</strong> deste (kalan kart sayısıyla) ve atık. Sık kullanılan "çek" eylemi baş parmak bölgesindedir. <span class="badge proposal">ÖNERİ</span></li>
+</ol>
+<p>Tamamlanan kategori sayısı HUD'da yaşar; tamamlanan kategoriler toplama slotunu boşaltır (bkz. §8). Tablet ve web'de aynı düzen, merkezlenmiş sabit en-boy oranıyla ölçeklenir.</p>
+
+<!-- ============================================================ -->
+<h2 id="kurulum"><span class="no">5.</span>Bölüm Kurulumu (Dağıtım)</h2>
+<ul>
+  <li>Bir bölümün kart toplamı = tüm kategorilerin kelime kartları + kategori başına 1 kategori kartı. Bölüm kazanıldığında <strong>tahtada hiç kart kalmaz</strong> (her kart bir kategoriye aittir). <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Kartlar üretici tarafından 5 sütuna ve desteye dağıtılır. Sütun başına kart sayısı bölüm tanımında belirtilir (örn. <code>[3,4,4,5,6]</code>); v1'de her sütunun yalnızca <strong>en üstteki 1 kartı açık</strong> başlar. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Dağıtımda bir sütunun en üstüne açık kategori kartı gelebilir; bu sütun <strong>oyuna kilitli başlar</strong> ve bilinçli bir zorluk öğesidir (çözücü bunu hesaba katar).</li>
+  <li>Kalan tüm kartlar kapalı desteyi oluşturur.</li>
+  <li>Bölümdeki kategori sayısı 5'ten fazla olabilir; toplama slotları tamamlanan kategorilerden boşaldığı için aynı anda en fazla 5 kategori aktif olur. <span class="badge user">KULLANICI KARARI</span></li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="yerlestirme"><span class="no">6.</span>Yerleştirme Kuralları</h2>
+
+<h3>6.1 Taşınabilir birimler</h3>
+<div class="tablewrap"><table>
+  <tr><th style="width:80px">Kod</th><th>Birim</th><th>Açıklama</th></tr>
+  <tr><td><strong>U1</strong></td><td>Kelime zinciri</td><td>Bir sütunda üstten itibaren kesintisiz aynı kategoriye ait açık kelime kartları (1..n kart). Araya farklı kategoriden bir kart girdiği noktada zincir biter; daha derindeki kartlar tutulamaz. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td><strong>U2</strong></td><td>Süpürme birimi</td><td>Sütunun tepesindeki kategori kartı + hemen altındaki kesintisiz eşleşen kelime zinciri (zincir boş olabilir; o zaman birim tek kategori kartıdır). Kategori kartı sütundayken daima birimiyle birlikte taşınır, tek başına ayrılamaz. <span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td><strong>U3</strong></td><td>Atık üstü</td><td>Atık yığınının en üstündeki tek kart (kelime veya kategori kartı).</td></tr>
+</table></div>
+<p>Toplama slotundaki kartlar <strong>hiçbir zaman geri alınamaz</strong>; toplama alanı tek yönlüdür. <span class="badge derived">TÜRETİLMİŞ</span></p>
+
+<h3>6.2 Yerleştirme matrisi</h3>
+<div class="tablewrap"><table>
+  <tr>
+    <th style="width:200px">Taşınan ↓ / Hedef →</th>
+    <th>Dolu sütun<br><span style="font-weight:400">(üstü açık kelime, kilitsiz)</span></th>
+    <th>Boş sütun</th>
+    <th>Kilitli sütun</th>
+    <th>Boş toplama slotu</th>
+    <th>Aktif toplama slotu<br><span style="font-weight:400">(kategori X)</span></th>
+  </tr>
+  <tr>
+    <td><strong>U1</strong> — kelime zinciri (kategori K)</td>
+    <td class="ok">✓ üst kartın kategorisi K ise</td>
+    <td class="ok">✓ her zaman</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="ok">✓ K = X ise; zincirin tamamı toplanır</td>
+  </tr>
+  <tr>
+    <td><strong>U2</strong> — süpürme birimi (kategori C)</td>
+    <td class="ok">✓ üst kartın kategorisi C ise → sütun kilitlenir</td>
+    <td class="ok">✓ her zaman → sütun kilitlenir</td>
+    <td class="no">✗</td>
+    <td class="ok">✓ süpürme: birimdeki kelimeler toplanmış sayılır</td>
+    <td class="no">✗</td>
+  </tr>
+  <tr>
+    <td><strong>U3</strong> — atıktan kelime (kategori K)</td>
+    <td class="ok">✓ üst kartın kategorisi K ise</td>
+    <td class="ok">✓ her zaman</td>
+    <td class="no">✗</td>
+    <td class="no">✗</td>
+    <td class="ok">✓ K = X ise</td>
+  </tr>
+  <tr>
+    <td><strong>U3</strong> — atıktan kategori kartı (C)</td>
+    <td class="ok">✓ üst kartın kategorisi C ise → sütun kilitlenir</td>
+    <td class="ok">✓ her zaman → sütun kilitlenir</td>
+    <td class="no">✗</td>
+    <td class="ok">✓ tek başına yerleşir</td>
+    <td class="no">✗</td>
+  </tr>
+</table></div>
+
+<p>Matristen çıkan kritik kurallar:</p>
+<ul>
+  <li><strong>Sıkı dizilim:</strong> Kelime kartı yalnızca kendi kategorisinden bir kartın üzerine koyulabilir. Bunun sonucu: oyuncunun kurduğu tüm açık istifler doğal olarak tek kategorilik zincirlerdir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Kategori kartı yerleşimi:</strong> Kategori kartı sütuna yalnızca <em>kendi kategorisinden zincirin üzerine</em> veya <em>boş sütuna</em> koyulabilir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Kilit:</strong> Üstünde açık kategori kartı olan sütuna hiçbir kart koyulamaz. Kilidi kaldırmanın tek yolu kategori kartını (birimiyle) başka geçerli bir hedefe taşımaktır. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Boş sütun serbesttir:</strong> Her birim boş sütuna koyulabilir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Boş toplama slotuna yalnızca kategori kartı</strong> (U2/U3) koyulabilir; kelimeler ancak aktif slota gider.</li>
+  <li>Atığın üzerine kart koyulamaz; desteden yalnızca çekilir; toplama slotundan kart alınamaz.</li>
+</ul>
+
+<div class="example">
+  <div class="t">ÖRNEK — kilitli başlangıç</div>
+  Dağıtımda 4. sütunun üstü açık <code>SEBZE · 4</code> kategori kartı geldi. Bu sütun kilitli başlar.
+  Oyuncu kartı ya boş bir toplama slotuna (tek başına, süpürmesiz) ya boş bir sütuna ya da üstünde
+  sebze kelimesi zinciri olan bir sütuna taşıyabilir. Taşıyınca altındaki kapalı kart bedava açılır.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="ekonomi"><span class="no">7.</span>Hamle Ekonomisi</h2>
+<p>Temel ilke: <strong>yapılan her geçerli eylem, taşınan kart sayısından bağımsız 1 hamledir.</strong> <span class="badge user">KULLANICI KARARI</span></p>
+<div class="tablewrap"><table>
+  <tr><th>Eylem</th><th style="width:110px">Maliyet</th><th>Not</th></tr>
+  <tr><td>Desteden kart çekme</td><td>1 hamle</td><td>Kart atığın üstüne açılır. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td>Devir (atık → deste)</td><td>1 hamle</td><td>Yalnızca deste boş ve atık doluyken. Sıra korunur (klasik Klondike devri). <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td>U1 / U2 / U3 ile herhangi bir geçerli yerleştirme</td><td>1 hamle</td><td>5 kartlık zincir taşımak da, süpürme birimini toplama slotuna çekmek de 1 hamledir. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td>Geçersiz yerleştirme denemesi</td><td>0</td><td>Kart(lar) yerine geri döner; ceza yok. Deneme-yanılma serbesttir, bedeli zamandır. <span class="badge user">KULLANICI KARARI</span></td></tr>
+  <tr><td>Kapalı kartın otomatik açılması</td><td>0</td><td>Sütun tepesi boşaldığında kendiliğinden olur.</td></tr>
+  <tr><td>Kategori tamamlanması (slot boşalması)</td><td>0</td><td>Otomatik olay, bkz. §8.</td></tr>
+  <tr><td>Geri alma</td><td>0 hamle</td><td>Hamle sayacı geri yüklenir; 1 <em>geri alma kredisi</em> tüketilir (bkz. §10).</td></tr>
+</table></div>
+<p>Hamle hakkı bölüm tanımında sabitlenir ve HUD'da <strong>kalan hamle</strong> olarak gösterilir. Son 5 hamlede sayaç görsel uyarı verir (renk + nabız animasyonu).</p>
+
+<!-- ============================================================ -->
+<h2 id="supurme"><span class="no">8.</span>Süpürme ve Kategori Tamamlama</h2>
+
+<h3>8.1 Kategori kartını toplama slotuna açmak</h3>
+<ul>
+  <li>Boş bir toplama slotuna kategori kartı koyulduğunda slot <strong>aktifleşir</strong> ve sayaç <code>0/N</code> (toplanan/kalan) olur.</li>
+  <li>Kaynak sütundaysa <strong>süpürme</strong> gerçekleşir: kategori kartının hemen altındaki kesintisiz eşleşen kelime zinciri de aynı hamlede slota gelir ve toplanmış sayılır. Örn. altında 3 meyve varken süpürülen <code>MEYVELER · 6</code> slotta <code>3/3</code> olarak açılır. <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Kaynak atıksa kart tek başına gelir (<code>0/N</code>).</li>
+</ul>
+
+<h3>8.2 Aktif slota kelime toplamak</h3>
+<ul>
+  <li>Aktif slota, kategorisi eşleşen U1 zinciri (tamamı tek hamlede) veya U3 tek kelime koyulabilir.</li>
+  <li>Eşleşmeyen kelime denemesi geçersizdir: kart geri döner, hamle harcanmaz, <em>hangi kategoriye ait olmadığı</em> bilgisi oyuncuya kalır (bilinçli tasarım — deneme bedava ama zaman alır).</li>
+</ul>
+
+<h3>8.3 Tamamlama</h3>
+<ul>
+  <li>Toplanan sayısı bölümdeki toplam sayıya ulaştığında kategori <strong>tamamlanır</strong>: kısa bir kutlama animasyonuyla kartlar slottan uçar, slot boşalır ve yeni kategori kartına açılır. <span class="badge user">KULLANICI KARARI</span></li>
+  <li>HUD'daki tamamlanan kategori sayacı artar (örn. <code>3/5</code>).</li>
+  <li>Tamamlama otomatiktir, hamle maliyeti yoktur, geri alınabilir (geri alma son hamleyi geri sararken tamamlamayı da geri açar).</li>
+</ul>
+
+<div class="example">
+  <div class="t">ÖRNEK — tam bir süpürme turu</div>
+  Oyuncu 2. sütunda <code>Kedi → Köpek → At</code> zincirini kurdu (3 hamle). Atıktan çıkan
+  <code>HAYVANLAR · 5</code> kartını zincirin üzerine koydu (1 hamle, sütun kilitlendi). Kategori
+  kartından tutup boş toplama slotuna çekti: kart + 3 hayvan tek hamlede uçtu, slot <code>3/2</code>
+  oldu. Daha sonra desteden gelen <code>Kuş</code> ve sütundan <code>İnek</code> slota eklendi
+  (2 hamle) → <code>5/0</code>, kategori tamamlandı, slot boşaldı. Toplam 7 hamle.
+</div>
+
+<!-- ============================================================ -->
+<h2 id="sonuc"><span class="no">9.</span>Kazanma, Kaybetme, Çıkmaz Tespiti</h2>
+
+<h3>9.1 Kazanma</h3>
+<p>Bölümdeki <strong>tüm kategoriler tamamlandığında</strong> bölüm kazanılır. Her kart bir kategoriye ait olduğundan bu an, tahtanın tamamen boşaldığı andır. Kazanma ekranı: kutlama, kalan hamle, (önerilen) yıldızlar, kazanılan krediler, "Sıradaki Bölüm".</p>
+
+<h3>9.2 Kaybetme — iki yol</h3>
+<ol>
+  <li><strong>Hamle hakkının bitmesi:</strong> Kalan hamle 0'a düştüğünde ve bölüm kazanılmamışsa. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Çıkmaz (anlamlı hamle kalmaması):</strong> Aşağıdaki algoritmayla tespit edilir. <span class="badge user">KULLANICI KARARI</span></li>
+</ol>
+
+<h3>9.3 Çıkmaz algoritması</h3>
+<p>Çekme ve devir tahtayı değiştirmez; yalnızca atığın üstünü değiştirir. Dolayısıyla şu test hem doğru hem tamdır: <span class="badge derived">TÜRETİLMİŞ</span></p>
+<pre><code>cikmaz(durum):
+  1. Tahtada herhangi bir geçerli yerleştirme var mı?
+     (tüm U1/U2 birimleri × tüm hedefler)           → varsa çıkmaz DEĞİL
+  2. Deste ∪ atıktaki herhangi bir kartın, mevcut tahtada
+     geçerli bir yerleştirme hedefi var mı?          → varsa çıkmaz DEĞİL
+     (o karta çekme/devirle eninde sonunda ulaşılır)
+  3. Aksi halde ÇIKMAZ → kayıp ekranı.</code></pre>
+<p>Not: "İki sütun arasında kartı ileri geri taşımak" gibi <em>yasal ama faydasız</em> hamleler çıkmaz sayılmaz; oyuncu bunlarla hamlesini eritebilir. Bu bilinçli bir sadelik tercihidir; daha akıllı "faydasızlık" sezgileri v1 sonrasına bırakılmıştır. <span class="badge derived">TÜRETİLMİŞ</span></p>
+
+<h3>9.4 Kayıp ekranı ve kurtarma</h3>
+<ul>
+  <li>Kayıp nedeni açıkça yazılır: "Hamlen bitti" veya "Oynanacak hamle kalmadı".</li>
+  <li>Oyuncunun geri alma kredisi varsa: <strong>"Geri al ve devam et"</strong> teklifi — 1 kredi karşılığı son hamle geri sarılır ve oyun kaldığı yerden sürer. Bu, kredilerin (ileride satın alınabilir kaynağın) en değerli kullanım anıdır. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Her durumda "Yeniden başla" (bölüm aynı dağılımla, sınırsız ve ücretsiz) ve "Bölümler" seçenekleri bulunur.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="geri-alma"><span class="no">10.</span>Geri Alma, Cüzdan ve Başarımlar</h2>
+<p><span class="badge user">KULLANICI KARARI</span> Geri alma <strong>oyun geneli, tüketilebilir bir kaynaktır</strong> — bölüm başına verilmez. Başarımlarla kazanılır, tamamen tükenebilir; ileride gerçek parayla satılması planlanmaktadır.</p>
+
+<h3>10.1 Mekanik</h3>
+<ul>
+  <li>Cüzdanda tam sayı bakiye tutulur; HUD'daki geri alma düğmesi bakiyeyi gösterir (örn. <code>↩ 3</code>).</li>
+  <li>1 kredi = 1 hamle geri sarma. Son hamle tamamen tersine çevrilir: kartlar, açılan kapalı kart, sayaçlar ve hamle hakkı eski haline döner.</li>
+  <li>Ard arda basıldıkça hamle hamle geriye gidilir; her adım 1 kredi tüketir. Bölüm başı durumundan öteye gidilemez.</li>
+  <li>Bakiye 0 ise düğme pasif görünür; dokununca "kredi kazanma yolları" bilgisi gösterilir.</li>
+  <li>Geri alma bilgi kaybettirmez (açılmış kart bilgisi oyuncunun aklındadır); bu kabul edilmiş bir sonuçtur — ücretsiz "yeniden başla" da aynı bilgiyi verir.</li>
+</ul>
+
+<h3>10.2 Kredi kazanımı — başarımlar <span class="badge proposal">ÖNERİ</span></h3>
+<p>Aşağıdaki başlangıç seti ve değerler ayarlanabilir (tuning) verisidir; v1'de basit tetikleyiciler olarak kodlanır, ayrı bir başarım ekranı v1 sonrasında eklenir:</p>
+<div class="tablewrap"><table>
+  <tr><th>Başarım</th><th>Koşul</th><th style="width:90px">Ödül</th></tr>
+  <tr><td>Hoş geldin</td><td>Yeni oyuncu başlangıç bakiyesi</td><td>3 kredi</td></tr>
+  <tr><td>İlk zafer</td><td>İlk bölümü tamamla</td><td>+2</td></tr>
+  <tr><td>Verimli</td><td>Bir bölümü hamle limitinin ≤%60'ını harcayarak bitir (bölüm başına 1 kez)</td><td>+1</td></tr>
+  <tr><td>Seri</td><td>Art arda 3 bölümü ilk denemede bitir</td><td>+1</td></tr>
+  <tr><td>Koleksiyoncu</td><td>Toplamda 25 / 50 / 100 kategori tamamla</td><td>+1 / +2 / +3</td></tr>
+</table></div>
+
+<h3>10.3 Monetizasyon hazırlığı <span class="badge user">KULLANICI KARARI</span></h3>
+<p>v1'de satın alma <strong>yoktur</strong>; ancak cüzdan, kaynağı belirtilmiş işlem API'siyle yazılır (<code>credit(source: achievement|purchase|gift, amount)</code> / <code>debit(reason)</code>). Böylece ileride IAP eklemek yalnızca yeni bir <code>source</code> bağlamaktan ibaret olur.</p>
+
+<!-- ============================================================ -->
+<h2 id="bolum"><span class="no">11.</span>Bölüm Sistemi ve Üretim Hattı</h2>
+
+<h3>11.1 Sabit tohumlu üretim <span class="badge user">KULLANICI KARARI</span></h3>
+<ul>
+  <li>Her bölüm, içerik havuzundan <strong>sabit bir tohumla</strong> üretilir: Bölüm 12 her oyuncuda ve her denemede aynıdır.</li>
+  <li>Üretim <strong>geliştirme zamanında</strong> (dev aracı ile) yapılır; çıktı, kart kart <em>materyalize edilmiş</em> bölüm dosyasıdır (<code>assets/levels/levels.json</code>). Böylece içerik havuzundaki bir düzenleme, yayınlanmış bölümleri sessizce değiştiremez. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Her bölüm, üretim sırasında <strong>çözücüyle kanıtlanmış</strong> bir çözüme sahiptir; çözülemeyen adaylar elenir ve tohum yenilenir.</li>
+</ul>
+
+<h3>11.2 Üretim hattı</h3>
+<pre><code>her bölümIndex için:
+  params = zorlukEğrisi(bölümIndex)
+  tekrarla:
+    tohum   = sıradakiTohum()
+    kategoriler = kategoriSeç(havuz, params, rotasyonPenceresi, çakışmaKuralları)
+    kelimeler   = kelimeSeç(kategoriler, params)        // kategori havuzundan alt küme
+    dağılım     = dağıt(tohum, params)                  // sütunlar + deste
+    sonuç       = çöz(dağılım, düğümLimiti, süreLimiti) // IDDFS + budama + durum önbelleği
+  ta ki sonuç.çözüldü
+  hamleLimiti = ceil(sonuç.çözümUzunluğu × params.payÇarpanı)
+  yaz(bölüm: materyalize dağılım + hamleLimiti + tohum + üreticiSürümü)</code></pre>
+<ul>
+  <li><strong>Hamle limiti formülü:</strong> çözücünün bulduğu çözüm uzunluğu × zorluğa bağlı pay çarpanı (örnek: kolay 1.5×, orta 1.35×, zor 1.15×). Çözücü optimal olmak zorunda değildir; bulduğu en iyi çözüm üst sınır güvencesidir. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Çözücü:</strong> derinleşen arama (IDDFS) + durum özeti önbelleği (transposition) + budamalar (eşdeğer/simetrik hamleleri tekilleştir, faydasız ileri-geri hamleleri kes). Aday başına düğüm ve süre limiti; aşarsa aday elenir.</li>
+  <li><strong>Determinizm:</strong> üretici ve motor, platformdan bağımsız kendi PRNG'sini kullanır (bkz. §14.4).</li>
+</ul>
+
+<h3>11.3 Tekrara düşmeme <span class="badge user">KULLANICI KARARI</span></h3>
+<ul>
+  <li><strong>Rotasyon penceresi:</strong> Bir kategori, son N bölümde (varsayılan 8) kullanıldıysa yeniden seçilmez.</li>
+  <li><strong>Kelime alt kümesi:</strong> Kategori tekrar geldiğinde bile kelimeleri havuzdan yeniden örneklenir; aynı kelime dizisi tekrarlanmaz.</li>
+  <li>Havuz hedefi (§12) bu çeşitliliği besleyecek kadar geniştir.</li>
+</ul>
+
+<h3>11.4 Zorluk eğrisi (başlangıç değerleri — tuning verisi) <span class="badge proposal">ÖNERİ</span></h3>
+<div class="tablewrap"><table>
+  <tr><th>Bölümler</th><th>Kategori sayısı</th><th>Kelime / kategori</th><th>Pay çarpanı</th><th>Özellikler</th></tr>
+  <tr><td>1–5 (öğretici)</td><td>2–3</td><td>3–4</td><td>1.6×</td><td>Çok bariz kategoriler (Renkler, Hayvanlar, Sayılar); rehberli ipuçları; küçük deste</td></tr>
+  <tr><td>6–20</td><td>3–4</td><td>4–5</td><td>1.4×</td><td>Bariz + orta kategoriler; kilitli başlangıç sütunu yok</td></tr>
+  <tr><td>21–50</td><td>4–5</td><td>4–6</td><td>1.25×</td><td>Nadiren yakın anlamlı kategori çifti; kilitli başlangıç sütunu olabilir</td></tr>
+  <tr><td>51+</td><td>4–6</td><td>5–8</td><td>1.15×</td><td>Yakın anlamlı çiftler (örn. Meyveler + Sebzeler) bilinçli tuzak olarak; derin desteler</td></tr>
+</table></div>
+<p>v1 hedefi: <strong>100 üretilmiş bölüm</strong>. Üretici otomatik olduğu için sayı düşük maliyetle artırılabilir.</p>
+
+<!-- ============================================================ -->
+<h2 id="icerik"><span class="no">12.</span>İçerik Kütüphanesi (Türkçe)</h2>
+
+<h3>12.1 Şema</h3>
+<pre><code>// assets/content/categories.json
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "meyveler",
+      "name": "Meyveler",
+      "difficulty": 1,            // 1 bariz … 3 çetrefilli
+      "words": ["Elma", "Armut", "Kiraz", "Çilek", "Muz", "İncir", ...],
+      "softConflicts": ["sebzeler"]   // yakın anlamlı; düşük zorlukta birlikte gelmez
+    }
+  ]
+}</code></pre>
+
+<h3>12.2 Kalite kuralları</h3>
+<ul>
+  <li><strong>Tekillik (sert kural):</strong> Aynı kelime iki kategorinin listesinde yer alıyorsa bu <em>sert çakışmadır</em>; doğrulama aracı bunu üretimde otomatik yakalar ve o iki kategori aynı bölümde asla birlikte seçilmez (tercihen içerik düzeltilir). Bir bölümdeki her kelime, o bölümdeki <strong>tam olarak bir</strong> kategoriye ait olmalıdır. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li><strong>Yumuşak çakışma:</strong> Kelime listeleri kesişmese de anlamca komşu kategoriler (<code>softConflicts</code>) elle işaretlenir; düşük zorlukta birlikte seçilmez, yüksek zorlukta bilinçli tuzak olarak birlikte gelebilir. <span class="badge proposal">ÖNERİ</span></li>
+  <li><strong>Türkçe normalizasyon:</strong> Karşılaştırmalar Türkçe locale ile yapılır (İ/i, I/ı büyük-küçük dönüşümleri); kartlarda kelimeler ilk harfi büyük gösterilir; kategori adları KÜÇÜK BÜYÜK fark etmeksizin tekil <code>id</code> ile anılır.</li>
+  <li>Kelimeler tek kelime veya en fazla iki kelimelik yerleşik ifadeler olmalı; herkesçe bilinir, güncel, kültürel olarak kapsayıcı; marka adı ve özel isim ancak kategori bunu gerektiriyorsa (örn. "Türkiye'deki Şehirler").</li>
+  <li>Kategori adı, üyeliği <em>tanımlayacak kadar net</em> olmalı: "İçecekler" iyi; "Güzel Şeyler" belirsiz, kabul edilmez.</li>
+</ul>
+
+<h3>12.3 Hacim hedefi</h3>
+<ul>
+  <li><strong>v1: en az 60 kategori × kategori başına en az 18 kelime</strong> (≥ 1.000 kelime). Rotasyon penceresi ve kelime örnekleme çeşitliliği için bu taban gereklidir. <span class="badge proposal">ÖNERİ</span></li>
+  <li>Örnek kategori yelpazesi: Meyveler, Sebzeler, Hayvanlar, Renkler, Şehirler, Ülkeler, Meslekler, Mutfak Eşyaları, Müzik Aletleri, Spor Dalları, Organlar, Duygular, Hava Olayları, Taşıtlar, Giysiler, Takılar, Tatlılar, Baharatlar, Çiçekler, Ağaçlar, Deniz Canlıları, Böcekler, Kuşlar, Akrabalık Terimleri, Okul Eşyaları, Aletler, Mobilyalar, Yapı Türleri, Sayılar, Aylar, Burçlar, Elementler…</li>
+  <li>İçerik ekibi olarak ilk havuzu biz yazarız; her kategori üretimden önce insan gözüyle (ürün sahibi) onaydan geçer.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="uxui"><span class="no">13.</span>UX / UI ve Animasyon</h2>
+
+<h3>13.1 Ekranlar ve akış</h3>
+<pre><code>Splash → Ana Menü ──► Bölümler (liste/harita, sıralı kilit açılır)
+             │                │
+             │                ▼
+             ├──► Nasıl Oynanır?        Oyun Ekranı ◄──── "Sıradaki bölüm"
+             └──► Ayarlar                │        │
+                                Kazanma diyaloğu  Kayıp diyaloğu
+                                (yıldız/kredi)    (geri al & devam / yeniden)</code></pre>
+<ul>
+  <li><strong>Bölüm ilerleyişi sıralıdır:</strong> Bölüm N tamamlanmadan N+1 açılmaz. Tamamlanan bölümler yeniden oynanabilir.</li>
+  <li><strong>Devam etme:</strong> Yarım kalan bölüm, uygulama kapatılsa bile kaldığı yerden sürer (durum anlık kaydedilir). <span class="badge proposal">ÖNERİ</span></li>
+  <li><strong>Öğretici:</strong> İlk 3 bölüm rehberlidir (vurgulu ok/maske ile "desteden kart çek", "elmayı çileğin üzerine koy" gibi yönlendirme) + menüden erişilen kısa resimli "Nasıl Oynanır" sayfası.</li>
+</ul>
+
+<h3>13.2 Etkileşim modeli</h3>
+<ul>
+  <li><strong>Sürükle-bırak esastır.</strong> Zincir tutulduğunda kartlar hafif yelpaze/gecikmeli takip ile birlikte kalkar; bırakınca geçerliyse yerine yumuşakça oturur, geçersizse geri zıplar (hamle harcanmaz).</li>
+  <li><strong>İpucu sızdırmama kuralları:</strong> Kelime kartları için sürükleme sırasında hedefler <em>vurgulanmaz</em> ve dokununca otomatik oynatma <em>yapılmaz</em> — aksi halde arayüz, kelimenin kategorisini ele verirdi. Geri bildirim yalnızca bırakma anında verilir. Kategori kartları için (kimliği zaten açık) çift dokunuşla uygun hedefe otomatik taşıma yapılabilir. <span class="badge derived">TÜRETİLMİŞ</span></li>
+  <li>Desteye dokunmak kart çeker; deste boşken dokunmak devir yapar (devir onay gerektirmez ama 1 hamle olduğu mikro animasyonla hissettirilir).</li>
+  <li>Dokunma hedefleri ≥ 48dp; kilitli sütun üzerine sürüklemede kilit rozeti sallanır.</li>
+</ul>
+
+<h3>13.3 Animasyon envanteri <span class="badge proposal">ÖNERİ</span></h3>
+<div class="tablewrap"><table>
+  <tr><th>Olay</th><th>Animasyon</th><th style="width:110px">Hedef süre</th></tr>
+  <tr><td>Bölüm açılışı</td><td>Kartların desteden sütunlara sırayla uçarak dağıtılması</td><td>~1.2 sn</td></tr>
+  <tr><td>Kart çekme</td><td>Desteden atığa kayma + çevrilme (3B flip hissi)</td><td>250 ms</td></tr>
+  <tr><td>Kapalı kart açılması</td><td>Yerinde flip + hafif parlaması</td><td>300 ms</td></tr>
+  <tr><td>Zincir taşıma</td><td>Kaldırma gölgesi + eğim; kartlar 30 ms arayla takip eder</td><td>anlık</td></tr>
+  <tr><td>Geçersiz bırakma</td><td>Kaynağa yaylı geri dönüş + kısa sarsıntı</td><td>350 ms</td></tr>
+  <tr><td>Süpürme</td><td>Kategori kartı + zincir, slota kademeli (staggered) uçuş</td><td>500 ms</td></tr>
+  <tr><td>Sayaç güncelleme</td><td>Toplanan/kalan rakamının tik animasyonu</td><td>200 ms</td></tr>
+  <tr><td>Kategori tamamlama</td><td>Slotta patlama/konfeti, kartların uçup kaybolması, HUD sayacına parçacık akışı</td><td>900 ms</td></tr>
+  <tr><td>Son 5 hamle</td><td>Hamle sayacında nabız + renk değişimi</td><td>döngüsel</td></tr>
+  <tr><td>Kazanma</td><td>Tam ekran konfeti + yıldızların sırayla dolması</td><td>1.5 sn</td></tr>
+</table></div>
+<p>Tüm animasyonlar kesilebilir (oyuncu beklemek zorunda kalmaz) ve sistemin "animasyonları azalt" tercihine saygı duyar.</p>
+
+<h3>13.4 Görsel yön <span class="badge proposal">ÖNERİ</span></h3>
+<p>Sıcak, kağıt/kitap esintili bir tema: krem zemin üzerinde hafif dokulu beyaz kartlar, mürekkep yeşili vurgu rengi, yumuşak gölgeler, okunabilirliği yüksek bir sans-serif (gömülü font, tam Türkçe glif desteği). Kategori kartları koyu zeminli ve rozetli. Karanlık tema v1'de desteklenir. Kesin sanat yönü, Faz 3 başında örnek ekranlarla onaya sunulur.</p>
+
+<h3>13.5 Yıldız sistemi <span class="badge proposal">ÖNERİ</span></h3>
+<p>Kazanılan bölümde kalan hamle oranına göre 1–3 yıldız: ★★★ kalan ≥ %30, ★★ kalan ≥ %10, ★ kazanmak. Yıldızlar bölüm listesinde görünür, "Verimli" başarımını besler. Reddedilirse kayıp yalnızca kozmetiktir.</p>
+
+<h3>13.6 Erişilebilirlik</h3>
+<ul>
+  <li>Kategori ayrımı renge dayanmadığı için renk körlüğü açısından doğal olarak güvenli; kategori kartı ayrımı şekil + tipografiyle de verilir.</li>
+  <li>Yazı boyutu sistem ölçeğine uyar (kart içi metin sınırlı aralıkta ölçeklenir); kontrast oranları WCAG AA hedefler.</li>
+  <li>Ses/haptik ayrı ayrı kapatılabilir (sesler Faz 5'te).</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="mimari"><span class="no">14.</span>Teknik Mimari</h2>
+
+<h3>14.1 Katmanlar</h3>
+<pre><code>┌───────────────────────────────────────────────┐
+│ app/        Flutter UI · ekranlar · widget'lar │
+│             sürükle-bırak · animasyon · tema   │
+│             Riverpod controller'ları           │
+├───────────────────────────────────────────────┤
+│ persistence/  ilerleme · cüzdan · ayarlar ·    │
+│               oyun-ortası kayıt (JSON)         │
+├───────────────────────────────────────────────┤
+│ generator/  bölüm üretici + çözücü (dev CLI    │
+│             bin/generate_levels.dart)          │
+├───────────────────────────────────────────────┤
+│ content/    kategori havuzu yükleyici ·        │
+│             doğrulama · çakışma indeksi        │
+├───────────────────────────────────────────────┤
+│ engine/     SAF DART — Flutter'a bağımsız      │
+│             GameState (immutable) · Move ·     │
+│             kural doğrulama · reducer ·        │
+│             legal-move üreteci · çıkmaz tespiti│
+│             · PRNG · (de)serileştirme          │
+└───────────────────────────────────────────────┘</code></pre>
+<ul>
+  <li><strong><code>engine/</code> saf Dart'tır</strong> (Flutter import'u yasak): birim testleri milisaniyede koşar, çözücü aynı kuralları yeniden kullanır, kurallar tek yerde yaşar.</li>
+  <li>Durum <strong>immutable</strong>'dır; her hamle yeni <code>GameState</code> üretir. Geri alma = durum geçmişi yığınından geri dönmek (bedava ve hatasız).</li>
+  <li><code>columnCount</code> ve slot sayısı motor düzeyinde parametriktir (v1 UI'ı 5'e sabitler; gelecekteki "farklı sütun sayısı" özelliği hazır olur). <span class="badge user">KULLANICI KARARI</span></li>
+</ul>
+
+<h3>14.2 Paket seçimleri <span class="badge proposal">ÖNERİ</span></h3>
+<div class="tablewrap"><table>
+  <tr><th>İhtiyaç</th><th>Seçim</th><th>Gerekçe</th></tr>
+  <tr><td>Durum yönetimi</td><td><code>flutter_riverpod</code></td><td>Test edilebilir, derleme-güvenli, oyun durumu + servisler için tek model</td></tr>
+  <tr><td>Oyun çatısı</td><td><em>Saf Flutter</em> (Flame <strong>kullanılmaz</strong>)</td><td>Kart oyunu UI ağırlıklıdır; widget + AnimationController yeterli ve daha esnek</td></tr>
+  <tr><td>Kalıcılık</td><td><code>shared_preferences</code> + JSON dosyası</td><td>Küçük veri; sunucu yok, tamamen çevrimdışı</td></tr>
+  <tr><td>Animasyon yardımcıları</td><td><code>flutter_animate</code> (+ yerleşik controller'lar)</td><td>Envanterdeki mikro animasyonları hızlandırır</td></tr>
+  <tr><td>Font</td><td>Gömülü font varlığı (Türkçe glif tam)</td><td>Çevrimdışı garanti, tutarlı görünüm</td></tr>
+  <tr><td>Kod üretimi</td><td>Engine'de <strong>yok</strong> (elle immutable); app'te gerekirse <code>freezed</code></td><td>Engine bağımlılıksız ve şeffaf kalır</td></tr>
+</table></div>
+
+<h3>14.3 Çekirdek model (özet)</h3>
+<pre><code>enum PileKind { column, foundation, stock, waste }
+
+class WordCard   { String id; String word; String categoryId; }
+class CategoryCard { String id; String categoryId; String name; int totalWords; }
+
+class GameState {
+  List&lt;Pile&gt; columns;        // 5 sütun: kapalı + açık bölümler
+  List&lt;FoundationSlot&gt; slots; // 5 slot: boş | aktif(kategori, toplanan)
+  List&lt;GameCard&gt; stock, waste;
+  int movesLeft;  int completedCategories;
+  LevelDef level;             // limitler, toplamlar, tohum
+}
+
+sealed class Move {           // motorun tek giriş noktası
+  DrawMove | RecycleMove |
+  PlaceMove(unit: UnitRef, target: TargetRef)   // U1/U2/U3 × hedef
+}
+apply(GameState, Move) → Result&lt;GameState, RuleViolation&gt;
+legalMoves(GameState) → List&lt;Move&gt;
+isDeadlocked(GameState) → bool</code></pre>
+
+<h3>14.4 Determinizm</h3>
+<p>Üretici ve motor, platform bağımsız sabit bir PRNG (xoshiro128**) kullanır; <code>dart:math Random</code>'a güvenilmez. Aynı tohum + aynı üretici sürümü, web'de ve mobilde bit-bit aynı bölümü üretir. Bölümler yine de materyalize dağıtıldığı için oyuncu cihazında üretim çalışmaz (yalnızca doğrulamada). <span class="badge derived">TÜRETİLMİŞ</span></p>
+
+<h3>14.5 Test stratejisi</h3>
+<ul>
+  <li><strong>Motor birim testleri:</strong> §6.2 matrisinin her hücresi + kilit, süpürme, tamamlanma, devir, çıkmaz, geri alma senaryoları birebir teste dönüşür.</li>
+  <li><strong>Değişmezler (invariant) + fuzz:</strong> rastgele legal hamle dizileri altında kart sayısı korunumu, kilit bütünlüğü, sayaç tutarlılığı, serileştirme gidiş-dönüşü.</li>
+  <li><strong>Üretici testleri:</strong> aynı tohum → aynı bölüm; üretilen her bölüm çözücüden geçer; sert çakışma asla yer almaz.</li>
+  <li><strong>Widget/golden testleri:</strong> kart görselleri, HUD durumları; <strong>entegrasyon:</strong> öğretici bölümün baştan sona oynanışı.</li>
+  <li>CI (GitHub Actions): analiz + testler + web build. <span class="badge proposal">ÖNERİ</span></li>
+</ul>
+
+<h3>14.6 Proje yapısı</h3>
+<pre><code>manasal-solitair/
+├── docs/                      # bu dokümanlar
+├── assets/
+│   ├── content/categories.json
+│   └── levels/levels.json     # materyalize bölümler
+├── bin/generate_levels.dart   # üretim hattı CLI
+├── lib/
+│   ├── engine/  ├── content/  ├── generator/
+│   ├── persistence/
+│   └── app/ (screens/ widgets/ theme/ services/)
+└── test/ (engine/ generator/ app/)</code></pre>
+
+<h3>14.7 Platform hedefleri</h3>
+<ul>
+  <li><strong>Faz boyunca:</strong> Flutter web (CanvasKit) ile geliştirme/test. <span class="badge user">KULLANICI KARARI</span></li>
+  <li><strong>Yayın:</strong> Android (APK/AAB) ve iOS (IPA); dikey kilitli, min. Android 7 / iOS 13 hedefi.</li>
+  <li>Performans bütçesi: orta seviye telefonda 60 fps; kart widget'ları <code>RepaintBoundary</code> ile yalıtılır, durum dinlemeleri seçicidir.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="kapsam"><span class="no">15.</span>Kapsam: v1 ve Sonrası</h2>
+<div class="tablewrap"><table>
+  <tr><th>v1 (bu spesifikasyon)</th><th>v1 sonrası (tasarımda yeri hazır)</th></tr>
+  <tr><td>
+    <ul>
+      <li>5 sütun + 5 slot, tüm çekirdek kurallar</li>
+      <li>100 üretilmiş, çözülebilirliği kanıtlı bölüm</li>
+      <li>≥60 kategori, ≥1.000 kelimelik havuz</li>
+      <li>Geri alma cüzdanı + temel başarım tetikleyicileri</li>
+      <li>Öğretici, bölüm listesi, ilerleme, devam etme</li>
+      <li>Tam animasyon seti, karanlık tema</li>
+      <li>Web test dağıtımı + Android/iOS paketleri</li>
+    </ul>
+  </td><td>
+    <ul>
+      <li>Farklı sütun/slot sayılı bölümler <span class="badge user">KULLANICI KARARI</span></li>
+      <li>Geri alma kredisi IAP'si <span class="badge user">KULLANICI KARARI</span></li>
+      <li>İpucu sistemi (krediyle?)</li>
+      <li>Günlük bölüm / sonsuz mod</li>
+      <li>Başarım ekranı, istatistikler</li>
+      <li>Ses paketleri, ek temalar</li>
+      <li>Çoklu dil altyapısı</li>
+    </ul>
+  </td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="kararlar"><span class="no">16.</span>Karar Kaydı</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:45px">#</th><th>Karar</th><th style="width:130px">Kaynak</th></tr>
+  <tr><td>K1</td><td>Kelime kartı yalnızca <strong>aynı kategoriden</strong> kartın üzerine koyulabilir</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K2</td><td>Grup taşıma birimi: üstten kesintisiz <strong>aynı kategori zinciri</strong></td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K3</td><td>Deste: <strong>1'li çekme</strong>, atığa; <strong>devir 1 hamle</strong></td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K4</td><td>Bölümler <strong>sabit tohumla üretilir</strong>, çözücüyle kanıtlanır; limit = çözüm + pay</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K5</td><td>Kategori kartı sütuna yalnızca <strong>eşleşen zincire veya boş sütuna</strong> koyulabilir</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K6</td><td>Boş sütuna <strong>her kart</strong> koyulabilir</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K7</td><td>Kelime kartlarında <strong>kategori işareti yok</strong>; geçersiz deneme cezasız</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K8</td><td>Geri alma: <strong>oyun geneli tüketilebilir kredi</strong>, başarımla kazanılır, ileride satılabilir</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K9</td><td>Her eylem kart sayısından bağımsız <strong>1 hamle</strong>; süpürme 1 hamle</td><td><span class="badge user">KULLANICI</span> (brief)</td></tr>
+  <tr><td>K10</td><td>5 sütun + 5 slot; tamamlanan kategori slotu boşaltır; sayaç formatları</td><td><span class="badge user">KULLANICI</span> (brief)</td></tr>
+  <tr><td>K11</td><td>Kategori kartı sütunda daima <strong>birimiyle (altındaki eşleşen zincirle)</strong> taşınır</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td>K12</td><td>Toplama alanı tek yönlü; slottan kart geri alınamaz</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td>K13</td><td>Çıkmaz tanımı: tahtayı değiştiren hiçbir legal yerleştirmenin (deste/atık dahil) kalmaması</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td>K14</td><td>Bölümler materyalize edilir; içerik değişikliği yayınlanmış bölümü etkilemez</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td>K15</td><td>UI ipucu sızdırmaz: kelime kartına hedef vurgusu ve otomatik oynatma yok</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
+  <tr><td>K16</td><td>Yıldız sistemi, başarım seti, zorluk eğrisi değerleri, animasyon envanteri, görsel yön, paket seçimleri, devam-etme</td><td><span class="badge proposal">ÖNERİ</span></td></tr>
+</table></div>
+
+<!-- ============================================================ -->
+<h2 id="onay"><span class="no">17.</span>Onay Bekleyen Maddeler</h2>
+<p>Aşağıdakiler spesifikasyonun <span class="badge proposal">ÖNERİ</span> rozetli kısımlarıdır; onayın (veya değişiklik talebin) sonrasında rozetleri KULLANICI KARARI'na çevrilecek:</p>
+<ol>
+  <li><strong>Yıldız sistemi</strong> (§13.5): kalan hamle oranına göre 1–3 yıldız — kalsın mı?</li>
+  <li><strong>Kredi ekonomisi</strong> (§10.2): başlangıç 3 kredi + başarım seti ve değerleri.</li>
+  <li><strong>Sayaç formatı teyidi</strong> (§3.2): slotta <code>toplanan/kalan</code> (örn. 6 kelimede 2 toplandıysa <code>2/4</code>). Alternatif <code>2/6</code> (toplanan/toplam) olurdu — brief'e sadık kalındı, teyit istenir.</li>
+  <li><strong>Oyun-ortası devam etme</strong> (§13.1): uygulama kapansa da bölüm kaldığı yerden sürsün — kalsın mı?</li>
+  <li><strong>Yakın anlamlı tuzak kategoriler</strong> (§11.4): yüksek bölümlerde bilinçli zorluk öğesi — kalsın mı?</li>
+  <li><strong>Görsel yön</strong> (§13.4): sıcak kağıt/kitap teması — bu yönde ilerlensin mi? (Faz 3'te örneklerle tekrar onaya gelir.)</li>
+  <li><strong>Çalışma adı:</strong> "Manasal Solitaire" — şimdilik bu adla mı ilerleyelim?</li>
+</ol>
+
+</main>
+
+<footer>
+  Manasal Solitaire — Oyun Spesifikasyonu v1.0 · 15 Temmuz 2026 · Değişiklikler bu dosyada sürümlenir (v1.1, v1.2, …).
+</footer>
+
+</body>
+</html>

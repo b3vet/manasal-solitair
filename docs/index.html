@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manasal Solitaire — Proje Dokümanları</title>
+<style>
+  :root {
+    --bg: #faf8f4; --surface: #ffffff; --ink: #26221c; --ink-soft: #5c554a;
+    --accent: #0e7a6d; --accent-soft: #e0f2ef; --line: #e4ddd2;
+    --ready: #1a7f37; --ready-bg: #e2f5e6;
+    --pending: #9a6700; --pending-bg: #fbf0d7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #191713; --surface: #211e19; --ink: #ece7de; --ink-soft: #b3a998;
+      --accent: #4fc2b2; --accent-soft: #12332f; --line: #3a352c;
+      --ready: #57c46d; --ready-bg: #12351a;
+      --pending: #e0b34c; --pending-bg: #3a2d08;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 16px 80px;
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.6;
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  header.doc { max-width: 860px; margin: 0 auto; padding: 48px 0 20px; border-bottom: 3px solid var(--accent); }
+  h1 { margin: 0 0 6px; font-size: 1.9rem; letter-spacing: -0.5px; }
+  .sub { color: var(--ink-soft); }
+  h2 { margin-top: 40px; font-size: 1.2rem; }
+  .doclist { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px; }
+  .doclist li {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 18px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .doclist a { color: var(--accent); font-weight: 600; text-decoration: none; font-size: 1.02rem; }
+  .doclist a:hover { text-decoration: underline; }
+  .doclist .desc { color: var(--ink-soft); font-size: 0.9rem; flex-basis: 100%; }
+  .st { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.4px; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .st.ready { color: var(--ready); background: var(--ready-bg); }
+  .st.pending { color: var(--pending); background: var(--pending-bg); }
+  .note { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 12px 16px; font-size: 0.95rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <h1>🃏 Manasal Solitaire</h1>
+  <div class="sub">Proje Doküman Merkezi — tüm tasarım ve plan dokümanlarının dizini</div>
+</header>
+<main>
+
+<h2>1. Tasarım</h2>
+<ul class="doclist">
+  <li>
+    <a href="spec.html">Oyun Spesifikasyonu v1.0</a>
+    <span class="st ready">HAZIR — ONAY BEKLİYOR</span>
+    <span class="desc">Tek doğruluk kaynağı: kurallar, hamle ekonomisi, bölüm sistemi, içerik kütüphanesi, UX/UI, teknik mimari, karar kaydı.</span>
+  </li>
+</ul>
+
+<h2>2. İmplementasyon Planları (fazlar)</h2>
+<div class="note">
+  Faz planları, spesifikasyonun onaylanmasının ardından hazırlanacak ve bu dizine eklenecektir.
+  Öngörülen fazlar: <strong>Faz 0</strong> proje iskeleti & altyapı · <strong>Faz 1</strong> oyun motoru ·
+  <strong>Faz 2</strong> içerik kütüphanesi + bölüm üretim hattı · <strong>Faz 3</strong> oyun ekranı UI &
+  animasyon · <strong>Faz 4</strong> meta oyun (bölümler, cüzdan, öğretici) · <strong>Faz 5</strong> cila &
+  ses · <strong>Faz 6</strong> mobil paketleme.
+</div>
+<ul class="doclist">
+  <li><span style="color:var(--ink-soft)">Faz planları</span> <span class="st pending">SPEC ONAYI BEKLENİYOR</span></li>
+</ul>
+
+</main>
+</body>
+</html>
