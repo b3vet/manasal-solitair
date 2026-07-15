@@ -13,9 +13,19 @@ tarayıcısında aç, kurulum gerektirmez:
 
 > **https://b3vet.github.io/manasal-solitair/**
 
-İlk yayın için depo ayarlarında **Settings → Pages → Source: GitHub Actions** seçili olmalıdır
-(workflow, izin varsa Pages'i otomatik etkinleştirir). "Ana ekrana ekle" ile tam ekran PWA
-olarak da çalışır.
+### ⚠️ Tek seferlik kurulum (yalnızca ilk yayın için)
+
+GitHub Actions'ın otomatik token'ı, Pages'i **ilk kez etkinleştiremez** (güvenlik kısıtı).
+Bu yüzden depo sahibinin bir kez şunu yapması gerekir:
+
+1. Depo → **Settings → Pages**
+2. **Source** olarak **"GitHub Actions"** seç (Save).
+3. **Actions** sekmesi → **"Deploy Web (GitHub Pages)"** → son koşuyu **Re-run** et
+   (ya da `main`'e herhangi bir push yap).
+
+Bundan sonra her `main` push'unda otomatik yayınlanır; web derlemesinin kendisi zaten yeşildir
+(yalnızca bu tek etkinleştirme adımı bekliyordu). "Ana ekrana ekle" ile tam ekran PWA olarak da
+çalışır.
 
 ## 🎮 Nasıl oynanır (özet)
 
