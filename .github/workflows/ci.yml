@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flutter sürümünü oku
+        id: fv
+        run: echo "version=$(tr -d '[:space:]' < scripts/flutter-version.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Flutter kurulumu
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fv.outputs.version }}
+          channel: stable
+          cache: true
+
+      - name: Bağımlılıklar
+        run: flutter pub get
+
+      - name: Biçim denetimi
+        run: dart format --set-exit-if-changed .
+
+      - name: Statik analiz
+        run: flutter analyze
+
+      - name: Testler
+        run: flutter test
+
+      - name: Web derlemesi
+        run: flutter build web --release
+
+      - name: Web artefaktı yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+          retention-days: 7
