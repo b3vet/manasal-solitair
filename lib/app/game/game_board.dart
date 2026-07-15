@@ -8,6 +8,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../engine/engine.dart';
 import '../theme/app_theme.dart';
@@ -17,8 +18,15 @@ import 'game_controller.dart';
 import 'widgets/cards.dart';
 
 class GameBoard extends StatefulWidget {
-  const GameBoard({super.key, required this.controller});
+  const GameBoard({
+    super.key,
+    required this.controller,
+    this.reduceMotion = false,
+    this.haptics = true,
+  });
   final GameController controller;
+  final bool reduceMotion;
+  final bool haptics;
 
   @override
   State<GameBoard> createState() => _GameBoardState();
@@ -41,6 +49,8 @@ class _DragState {
 
 class _GameBoardState extends State<GameBoard> {
   _DragState? _drag;
+  int _celebrateToken = 0;
+  String? _celebrateText;
 
   GameController get c => widget.controller;
   GameState get state => c.state;
@@ -67,7 +77,32 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _onChange() {
+    _fireHaptics(c.lastEvents);
+    for (final e in c.lastEvents) {
+      if (e is CategoryCompletedEvent) {
+        final cat = c.level.categories.firstWhere(
+          (x) => x.categoryId == e.categoryId,
+          orElse: () => c.level.categories.first,
+        );
+        _celebrateText = cat.name;
+        _celebrateToken++;
+      }
+    }
     if (mounted) setState(() => _drag = null);
+  }
+
+  void _fireHaptics(List<GameEvent> events) {
+    if (!widget.haptics || events.isEmpty) return;
+    if (events.any((e) => e is CategoryCompletedEvent)) {
+      HapticFeedback.heavyImpact();
+    } else if (events.any(
+      (e) =>
+          e is UnitPlacedEvent ||
+          e is WordsCollectedEvent ||
+          e is SlotActivatedEvent,
+    )) {
+      HapticFeedback.lightImpact();
+    }
   }
 
   @override
@@ -92,6 +127,20 @@ class _GameBoardState extends State<GameBoard> {
         children.addAll(_columnFrames(m, colors));
         children.addAll(_pileFrames(m, colors));
         children.addAll(_cards(m, colors));
+        if (_celebrateText != null) {
+          children.add(
+            Positioned.fill(
+              child: IgnorePointer(
+                child: _CelebrationBanner(
+                  key: ValueKey('celebrate_$_celebrateToken'),
+                  text: _celebrateText!,
+                  colors: colors,
+                  reduceMotion: widget.reduceMotion,
+                ),
+              ),
+            ),
+          );
+        }
 
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -315,7 +364,7 @@ class _GameBoardState extends State<GameBoard> {
   }) {
     return AnimatedPositioned(
       key: ValueKey(id),
-      duration: instant ? Duration.zero : Anim.place,
+      duration: (instant || widget.reduceMotion) ? Duration.zero : Anim.place,
       curve: Curves.easeOutCubic,
       left: topLeft.dx,
       top: topLeft.dy,
@@ -385,6 +434,7 @@ class _GameBoardState extends State<GameBoard> {
       applied = c.place(d.source, target);
     }
     if (!applied) {
+      if (widget.haptics) HapticFeedback.mediumImpact();
       setState(() => _drag = null); // eskisine döner (animasyon)
     }
     // applied ise controller notifyListeners → _onChange drag'i temizler.
@@ -445,4 +495,80 @@ class _Grab {
   final List<GameCard> cards;
   final Offset baseTopLeft;
   final bool isCategory;
+}
+
+/// Kategori tamamlandığında kısa süreli kutlama afişi (belirir, solar).
+class _CelebrationBanner extends StatelessWidget {
+  const _CelebrationBanner({
+    super.key,
+    required this.text,
+    required this.colors,
+    required this.reduceMotion,
+  });
+  final String text;
+  final GameColors colors;
+  final bool reduceMotion;
+
+  @override
+  Widget build(BuildContext context) {
+    if (reduceMotion) return const SizedBox.shrink();
+    return Center(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: Anim.complete,
+        curve: Curves.easeOut,
+        builder: (context, t, child) {
+          // 0.0-0.25 belir, 0.25-1.0 sol.
+          final opacity = t < 0.25 ? (t / 0.25) : (1 - (t - 0.25) / 0.75);
+          final scale = 0.85 + 0.3 * (t < 0.25 ? t / 0.25 : 1);
+          return Opacity(
+            opacity: opacity.clamp(0, 1),
+            child: Transform.scale(scale: scale, child: child),
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+          decoration: BoxDecoration(
+            color: colors.categoryFace,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: colors.shadow,
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle_rounded, color: colors.accent, size: 24),
+              const SizedBox(width: 10),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Tamamlandı!',
+                    style: TextStyle(
+                      color: colors.categoryText,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
+                  ),
+                  Text(
+                    text,
+                    style: TextStyle(
+                      color: colors.categoryText.withValues(alpha: 0.8),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

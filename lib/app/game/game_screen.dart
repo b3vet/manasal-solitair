@@ -150,6 +150,12 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  bool _reduceMotion(BuildContext context, String setting) => switch (setting) {
+    'on' => false,
+    'off' => true,
+    _ => MediaQuery.of(context).disableAnimations,
+  };
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
@@ -166,7 +172,13 @@ class _GameScreenState extends State<GameScreen> {
               onMenu: _pause,
               onUndo: _useUndo,
             ),
-            Expanded(child: GameBoard(controller: _controller)),
+            Expanded(
+              child: GameBoard(
+                controller: _controller,
+                haptics: meta.haptics,
+                reduceMotion: _reduceMotion(context, meta.reducedMotion),
+              ),
+            ),
           ],
         ),
       ),
