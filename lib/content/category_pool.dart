@@ -19,7 +19,7 @@ class Category {
 
 class CategoryPool {
   CategoryPool({required this.version, required this.categories})
-      : _byId = {for (final c in categories) c.id: c};
+    : _byId = {for (final c in categories) c.id: c};
 
   final int version;
   final List<Category> categories;

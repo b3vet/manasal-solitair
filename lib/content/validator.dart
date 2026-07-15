@@ -41,7 +41,10 @@ class ContentValidator {
         final key = TrText.normalizeKey(w);
         if (!seen.add(key)) {
           issues.add(
-            ContentIssue('error', '${c.id}: kategori içi yinelenen kelime "$w"'),
+            ContentIssue(
+              'error',
+              '${c.id}: kategori içi yinelenen kelime "$w"',
+            ),
           );
         }
       }

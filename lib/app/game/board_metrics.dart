@@ -15,10 +15,9 @@ class BoardMetrics {
     required this.slotCount,
     required List<int> columnCounts,
   }) {
-    final pad = Dim.pagePad;
+    const pad = Dim.pagePad;
     final usableW = size.width - 2 * pad;
-    final cardW =
-        (usableW - Dim.gap * (columnCount - 1)) / columnCount;
+    final cardW = (usableW - Dim.gap * (columnCount - 1)) / columnCount;
     final cardH = cardW / Dim.cardAspect;
     card = Size(cardW, cardH);
     _pad = pad;
@@ -63,14 +62,14 @@ class BoardMetrics {
   Offset stockTopLeft() => Offset(_colX(0), bottomTop);
   Offset wasteTopLeft() => Offset(_colX(1), bottomTop);
 
-  Rect rectAt(Offset topLeft) =>
-      topLeft & card;
+  Rect rectAt(Offset topLeft) => topLeft & card;
 
   /// Bir sütunun tüm isabet bölgesi (drop hedefleme için).
   Rect columnHitRect(int c, int cardCount) {
     final top = tableauTop;
-    final height = (cardCount <= 1 ? card.height : (cardCount - 1) * step + card.height)
-        .clamp(card.height, bottomTop - tableauTop);
+    final height =
+        (cardCount <= 1 ? card.height : (cardCount - 1) * step + card.height)
+            .clamp(card.height, bottomTop - tableauTop);
     return Rect.fromLTWH(_colX(c), top, card.width, height);
   }
 

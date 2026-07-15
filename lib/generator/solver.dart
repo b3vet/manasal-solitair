@@ -188,7 +188,9 @@ class Solver {
     ]..sort();
     final slots = [
       for (final slot in s.slots)
-        slot is ActiveSlot ? '${slot.categoryId}:${slot.collected.length}' : 'e',
+        slot is ActiveSlot
+            ? '${slot.categoryId}:${slot.collected.length}'
+            : 'e',
     ]..sort();
     return '${cols.join(";")}#'
         '${s.stock.map((c) => c.id).join(",")}#'

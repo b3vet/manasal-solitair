@@ -6,20 +6,23 @@ import 'package:manasal_solitaire/generator/solver.dart';
 
 CategoryPool synthPool() {
   Category c(String id, int diff, List<String> extra) => Category(
-        id: id,
-        name: id,
-        difficulty: diff,
-        words: [for (var i = 0; i < 10; i++) '$id$i', ...extra],
-      );
-  return CategoryPool(version: 1, categories: [
-    c('a', 1, const []),
-    c('b', 1, const []),
-    c('cc', 1, const []),
-    c('d', 2, const []),
-    c('e', 2, const []),
-    c('f', 2, const []),
-    c('g', 1, const []),
-  ]);
+    id: id,
+    name: id,
+    difficulty: diff,
+    words: [for (var i = 0; i < 10; i++) '$id$i', ...extra],
+  );
+  return CategoryPool(
+    version: 1,
+    categories: [
+      c('a', 1, const []),
+      c('b', 1, const []),
+      c('cc', 1, const []),
+      c('d', 2, const []),
+      c('e', 2, const []),
+      c('f', 2, const []),
+      c('g', 1, const []),
+    ],
+  );
 }
 
 void main() {

@@ -123,8 +123,9 @@ class CategoryCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counterText =
-        collected == null ? '${card.totalInLevel}' : '$collected/${card.totalInLevel}';
+    final counterText = collected == null
+        ? '${card.totalInLevel}'
+        : '$collected/${card.totalInLevel}';
     final pad = size.width * 0.09;
     return _CardFrame(
       size: size,
@@ -139,13 +140,18 @@ class CategoryCardView extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.folder_special_rounded,
-                    size: size.height * 0.16, color: colors.accent),
+                Icon(
+                  Icons.folder_special_rounded,
+                  size: size.height * 0.16,
+                  color: colors.accent,
+                ),
                 if (locked) ...[
                   const Spacer(),
-                  Icon(Icons.lock_rounded,
-                      size: size.height * 0.15,
-                      color: colors.categoryText.withValues(alpha: 0.7)),
+                  Icon(
+                    Icons.lock_rounded,
+                    size: size.height * 0.15,
+                    color: colors.categoryText.withValues(alpha: 0.7),
+                  ),
                 ],
               ],
             ),
@@ -166,7 +172,9 @@ class CategoryCardView extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.09, vertical: size.height * 0.02),
+                horizontal: size.width * 0.09,
+                vertical: size.height * 0.02,
+              ),
               decoration: BoxDecoration(
                 color: colors.accent,
                 borderRadius: BorderRadius.circular(999),
@@ -202,8 +210,8 @@ class CardBackView extends StatelessWidget {
       shadow: colors.shadow,
       child: Center(
         child: Container(
-          width: size.width * 0.6,
-          height: size.height * 0.6,
+          width: size.width * 0.58,
+          height: size.height * 0.58,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
             border: Border.all(
@@ -212,10 +220,17 @@ class CardBackView extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Text('م',
-                style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: size.height * 0.3)),
+            child: Transform.rotate(
+              angle: 0.785398, // 45°
+              child: Container(
+                width: size.width * 0.22,
+                height: size.width * 0.22,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.30),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -258,16 +273,21 @@ class EmptyFrameView extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (icon != null)
-                      Icon(icon,
-                          color: colors.inkSoft.withValues(alpha: 0.6),
-                          size: size.height * 0.24),
+                      Icon(
+                        icon,
+                        color: colors.inkSoft.withValues(alpha: 0.6),
+                        size: size.height * 0.24,
+                      ),
                     if (label != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 2),
-                        child: Text(label!,
-                            style: TextStyle(
-                                color: colors.inkSoft.withValues(alpha: 0.7),
-                                fontSize: size.height * 0.11)),
+                        child: Text(
+                          label!,
+                          style: TextStyle(
+                            color: colors.inkSoft.withValues(alpha: 0.7),
+                            fontSize: size.height * 0.11,
+                          ),
+                        ),
                       ),
                   ],
                 ),

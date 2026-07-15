@@ -33,7 +33,9 @@ void main(List<String> args) {
     ..writeln()
     ..writeln('Havuz: ${pool.length} kategori. Üretilen: $count bölüm.')
     ..writeln()
-    ..writeln('| Bölüm | Tohum | Kategoriler | Kart | Çözüm | Limit | Düğüm | Deneme |')
+    ..writeln(
+      '| Bölüm | Tohum | Kategoriler | Kart | Çözüm | Limit | Düğüm | Deneme |',
+    )
     ..writeln('|---|---|---|---|---|---|---|---|');
 
   final recentWindow = <String>[];
@@ -68,7 +70,9 @@ void main(List<String> args) {
     totalTries += tries;
 
     if (accepted == null || acceptedResult == null) {
-      stderr.writeln('⚠️  Bölüm $lvl $maxTries denemede çözülemedi, atlanıyor.');
+      stderr.writeln(
+        '⚠️  Bölüm $lvl $maxTries denemede çözülemedi, atlanıyor.',
+      );
       continue;
     }
 

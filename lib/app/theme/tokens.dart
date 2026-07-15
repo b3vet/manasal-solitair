@@ -96,24 +96,23 @@ class GameColors extends ThemeExtension<GameColors> {
     Color? danger,
     Color? warning,
     Color? shadow,
-  }) =>
-      GameColors(
-        bg: bg ?? this.bg,
-        surface: surface ?? this.surface,
-        cardFace: cardFace ?? this.cardFace,
-        cardEdge: cardEdge ?? this.cardEdge,
-        cardText: cardText ?? this.cardText,
-        ink: ink ?? this.ink,
-        inkSoft: inkSoft ?? this.inkSoft,
-        accent: accent ?? this.accent,
-        accentSoft: accentSoft ?? this.accentSoft,
-        categoryFace: categoryFace ?? this.categoryFace,
-        categoryText: categoryText ?? this.categoryText,
-        slotEmpty: slotEmpty ?? this.slotEmpty,
-        danger: danger ?? this.danger,
-        warning: warning ?? this.warning,
-        shadow: shadow ?? this.shadow,
-      );
+  }) => GameColors(
+    bg: bg ?? this.bg,
+    surface: surface ?? this.surface,
+    cardFace: cardFace ?? this.cardFace,
+    cardEdge: cardEdge ?? this.cardEdge,
+    cardText: cardText ?? this.cardText,
+    ink: ink ?? this.ink,
+    inkSoft: inkSoft ?? this.inkSoft,
+    accent: accent ?? this.accent,
+    accentSoft: accentSoft ?? this.accentSoft,
+    categoryFace: categoryFace ?? this.categoryFace,
+    categoryText: categoryText ?? this.categoryText,
+    slotEmpty: slotEmpty ?? this.slotEmpty,
+    danger: danger ?? this.danger,
+    warning: warning ?? this.warning,
+    shadow: shadow ?? this.shadow,
+  );
 
   @override
   GameColors lerp(GameColors? other, double t) {
@@ -152,8 +151,8 @@ class Dim {
 }
 
 /// Animasyon süreleri (tek yerden — tuning). (Spec §13.3)
-class Durations {
-  const Durations._();
+class Anim {
+  const Anim._();
   static const draw = Duration(milliseconds: 240);
   static const flip = Duration(milliseconds: 280);
   static const place = Duration(milliseconds: 260);

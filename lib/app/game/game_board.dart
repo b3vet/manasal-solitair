@@ -77,7 +77,8 @@ class _GameBoardState extends State<GameBoard> {
       builder: (context, constraints) {
         final size = Size(constraints.maxWidth, constraints.maxHeight);
         final counts = [
-          for (final col in state.columns) col.faceDown.length + col.faceUp.length,
+          for (final col in state.columns)
+            col.faceDown.length + col.faceUp.length,
         ];
         final m = BoardMetrics(
           size: size,
@@ -114,8 +115,14 @@ class _GameBoardState extends State<GameBoard> {
     for (var i = 0; i < state.slots.length; i++) {
       final slot = state.slots[i];
       if (slot is EmptySlot) {
-        out.add(_positioned('slot_empty_$i', m.slotTopLeft(i), m.card,
-            EmptyFrameView(size: m.card, colors: colors, icon: Icons.add)));
+        out.add(
+          _positioned(
+            'slot_empty_$i',
+            m.slotTopLeft(i),
+            m.card,
+            EmptyFrameView(size: m.card, colors: colors, icon: Icons.add),
+          ),
+        );
       }
     }
     return out;
@@ -125,8 +132,14 @@ class _GameBoardState extends State<GameBoard> {
     final out = <Widget>[];
     for (var col = 0; col < state.columns.length; col++) {
       if (state.columns[col].isEmpty) {
-        out.add(_positioned('col_empty_$col', m.columnTopLeft(col), m.card,
-            EmptyFrameView(size: m.card, colors: colors)));
+        out.add(
+          _positioned(
+            'col_empty_$col',
+            m.columnTopLeft(col),
+            m.card,
+            EmptyFrameView(size: m.card, colors: colors),
+          ),
+        );
       }
     }
     return out;
@@ -135,12 +148,24 @@ class _GameBoardState extends State<GameBoard> {
   List<Widget> _pileFrames(BoardMetrics m, GameColors colors) {
     final out = <Widget>[];
     if (state.stock.isEmpty) {
-      out.add(_positioned('stock_empty', m.stockTopLeft(), m.card,
-          EmptyFrameView(size: m.card, colors: colors, icon: Icons.refresh)));
+      out.add(
+        _positioned(
+          'stock_empty',
+          m.stockTopLeft(),
+          m.card,
+          EmptyFrameView(size: m.card, colors: colors, icon: Icons.refresh),
+        ),
+      );
     }
     if (state.waste.isEmpty) {
-      out.add(_positioned('waste_empty', m.wasteTopLeft(), m.card,
-          EmptyFrameView(size: m.card, colors: colors)));
+      out.add(
+        _positioned(
+          'waste_empty',
+          m.wasteTopLeft(),
+          m.card,
+          EmptyFrameView(size: m.card, colors: colors),
+        ),
+      );
     }
     return out;
   }
@@ -148,7 +173,9 @@ class _GameBoardState extends State<GameBoard> {
   // --- Kartlar ---
 
   List<Widget> _cards(BoardMetrics m, GameColors colors) {
-    final dragIds = _drag == null ? const <String>{} : {for (final c in _drag!.cards) c.id};
+    final dragIds = _drag == null
+        ? const <String>{}
+        : {for (final c in _drag!.cards) c.id};
     final normal = <Widget>[];
     final dragged = <Widget>[];
 
@@ -156,17 +183,19 @@ class _GameBoardState extends State<GameBoard> {
     for (var i = 0; i < state.slots.length; i++) {
       final slot = state.slots[i];
       if (slot is ActiveSlot) {
-        normal.add(_positioned(
-          slot.card.id,
-          m.slotTopLeft(i),
-          m.card,
-          CategoryCardView(
-            card: slot.card,
-            size: m.card,
-            colors: colors,
-            collected: slot.collected.length,
+        normal.add(
+          _positioned(
+            slot.card.id,
+            m.slotTopLeft(i),
+            m.card,
+            CategoryCardView(
+              card: slot.card,
+              size: m.card,
+              colors: colors,
+              collected: slot.collected.length,
+            ),
           ),
-        ));
+        );
       }
     }
 
@@ -180,27 +209,46 @@ class _GameBoardState extends State<GameBoard> {
         if (dragIds.contains(card.id)) continue;
         final faceUp = k >= faceDownCount;
         final home = m.cardTopLeft(col, k);
-        normal.add(_positioned(
-          card.id,
-          home,
-          m.card,
-          _cardWidget(card, colors, m.card,
-              faceUp: faceUp, locked: column.isLocked),
-        ));
+        normal.add(
+          _positioned(
+            card.id,
+            home,
+            m.card,
+            _cardWidget(
+              card,
+              colors,
+              m.card,
+              faceUp: faceUp,
+              locked: column.isLocked,
+            ),
+          ),
+        );
       }
     }
 
     // Deste üstü (kapalı) + atık üstü (açık).
     if (state.stock.isNotEmpty) {
       final top = state.stock.last;
-      normal.add(_positioned('stocktop_${top.id}', m.stockTopLeft(), m.card,
-          CardBackView(size: m.card, colors: colors)));
+      normal.add(
+        _positioned(
+          'stocktop_${top.id}',
+          m.stockTopLeft(),
+          m.card,
+          CardBackView(size: m.card, colors: colors),
+        ),
+      );
     }
     if (state.waste.isNotEmpty) {
       final top = state.waste.last;
       if (!dragIds.contains(top.id)) {
-        normal.add(_positioned(top.id, m.wasteTopLeft(), m.card,
-            _cardWidget(top, colors, m.card, faceUp: true, locked: false)));
+        normal.add(
+          _positioned(
+            top.id,
+            m.wasteTopLeft(),
+            m.card,
+            _cardWidget(top, colors, m.card, faceUp: true, locked: false),
+          ),
+        );
       }
     }
 
@@ -210,14 +258,22 @@ class _GameBoardState extends State<GameBoard> {
       for (var j = 0; j < d.cards.length; j++) {
         final card = d.cards[j];
         final pos = d.pointer - d.baseDelta + Offset(0, j * m.step);
-        dragged.add(_positioned(
-          card.id,
-          pos,
-          m.card,
-          _cardWidget(card, colors, m.card,
-              faceUp: true, locked: false, raised: true),
-          instant: true,
-        ));
+        dragged.add(
+          _positioned(
+            card.id,
+            pos,
+            m.card,
+            _cardWidget(
+              card,
+              colors,
+              m.card,
+              faceUp: true,
+              locked: false,
+              raised: true,
+            ),
+            instant: true,
+          ),
+        );
       }
     }
 
@@ -234,7 +290,12 @@ class _GameBoardState extends State<GameBoard> {
   }) {
     if (!faceUp) return CardBackView(size: size, colors: colors);
     if (card is WordCard) {
-      return WordCardView(card: card, size: size, colors: colors, raised: raised);
+      return WordCardView(
+        card: card,
+        size: size,
+        colors: colors,
+        raised: raised,
+      );
     }
     return CategoryCardView(
       card: card as CategoryCard,
@@ -245,11 +306,16 @@ class _GameBoardState extends State<GameBoard> {
     );
   }
 
-  Widget _positioned(String id, Offset topLeft, Size size, Widget child,
-      {bool instant = false}) {
+  Widget _positioned(
+    String id,
+    Offset topLeft,
+    Size size,
+    Widget child, {
+    bool instant = false,
+  }) {
     return AnimatedPositioned(
       key: ValueKey(id),
-      duration: instant ? Duration.zero : Durations.place,
+      duration: instant ? Duration.zero : Anim.place,
       curve: Curves.easeOutCubic,
       left: topLeft.dx,
       top: topLeft.dy,

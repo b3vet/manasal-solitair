@@ -12,7 +12,11 @@ class AppTheme {
   static ThemeData dark() => _build(Brightness.dark, GameColors.dark);
 
   static ThemeData _build(Brightness brightness, GameColors g) {
-    final base = ThemeData(brightness: brightness, useMaterial3: true);
+    final base = ThemeData(
+      brightness: brightness,
+      useMaterial3: true,
+      fontFamily: 'Roboto',
+    );
     return base.copyWith(
       scaffoldBackgroundColor: g.bg,
       colorScheme: ColorScheme.fromSeed(
@@ -23,6 +27,7 @@ class AppTheme {
       textTheme: base.textTheme.apply(
         bodyColor: g.ink,
         displayColor: g.ink,
+        fontFamily: 'Roboto',
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: g.bg,

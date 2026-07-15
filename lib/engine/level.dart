@@ -60,16 +60,16 @@ class LevelDef {
   int get totalCategories => categories.length;
 
   LevelDef copyWith({int? moveLimit}) => LevelDef(
-        id: id,
-        seed: seed,
-        columns: columns,
-        stock: stock,
-        categories: categories,
-        moveLimit: moveLimit ?? this.moveLimit,
-        columnCount: columnCount,
-        slotCount: slotCount,
-        generatorVersion: generatorVersion,
-      );
+    id: id,
+    seed: seed,
+    columns: columns,
+    stock: stock,
+    categories: categories,
+    moveLimit: moveLimit ?? this.moveLimit,
+    columnCount: columnCount,
+    slotCount: slotCount,
+    generatorVersion: generatorVersion,
+  );
 
   /// Bölümdeki toplam kart sayısı (doğrulama için).
   int get totalCards {

@@ -21,8 +21,7 @@ void main(List<String> args) {
   final errors = issues.where((i) => i.severity == 'error').toList();
   final warns = issues.where((i) => i.severity == 'warn').toList();
 
-  final totalWords =
-      pool.categories.fold<int>(0, (s, c) => s + c.words.length);
+  final totalWords = pool.categories.fold<int>(0, (s, c) => s + c.words.length);
   stdout.writeln('Havuz: ${pool.length} kategori, $totalWords kelime');
 
   for (final w in warns) {

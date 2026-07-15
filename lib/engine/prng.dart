@@ -11,14 +11,17 @@ library;
 class Prng {
   Prng(int seed) {
     // Tohumu SplitMix64 ile dört 32-bit duruma genişlet.
-    var z = seed & 0xFFFFFFFFFFFFFFFF;
+    // 32-bit xorshift ile dört durum sözcüğü türet. Yalnızca 32-bit güvenli
+    // işlemler (kaydırma + xor); büyük çarpma yok → web'de (dart2js) ve mobilde
+    // (VM) bit-bit aynı. 64-bit tam sayı literali KULLANILMAZ (dart2js hatası).
+    var x = seed & 0xFFFFFFFF;
+    if (x == 0) x = 0x9E3779B9;
     for (var i = 0; i < 4; i++) {
-      z = (z + 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF;
-      var x = z;
-      x = ((x ^ (x >> 30)) * 0xBF58476D1CE4E5B9) & 0xFFFFFFFFFFFFFFFF;
-      x = ((x ^ (x >> 27)) * 0x94D049BB133111EB) & 0xFFFFFFFFFFFFFFFF;
-      x = x ^ (x >> 31);
-      _s[i] = x & 0xFFFFFFFF;
+      x ^= (x << 13) & 0xFFFFFFFF;
+      x ^= x >>> 17;
+      x ^= (x << 5) & 0xFFFFFFFF;
+      x &= 0xFFFFFFFF;
+      _s[i] = x;
     }
     // Sıfır durumdan kaçın.
     if (_s[0] == 0 && _s[1] == 0 && _s[2] == 0 && _s[3] == 0) {
@@ -28,7 +31,7 @@ class Prng {
 
   final List<int> _s = List<int>.filled(4, 0);
 
-  static int _rotl(int x, int k) => ((x << k) | (x >> (32 - k))) & 0xFFFFFFFF;
+  static int _rotl(int x, int k) => ((x << k) | (x >>> (32 - k))) & 0xFFFFFFFF;
 
   /// Sonraki 32-bit işaretsiz tam sayı.
   int nextUint32() {
@@ -77,10 +80,14 @@ class Prng {
   /// rastgeleliğini birbirinden yalıtmak için). Aynı (seed, streamId) →
   /// aynı akış.
   Prng fork(int streamId) {
-    // Mevcut durumu ve streamId'yi karıştırarak yeni tohum türet.
+    // Mevcut durumu ve streamId'yi karıştırarak yeni 32-bit tohum türet.
+    // Yalnızca 32-bit güvenli işlemler (web uyumlu).
     final a = nextUint32();
     final b = nextUint32();
-    final mixed = (a ^ (streamId * 0x9E3779B1)) & 0xFFFFFFFF;
-    return Prng(((mixed << 32) | b) ^ (streamId + 0x632BE59B));
+    var s = a ^ b;
+    s ^=
+        (streamId * 0x9E3779B1) & 0xFFFFFFFF; // streamId küçük → çarpım güvenli
+    s ^= (streamId << 16) & 0xFFFFFFFF;
+    return Prng(s & 0xFFFFFFFF);
   }
 }

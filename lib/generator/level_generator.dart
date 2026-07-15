@@ -31,7 +31,8 @@ class LevelGenerator {
     final levelCats = <LevelCategory>[];
     for (final cat in chosen) {
       final available = cat.words.length;
-      final desired = params.minWords +
+      final desired =
+          params.minWords +
           (params.maxWords > params.minWords
               ? rng.nextInt(params.maxWords - params.minWords + 1)
               : 0);
