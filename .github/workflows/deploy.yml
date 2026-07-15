@@ -1,0 +1,63 @@
+name: Deploy Web (GitHub Pages)
+
+# main'e her push'ta web'i derleyip GitHub Pages'e yayınlar.
+# Telefondan test: yayınlanan URL'yi tarayıcıda aç.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flutter sürümünü oku
+        id: fv
+        run: echo "version=$(tr -d '[:space:]' < scripts/flutter-version.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Flutter kurulumu
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fv.outputs.version }}
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # CanvasKit yerelden servis edilir (--no-web-resources-cdn); base-href
+      # proje deposu sayfası için "/<repo>/" olmalı.
+      - name: Web derlemesi
+        run: flutter build web --release --no-web-resources-cdn --base-href "/${GITHUB_REPOSITORY#*/}/"
+
+      - name: Pages yapılandır
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Artefakt yükle
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pages'e dağıt
+        id: deployment
+        uses: actions/deploy-pages@v4

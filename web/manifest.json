@@ -1,11 +1,11 @@
 {
-    "name": "manasal_solitaire",
-    "short_name": "manasal_solitaire",
+    "name": "Manasal Solitaire",
+    "short_name": "Manasal",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Kelimelerle oynanan Türkçe solitaire",
+    "background_color": "#F7F1E4",
+    "theme_color": "#0E7A6D",
+    "description": "Anlamı benzer kelimeleri toplayarak oynanan Türkçe solitaire",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
