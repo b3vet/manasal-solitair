@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../engine/engine.dart';
+import '../audio/sound_service.dart';
 import '../theme/app_theme.dart';
 import '../theme/tokens.dart';
 import 'board_metrics.dart';
@@ -47,10 +48,12 @@ class _DragState {
   final bool isCategory;
 }
 
-class _GameBoardState extends State<GameBoard> {
+class _GameBoardState extends State<GameBoard>
+    with SingleTickerProviderStateMixin {
   _DragState? _drag;
   int _celebrateToken = 0;
   String? _celebrateText;
+  late final AnimationController _pulse;
 
   GameController get c => widget.controller;
   GameState get state => c.state;
@@ -58,6 +61,10 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void initState() {
     super.initState();
+    _pulse = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 850),
+    );
     c.addListener(_onChange);
   }
 
@@ -72,12 +79,13 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   void dispose() {
+    _pulse.dispose();
     c.removeListener(_onChange);
     super.dispose();
   }
 
   void _onChange() {
-    _fireHaptics(c.lastEvents);
+    _feedback(c.lastEvents);
     for (final e in c.lastEvents) {
       if (e is CategoryCompletedEvent) {
         final cat = c.level.categories.firstWhere(
@@ -88,21 +96,46 @@ class _GameBoardState extends State<GameBoard> {
         _celebrateToken++;
       }
     }
+    // Nabzı yalnızca ipucu aktifken çalıştır (sonsuz animasyon değil).
+    if (c.hintMove != null && !_pulse.isAnimating) {
+      _pulse.repeat(reverse: true);
+    } else if (c.hintMove == null && _pulse.isAnimating) {
+      _pulse.stop();
+    }
     if (mounted) setState(() => _drag = null);
   }
 
-  void _fireHaptics(List<GameEvent> events) {
-    if (!widget.haptics || events.isEmpty) return;
-    if (events.any((e) => e is CategoryCompletedEvent)) {
-      HapticFeedback.heavyImpact();
-    } else if (events.any(
-      (e) =>
-          e is UnitPlacedEvent ||
-          e is WordsCollectedEvent ||
-          e is SlotActivatedEvent,
-    )) {
-      HapticFeedback.lightImpact();
+  void _feedback(List<GameEvent> events) {
+    if (events.isEmpty) return;
+    if (widget.haptics) {
+      if (events.any((e) => e is CategoryCompletedEvent)) {
+        HapticFeedback.heavyImpact();
+      } else if (events.any(
+        (e) =>
+            e is UnitPlacedEvent ||
+            e is WordsCollectedEvent ||
+            e is SlotActivatedEvent,
+      )) {
+        HapticFeedback.lightImpact();
+      }
     }
+    final sfx = _soundFor(events);
+    if (sfx != null) SoundService.instance.play(sfx);
+  }
+
+  Sfx? _soundFor(List<GameEvent> events) {
+    if (events.any((e) => e is CategoryCompletedEvent)) return Sfx.complete;
+    for (final e in events) {
+      if (e is SlotActivatedEvent) {
+        return e.sweptWords.isNotEmpty ? Sfx.sweep : Sfx.place;
+      }
+    }
+    if (events.any((e) => e is WordsCollectedEvent)) return Sfx.collect;
+    if (events.any((e) => e is UnitPlacedEvent)) return Sfx.place;
+    if (events.any((e) => e is FlippedEvent)) return Sfx.flip;
+    if (events.any((e) => e is DrewEvent)) return Sfx.draw;
+    if (events.any((e) => e is RecycledEvent)) return Sfx.draw;
+    return null;
   }
 
   @override
@@ -140,6 +173,9 @@ class _GameBoardState extends State<GameBoard> {
               ),
             ),
           );
+        }
+        if (c.hintMove != null) {
+          children.addAll(_hintRings(m, colors));
         }
 
         return GestureDetector(
@@ -374,6 +410,61 @@ class _GameBoardState extends State<GameBoard> {
     );
   }
 
+  // --- İpucu vurgusu ---
+
+  List<Widget> _hintRings(BoardMetrics m, GameColors colors) {
+    final hm = c.hintMove!;
+    final rects = <Rect>[];
+    if (hm is PlaceMove) {
+      switch (hm.unit) {
+        case ColumnUnitRef(:final column, :final startIndex):
+          final fd = state.columns[column].faceDown.length;
+          rects.add(m.cardTopLeft(column, fd + startIndex) & m.card);
+        case WasteUnitRef():
+          rects.add(m.wasteTopLeft() & m.card);
+      }
+      switch (hm.target) {
+        case ColumnTargetRef(:final column):
+          final col = state.columns[column];
+          final count = col.faceDown.length + col.faceUp.length;
+          rects.add(m.cardTopLeft(column, count) & m.card);
+        case FoundationTargetRef(:final slot):
+          rects.add(m.slotTopLeft(slot) & m.card);
+      }
+    } else if (hm is DrawMove) {
+      rects.add(m.stockTopLeft() & m.card);
+    }
+    return [for (final r in rects) _hintRing(r, colors)];
+  }
+
+  Widget _hintRing(Rect rect, GameColors colors) {
+    final r = rect.inflate(3);
+    return Positioned(
+      key: ValueKey('hint_${r.left}_${r.top}'),
+      left: r.left,
+      top: r.top,
+      width: r.width,
+      height: r.height,
+      child: IgnorePointer(
+        child: AnimatedBuilder(
+          animation: _pulse,
+          builder: (context, child) {
+            final t = widget.reduceMotion ? 0.5 : _pulse.value;
+            return DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dim.cardRadius + 2),
+                border: Border.all(
+                  color: colors.accent.withValues(alpha: 0.45 + 0.55 * t),
+                  width: 2.5 + 1.5 * t,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   // --- Etkileşim ---
 
   void _onTap(BoardMetrics m, Offset p) {
@@ -396,6 +487,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _onPanStart(BoardMetrics m, Offset p) {
+    c.clearHint();
     final grab = _hitGrab(m, p);
     if (grab == null) return;
     setState(() {
@@ -435,6 +527,7 @@ class _GameBoardState extends State<GameBoard> {
     }
     if (!applied) {
       if (widget.haptics) HapticFeedback.mediumImpact();
+      SoundService.instance.play(Sfx.invalid);
       setState(() => _drag = null); // eskisine döner (animasyon)
     }
     // applied ise controller notifyListeners → _onChange drag'i temizler.

@@ -28,6 +28,44 @@ void main() {
     });
   });
 
+  group('suggestHint', () {
+    test('kategoriyi tamamlayan hamleyi önerir', () {
+      final s = st(
+        columns: [
+          col(up: [w('m', 2)]),
+        ],
+        slots: [
+          active('m', 2, [w('m', 1)]),
+          const EmptySlot(),
+        ],
+        categories: {'m': 2},
+        slotCount: 2,
+      );
+      final hint = Analysis.suggestHint(s);
+      expect(hint, isA<PlaceMove>());
+      expect((hint! as PlaceMove).target, const FoundationTargetRef(0));
+    });
+
+    test('mini başlangıçta üretken bir hamle önerir', () {
+      final s = GameState.deal(miniLevel());
+      expect(Analysis.suggestHint(s), isNotNull);
+    });
+
+    test('çıkmazda null döner', () {
+      final s = st(
+        columns: [
+          col(up: [w('a', 1)]),
+          col(up: [w('b', 1)]),
+          col(up: [w('c', 1)]),
+          col(up: [w('d', 1)]),
+          col(up: [w('e', 1)]),
+        ],
+        categories: {'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 1},
+      );
+      expect(Analysis.suggestHint(s), isNull);
+    });
+  });
+
   group('isDeadlocked', () {
     test('boş sütun varken çıkmaz değil', () {
       final s = st(

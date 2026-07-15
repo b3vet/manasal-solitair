@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/audio/sound_service.dart';
 import 'app/meta/meta_scope.dart';
 import 'app/meta/meta_service.dart';
 import 'app/screens/home_screen.dart';
@@ -16,6 +19,8 @@ void main() async {
   ]);
   final prefs = await SharedPreferences.getInstance();
   final meta = MetaService.load(Store(prefs));
+  SoundService.instance.enabled = meta.sound;
+  unawaited(SoundService.instance.load());
   runApp(ManasalApp(meta: meta));
 }
 

@@ -78,6 +78,61 @@ class Analysis {
     return true;
   }
 
+  /// Oyuncuya önerilecek "iyi" bir hamle (ipucu). Üretken hamleleri
+  /// önceliklendirir: toplama > kategori kartı yerleştirme / kapalı kart açma >
+  /// çekme > sade birleştirme > devir. Çıkmazda null.
+  static Move? suggestHint(GameState state) {
+    if (state.status != GameStatus.playing) return null;
+    PlaceMove? best;
+    var bestScore = 0;
+    for (final pm in _placeMoves(state)) {
+      final s = _hintScore(state, pm);
+      if (s > bestScore) {
+        bestScore = s;
+        best = pm;
+      }
+    }
+    // Yüksek değerli tahta hamlesi varsa onu öner.
+    if (best != null && bestScore >= 40) return best;
+    // Yoksa yeni kart açmak için çekmeyi öner.
+    if (state.stock.isNotEmpty) return const DrawMove();
+    // Yoksa elde ne varsa.
+    if (best != null) return best;
+    if (state.waste.isNotEmpty) return const RecycleMove();
+    return null;
+  }
+
+  static int _hintScore(GameState state, PlaceMove pm) {
+    final resolved = Rules.resolveUnit(state, pm.unit);
+    if (resolved is! Ok<MovableUnit, RuleViolation>) return 0;
+    final unit = resolved.data;
+    final target = pm.target;
+
+    if (target is FoundationTargetRef) {
+      final slot = state.slots[target.slot];
+      if (unit is WordUnit) {
+        if (slot is ActiveSlot &&
+            slot.collected.length + unit.words.length >= slot.total) {
+          return 100; // kategoriyi tamamlar
+        }
+        return 80; // kelime toplar
+      }
+      if (unit is CategoryUnit) {
+        if (unit.sweptWords.length >= unit.card.totalInLevel) return 100;
+        return 70; // slot aktifleştirir
+      }
+    } else if (target is ColumnTargetRef) {
+      final src = pm.unit;
+      final unbury =
+          src is ColumnUnitRef &&
+          src.startIndex == 0 &&
+          state.columns[src.column].faceDown.isNotEmpty;
+      if (unit is CategoryUnit) return unbury ? 60 : 55;
+      return unbury ? 50 : 20; // kelime: kapalı kart açar / sade birleştirme
+    }
+    return 0;
+  }
+
   static bool _isPlaceableSomewhere(GameState state, GameCard card) {
     var hasEmptyColumn = false;
     final unlockedTops = <String>{};

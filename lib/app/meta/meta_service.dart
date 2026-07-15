@@ -71,6 +71,13 @@ class MetaService extends ChangeNotifier {
   List<Move> get resumeMoves => List.unmodifiable(_resumeMoves);
   bool isCompleted(int levelId) => _completed.contains(levelId);
 
+  // Başarım durumu (başarım ekranı için).
+  bool hasAchievement(String id) => _achievements.contains(id);
+  int get streak => _streak;
+  int get levelsCompleted => _completed.length;
+  int efficientCount() =>
+      _achievements.where((a) => a.startsWith('efficient:')).length;
+
   // --- Kredi (cüzdan) ---
 
   bool spendUndoCredit() {

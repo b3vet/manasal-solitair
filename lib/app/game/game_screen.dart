@@ -5,9 +5,11 @@ library;
 import 'package:flutter/material.dart';
 
 import '../../engine/engine.dart';
+import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
+import '../theme/tokens.dart';
 import 'game_board.dart';
 import 'game_controller.dart';
 import 'widgets/dialogs.dart';
@@ -71,6 +73,7 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<void> _showEnd() async {
     final s = _controller.state;
+    SoundService.instance.play(s.isWon ? Sfx.win : Sfx.lose);
     GameDialogAction? action;
     if (s.isWon) {
       final awarded = _meta.recordWin(
@@ -131,6 +134,30 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  void _useHint() {
+    final meta = _meta;
+    if (meta.credits <= 0) {
+      _snack('İpucu için kredi gerekli — başarımlarla kazanabilirsin');
+      return;
+    }
+    final move = Analysis.suggestHint(_controller.state);
+    if (move == null) {
+      _snack('Şu an önerilecek hamle yok');
+      return;
+    }
+    meta.spendUndoCredit();
+    SoundService.instance.play(Sfx.button);
+    _controller.showHint(move);
+  }
+
+  void _snack(String msg) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text(msg), duration: const Duration(seconds: 2)),
+      );
+  }
+
   Future<void> _pause() async {
     final action = await showPauseDialog(context);
     if (!mounted) return;
@@ -173,13 +200,56 @@ class _GameScreenState extends State<GameScreen> {
               onUndo: _useUndo,
             ),
             Expanded(
-              child: GameBoard(
-                controller: _controller,
-                haptics: meta.haptics,
-                reduceMotion: _reduceMotion(context, meta.reducedMotion),
+              child: Stack(
+                children: [
+                  GameBoard(
+                    controller: _controller,
+                    haptics: meta.haptics,
+                    reduceMotion: _reduceMotion(context, meta.reducedMotion),
+                  ),
+                  Positioned(
+                    right: 14,
+                    bottom: 14,
+                    child: _hintButton(colors, meta.credits),
+                  ),
+                ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _hintButton(GameColors colors, int credits) {
+    return Material(
+      color: colors.accent,
+      shape: const CircleBorder(),
+      elevation: 3,
+      shadowColor: colors.shadow,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: _useHint,
+        child: Padding(
+          padding: const EdgeInsets.all(13),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.lightbulb_outline_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+              Text(
+                'İpucu',
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.95),
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

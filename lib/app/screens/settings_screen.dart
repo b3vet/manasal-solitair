@@ -5,6 +5,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../theme/app_theme.dart';
 
@@ -24,7 +25,11 @@ class SettingsScreen extends StatelessWidget {
           children: [
             SwitchListTile(
               value: meta.sound,
-              onChanged: (v) => meta.updateSettings(sound: v),
+              onChanged: (v) {
+                meta.updateSettings(sound: v);
+                SoundService.instance.enabled = v;
+                if (v) SoundService.instance.play(Sfx.button);
+              },
               title: const Text('Ses'),
               activeThumbColor: colors.accent,
             ),

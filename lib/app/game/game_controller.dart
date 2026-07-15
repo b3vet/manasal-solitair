@@ -17,6 +17,20 @@ class GameController extends ChangeNotifier {
   /// UI'ın oynatacağı son olaylar (animasyon ipuçları).
   List<GameEvent> lastEvents = const [];
 
+  /// Gösterilecek ipucu hamlesi (null = ipucu yok).
+  Move? hintMove;
+
+  void showHint(Move move) {
+    hintMove = move;
+    notifyListeners();
+  }
+
+  void clearHint() {
+    if (hintMove == null) return;
+    hintMove = null;
+    notifyListeners();
+  }
+
   bool draw() => _play(const DrawMove());
   bool recycle() => _play(const RecycleMove());
   bool place(UnitRef unit, TargetRef target) =>
@@ -27,6 +41,7 @@ class GameController extends ChangeNotifier {
     switch (r) {
       case Ok(:final data):
         lastEvents = data;
+        hintMove = null;
         notifyListeners();
         return true;
       case Err():
@@ -38,6 +53,7 @@ class GameController extends ChangeNotifier {
   bool undo() {
     if (_session.undo()) {
       lastEvents = const [];
+      hintMove = null;
       notifyListeners();
       return true;
     }
@@ -47,12 +63,14 @@ class GameController extends ChangeNotifier {
   void restart() {
     _session = GameSession.start(level);
     lastEvents = const [];
+    hintMove = null;
     notifyListeners();
   }
 
   void loadLevel(LevelDef level) {
     _session = GameSession.start(level);
     lastEvents = const [];
+    hintMove = null;
     notifyListeners();
   }
 
@@ -60,6 +78,7 @@ class GameController extends ChangeNotifier {
   void loadReplay(LevelDef level, List<Move> moves) {
     _session = GameSession.replay(level, moves);
     lastEvents = const [];
+    hintMove = null;
     notifyListeners();
   }
 

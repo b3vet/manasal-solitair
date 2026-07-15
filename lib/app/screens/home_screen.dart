@@ -10,6 +10,7 @@ import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
 import '../theme/tokens.dart';
+import 'achievements_screen.dart';
 import 'how_to_play_screen.dart';
 import 'levels_screen.dart';
 import 'settings_screen.dart';
@@ -124,8 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 2,
                     children: [
                       _smallButton(
                         context,
@@ -139,7 +141,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                       ),
-                      const SizedBox(width: 8),
+                      _smallButton(
+                        context,
+                        'Başarımlar',
+                        Icons.military_tech_rounded,
+                        () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const AchievementsScreen(),
+                            ),
+                          );
+                        },
+                      ),
                       _smallButton(
                         context,
                         'Ayarlar',
