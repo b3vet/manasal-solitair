@@ -1,7 +1,11 @@
 name: Deploy Web (GitHub Pages)
 
-# main'e her push'ta web'i derleyip GitHub Pages'e yayınlar.
-# Telefondan test: yayınlanan URL'yi tarayıcıda aç.
+# main'e her push'ta web'i derleyip `gh-pages` dalına yayınlar.
+# Bu yöntem yalnızca `contents: write` gerektirir (Pages API izni gerekmez),
+# bu yüzden otomatik GITHUB_TOKEN ile güvenilir çalışır.
+#
+# Tek seferlik: Settings → Pages → Source "Deploy from a branch" →
+#   Branch: gh-pages · Folder: / (root). Sonrası otomatik.
 
 on:
   push:
@@ -9,16 +13,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: deploy-pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,28 +38,24 @@ jobs:
 
       - run: flutter pub get
 
-      # CanvasKit yerelden servis edilir (--no-web-resources-cdn); base-href
-      # proje deposu sayfası için "/<repo>/" olmalı.
+      # Yerel CanvasKit (çevrimdışı) + proje deposu için base-href "/<repo>/".
       - name: Web derlemesi
-        run: flutter build web --release --no-web-resources-cdn --base-href "/${GITHUB_REPOSITORY#*/}/"
+        run: |
+          flutter build web --release --no-web-resources-cdn \
+            --base-href "/${GITHUB_REPOSITORY#*/}/"
+          touch build/web/.nojekyll
 
-      - name: Pages yapılandır
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Artefakt yükle
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Pages'e dağıt
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: gh-pages dalına yayınla
+        run: |
+          cd build/web
+          git init -q
+          git checkout -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="github-actions[bot]@users.noreply.github.com" \
+              commit -qm "Deploy ${GITHUB_SHA::7}"
+          git push -f \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

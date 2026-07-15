@@ -15,17 +15,15 @@ tarayıcısında aç, kurulum gerektirmez:
 
 ### ⚠️ Tek seferlik kurulum (yalnızca ilk yayın için)
 
-GitHub Actions'ın otomatik token'ı, Pages'i **ilk kez etkinleştiremez** (güvenlik kısıtı).
-Bu yüzden depo sahibinin bir kez şunu yapması gerekir:
+Dağıtım workflow'u, derlenen web'i `gh-pages` dalına yayınlar. Depo sahibinin bir kez şunu
+seçmesi gerekir:
 
 1. Depo → **Settings → Pages**
-2. **Source** olarak **"GitHub Actions"** seç (Save).
-3. **Actions** sekmesi → **"Deploy Web (GitHub Pages)"** → son koşuyu **Re-run** et
-   (ya da `main`'e herhangi bir push yap).
+2. **Source: "Deploy from a branch"**
+3. **Branch: `gh-pages`** · **Folder: `/ (root)`** → **Save**
 
-Bundan sonra her `main` push'unda otomatik yayınlanır; web derlemesinin kendisi zaten yeşildir
-(yalnızca bu tek etkinleştirme adımı bekliyordu). "Ana ekrana ekle" ile tam ekran PWA olarak da
-çalışır.
+(gh-pages dalı, `main`'e ilk push'ta workflow tarafından otomatik oluşturulur.) Bundan sonra her
+`main` push'unda güncellenir. "Ana ekrana ekle" ile tam ekran PWA olarak da çalışır.
 
 ## 🎮 Nasıl oynanır (özet)
 
