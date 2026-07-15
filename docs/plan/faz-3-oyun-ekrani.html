@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 3 — Oyun Ekranı: UI, Sürükle-Bırak ve Animasyon</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+.callout.info { background:var(--accent-soft); border-color:var(--accent); }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 3 — Oyun Ekranı: UI, Sürükle-Bırak ve Animasyon</h1>
+  <div class="meta">Büyüklük: <strong>XL</strong> · Ön koşul: <strong>Faz 1</strong> (fixture bölümlerle; Faz 2'yi beklemez) · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §4, §13, §14.7</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Motorun üzerine oyunun görünen yüzünü kurmak: kağıt/kitap temalı kart görselleri, akıcı sürükle-bırak,
+olay-güdümlü animasyonlar ve HUD. Faz sonunda bir bölüm web'de baştan sona, keyifle oynanabilir
+(M4 kilometre taşı) ve telefondan denenebilir bir test dağıtımı yayında olur.</p>
+
+<div class="callout"><strong>İpucu sızdırmama (spec K7/K15) bu fazın tasarım anayasasıdır:</strong>
+kelime birimi sürüklenirken hiçbir hedef vurgulanmaz, kelime kartına dokunmak otomatik oynatmaz,
+geri bildirim yalnızca bırakma anında verilir. Kategori kartları (kimliği açık) bu kuraldan muaftır:
+çift dokunuş uygun boş slota otomatik taşıyabilir.</div>
+
+<h2>2. Çıktılar</h2>
+<ul>
+  <li>Tema (aydınlık+karanlık) ve kart görsel dili — <strong>örnek ekranlarla kullanıcı onayı</strong>.</li>
+  <li><code>BoardMetrics</code> yerleşim hesaplayıcısı; kart widget'ları (golden testli).</li>
+  <li>Drag&amp;drop sistemi + uçuş koordinatörü (olay kuyruğu → animasyon).</li>
+  <li>HUD, kazanma/kayıp/duraklat diyalogları, dev bölüm seçici.</li>
+  <li>CI'da otomatik web test dağıtımı (GitHub Pages).</li>
+</ul>
+
+<h2>3. Mimari Kararlar</h2>
+<ul>
+  <li><strong>Riverpod köprüsü:</strong> <code>GameController</code> (Notifier) <code>GameSession</code>'ı sarar; UI'ya immutable projeksiyon (<code>BoardView</code>) ve <code>Stream&lt;GameEvent&gt;</code> verir. Widget'lar <code>select</code> ile dinler — kart taşındığında yalnız ilgili yığınlar yeniden çizilir.</li>
+  <li><strong>Çift katman sahne:</strong> (1) statik yığın katmanı — kartlar yığın pozisyonlarında; (2) <code>Overlay</code> uçuş katmanı — sürüklenen/uçan kartlar. Bir kart uçuştayken statik katmanda gizlenir; uçuş bitince statik katman gerçek durumu gösterir. Bu, "motor anında günceller, görsel yumuşak takip eder" modelini kurar.</li>
+  <li><strong>Geometri tek kaynaktan:</strong> <code>BoardMetrics</code> her yığın ve her kart indeksinin ekran dikdörtgenini verir; drag isabet testi ve uçuş rotaları yalnız buradan okur (Flutter <code>DragTarget</code> kullanılmaz — zincir isabetinde tam kontrol için).</li>
+</ul>
+
+<h2>4. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:200px">Görev</th><th>Detay ve teknik notlar</th><th style="width:250px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F3.1</td>
+    <td>Tema ve görsel yön onayı</td>
+    <td><code>tokens.dart</code> kağıt/kitap paletiyle doldurulur (krem zemin, dokulu kart yüzeyi, mürekkep yeşili vurgu, koyu zeminli kategori kartı; karanlık tema eşdeğerleri). Gömülü font seçimi (tam Türkçe glif; aday: Nunito/Rubik sınıfı, lisans denetimli). 2-3 statik örnek ekran (dolu tahta, süpürme anı, kayıp diyaloğu) build edilip görüntü alınır.</td>
+    <td><span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: görsel yön</span> (aydınlık+karanlık görüntülerle).</td>
+  </tr>
+  <tr>
+    <td class="id">F3.2</td>
+    <td>BoardMetrics</td>
+    <td>Giriş: ekran boyutu + kolon sayısı. Çıkış: kart boyutu (oran 100:140), yığın konumları, kolon içi bindirme (kapalı ~%14, açık ~%28 kart yüksekliği — üst şerit okunur), uzun kolon sıkıştırması (taşarsa bindirme daralır), HUD/slot/alt bar yerleşimi (spec §4 düzeni), min 320dp genişlik desteği. Saf Dart sınıfı — birim testlenebilir.</td>
+    <td>4 ekran boyutu için (küçük telefon, büyük telefon, tablet, web) pozisyon birim testleri; 10 kartlık kolonda taşma yok.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.3</td>
+    <td>Kart widget'ları</td>
+    <td><code>WordCardView</code> (kelime üst şeritte, FittedBox ölçekleme, 1-2 satır), <code>CategoryCardView</code> (rozet + ad + sayaç varyantları: <code>· 6</code> tableau/deste, <code>2/6</code> slot), <code>CardBackView</code> (sırt deseni), kilit rozeti. Her kart <code>RepaintBoundary</code>.</td>
+    <td>Golden testler: kısa/en-uzun kelime, iki sayaç varyantı, kilitli görünüm, karanlık tema.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.4</td>
+    <td>GameController (Riverpod)</td>
+    <td>Komutlar: <code>draw()</code>, <code>recycle()</code>, <code>place(unit,target)</code>, <code>undo()</code> (bakiye stub — Faz 4 bağlar), <code>restart()</code>. Projeksiyon: yığın görünümleri + HUD verisi + "uçuşta gizlenen kartlar" seti. Motor olayları animasyon kuyruğuna akar.</td>
+    <td>Controller birim testleri (komut → durum + olay akışı); UI'sız headless test.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.5</td>
+    <td>Statik tahta</td>
+    <td>Fixture bölüm tam sahneye dizilir: HUD, 5 slot, 5 kolon, deste/atık. Etkileşim yok. Amaç: yerleşim ve tema gerçek veriyle doğrulanır.</td>
+    <td>Golden: mini + dolu fixture sahneleri (aydınlık/karanlık).</td>
+  </tr>
+  <tr>
+    <td class="id">F3.6</td>
+    <td>Sürükle-bırak</td>
+    <td>Kart üzerinde <code>onPanStart</code>: dokunulan indeksten <code>unitCards</code> ile birim denenir; geçersizse tutma yok (hafif titreşim animasyonu). Geçerliyse birim overlay'e kalkar (gölge + 2° eğim; takipçi kartlar 30ms gecikmeli yay animasyonu). <code>onPanEnd</code>: bırakma noktası BoardMetrics ile hedefe çevrilir (en yakın kolon/slot, tolerans ~0.4 kart genişliği) → <code>place</code>; ihlalde kaynağa yaylı dönüş + kısa sarsıntı. <strong>Sızdırmama:</strong> sürükleme sırasında hedef vurgusu yok; kilitli sütun üzerine bırakmada kilit rozeti sallanır. Kategori kartına çift dokunuş: boş slot varsa otomatik süpürme.</td>
+    <td>Widget testleri: zincir sürükleme, geçersiz bırakma dönüşü, çift dokunuş; fare + dokunmatik (web) elle doğrulama.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.7</td>
+    <td>Uçuş koordinatörü</td>
+    <td>Olay kuyruğu işleyicisi: <code>Drew</code>→deste-atık kayma+flip (250ms); <code>Flipped</code>→yerinde flip (300ms); <code>SlotActivated/UnitPlaced</code>→slota kademeli uçuş (kart başı 40ms kayma, toplam ~500ms); <code>CategoryCompleted</code>→patlama + kartların dağılıp kaybolması + HUD sayacına parçacık (900ms); <code>Recycled</code>→atık destesi ters dönüş; dağıtım animasyonu (~1.2s). Kesilebilirlik: yeni kullanıcı girdisi kuyruk hızlandırır (animasyonlar snap'lenir). <code>MediaQuery.disableAnimations</code> → süreler ~0.</td>
+    <td>Her olay tipi için animasyon tetikleniyor (widget test: pumpAndSettle süre sınırlarıyla); hızlı arka arkaya hamlede kuyruk şaşmıyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.8</td>
+    <td>HUD ve alt bar</td>
+    <td>Kalan hamle (son 5'te nabız + renk, spec §7), kategori sayacı <code>2/5</code>, geri al düğmesi (bakiye rozeti — stub), menü (yeniden başlat / bölümden çık), deste (kalan sayı) + atık; deste boşken devir görseli. Boş slot/boş kolon kesikli çerçeveleri.</td>
+    <td>Golden + etkileşim testleri; hamle 0'a inerken uyarı görseli doğru anda.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.9</td>
+    <td>Diyaloglar</td>
+    <td>Kazanma (kutlama konfetisi, kalan hamle, kredi kazanımı placeholder, "Sıradaki Bölüm" stub), kayıp (neden metni: "Hamlen bitti" / "Oynanacak hamle kalmadı"; "Geri al ve devam et" — Faz 4'te aktifleşir; "Yeniden başla"), duraklat/menü. Tümü tema uyumlu, animasyonlu giriş.</td>
+    <td>Üç diyaloğun golden'ları; kayıp nedenleri doğru eşleşiyor (widget test).</td>
+  </tr>
+  <tr>
+    <td class="id">F3.10</td>
+    <td>Dev bölüm seçici</td>
+    <td>Debug-only çekmece: fixture'lar + (Faz 2 sonrası) levels.json bölümleri; tohum/limit bilgisi gösterir. Release build'e girmez (<code>kDebugMode</code>).</td>
+    <td>Debug'da bölüm değiştirilebiliyor; release'te iz yok.</td>
+  </tr>
+  <tr>
+    <td class="id">F3.11</td>
+    <td>Web test dağıtımı</td>
+    <td>CI'ya iş: dala push → <code>flutter build web --release</code> → GitHub Pages'e yayın. Amaç: ürün sahibi telefon tarayıcısından anında test eder (M4 onayının aracı).</td>
+    <td>Kalıcı URL yayında; push sonrası ~dakikalar içinde güncelleniyor.</td>
+  </tr>
+</table></div>
+
+<h2>5. Animasyon Envanteri Uygulaması</h2>
+<p>Spec §13.3 tablosu birebir hedeftir; süreler <code>tokens.dart</code>'ta sabit olarak tutulur (tuning tek yerden).
+Kural: hiçbir animasyon girdiyi kilitlemez — motor zaten güncellenmiştir, görsel yetişir.</p>
+
+<h2>6. Dosya Haritası</h2>
+<pre><code>lib/app/
+├── game/
+│   ├── game_controller.dart · board_view.dart        (F3.4)
+│   ├── board_metrics.dart                            (F3.2)
+│   ├── widgets/ word_card.dart · category_card.dart · card_back.dart
+│   │           pile_views.dart · hud.dart · dialogs.dart
+│   ├── drag/ drag_layer.dart · hit_tester.dart       (F3.6)
+│   └── flight/ flight_coordinator.dart               (F3.7)
+├── theme/ tokens.dart · app_theme.dart               (F3.1)
+└── dev/ level_picker.dart                            (F3.10)
+test/app/ (golden + widget) · .github/workflows/ci.yml (Pages işi, F3.11)</code></pre>
+
+<h2>7. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>Görsel yön kullanıcı onaylı; golden testler yeşil.</li>
+  <li>Fixture bölüm web'de fare ve dokunmatikle baştan sona kazanılabiliyor (M4) — <span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: his/akıcılık</span>.</li>
+  <li>Sızdırmama denetimi: sürüklemede vurgu yok, kelime dokunuşu otomatik oynatmıyor (test + elle doğrulama).</li>
+  <li>Chrome performans izinde ana akışlar 60fps; kart widget'ları RepaintBoundary'li.</li>
+  <li>Pages test dağıtımı yayında ve linki README'de.</li>
+</ul>
+
+<h2>8. Riskler</h2>
+<ul>
+  <li><strong>Drag hissi (R3):</strong> en erken görevlerden biri olarak prototiplenir (F3.6 önceliklidir); gerçek telefonda Pages üzerinden erken denenir.</li>
+  <li><strong>Uzun kelime taşmaları:</strong> içerik doğrulayıcının uzunluk raporu (F2.1) golden testlere en-kötü örnekleri sağlar.</li>
+  <li><strong>Web dokunmatik tutarsızlıkları:</strong> pointer events tek kanaldan (Listener/GestureDetector karışımı yok); iOS Safari momentum kaydırma çakışması için oyun alanında kaydırma kapalı.</li>
+</ul>
+
+</main>
+<footer>Faz 3 — Oyun Ekranı · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

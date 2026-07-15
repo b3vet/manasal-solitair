@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 4 — Meta Oyun: İlerleme, Cüzdan, Öğretici</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 4 — Meta Oyun: İlerleme, Cüzdan, Öğretici</h1>
+  <div class="meta">Büyüklük: <strong>L</strong> · Ön koşul: <strong>Faz 2 + Faz 3</strong> · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §9.4, §10, §13.1</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Tek elin etrafına oyunu inşa etmek: ekran akışı, sıralı bölüm ilerleyişi, kalıcı kayıt, geri alma
+cüzdanı + başarımlar, oyun-ortası devam etme ve rehberli öğretici. Faz sonunda uygulama "ilk açılıştan
+100. bölüme" eksiksiz bir oyun döngüsü sunar (M5: dikey dilim).</p>
+
+<h2>2. Çıktılar</h2>
+<ul>
+  <li>Ekran akışı: Splash → Ana Menü → Bölümler → Oyun (+ Ayarlar, Nasıl Oynanır).</li>
+  <li>Kalıcılık servisi (şema sürümlü) + otomatik kayıt/devam etme.</li>
+  <li>Cüzdan (kaynaklı işlem API'si) + başarım motoru + kutlama arayüzleri.</li>
+  <li>Kayıp ekranında "geri al &amp; devam et" dahil tam geri alma entegrasyonu.</li>
+  <li>Bölüm 1–3 rehberli öğretici + "Nasıl Oynanır" sayfaları.</li>
+</ul>
+
+<h2>3. Kalıcı Veri Şeması (v1)</h2>
+<pre><code>// shared_preferences üstünde JSON belgeleri; her belgede schemaVersion alanı
+progress:      { schemaVersion: 1,
+                 levels: { "12": { won: true, bestMovesLeft: 9 } },   // bestMovesLeft: K16 gereği saklanır
+                 totalCategoriesCompleted: 37 }                        // Koleksiyoncu sayacı
+wallet:        { schemaVersion: 1, balance: 3,
+                 txLog: [ { t: "...", amount: +2, source: "achievement:first_win" } ] }  // son 50 işlem
+achievements:  { schemaVersion: 1,
+                 granted: ["welcome","first_win","efficient:12"],      // 'efficient' bölüm başına 1 kez
+                 streakFirstTry: 2 }
+settings:      { schemaVersion: 1, sound: true, haptics: true, reducedMotion: "system" }
+resume:        { schemaVersion: 1, levelId: 12, moves: [...] }         // motor replay formatı (Faz 1)</code></pre>
+<p>Bozuk/eski veri: okuma hatasında belge yedeklenir (<code>*_corrupt</code>) ve temiz varsayılan kurulur;
+sürüm ileri taşıma (migration) çatısı ilk günden vardır (Faz 5 dayanıklılık testleri derinleştirir).</p>
+
+<h2>4. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:200px">Görev</th><th>Detay ve teknik notlar</th><th style="width:250px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F4.1</td>
+    <td>Navigasyon ve ekran iskeletleri</td>
+    <td>Yalın <code>Navigator</code> + tipli rota yardımcıları (go_router'a gerek yok — akış sığ). Splash (asset ön-yükleme + sürüm), Ana Menü (Oyna: kaldığı bölüme, Bölümler, Nasıl Oynanır, Ayarlar), yerleşimler tema tokenlarıyla.</td>
+    <td>Akış uçtan uca gezilebilir; geri tuşu davranışları doğru (oyun ekranında onaylı çıkış).</td>
+  </tr>
+  <tr>
+    <td class="id">F4.2</td>
+    <td>Kalıcılık servisi</td>
+    <td><code>lib/persistence/store.dart</code>: belge oku/yaz (JSON), şema sürüm kontrolü, migration kancası, bozuk veri kurtarma (§3). Tüm erişim Riverpod servis sağlayıcıları üzerinden; senkron önbellek + asenkron yazma (debounce 300ms).</td>
+    <td>Birim testler: gidiş-dönüş, migration (v0→v1 örneği), bozuk JSON kurtarma.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.3</td>
+    <td>Cüzdan servisi</td>
+    <td>API (spec §10.3): <code>credit(amount, source)</code> / <code>tryDebit(reason) → bool</code>; bakiye asla negatif olmaz; işlem günlüğü son 50 kayıt. <code>source</code> değerleri: <code>achievement:*</code>, ileride <code>purchase:*</code>, <code>gift:*</code>. Başlangıç bakiyesi 3 ("Hoş geldin", ilk açılışta bir kez — K17).</td>
+    <td>Birim testler: negatif engeli, çift "hoş geldin" engeli, günlük sınırı.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.4</td>
+    <td>Başarım motoru</td>
+    <td>Tetikleyiciler (K17 seti): <code>first_win</code> +2; <code>efficient</code> (harcanan ≤ limit×0.6; bölüm başına 1 kez) +1; <code>streak_3</code> (art arda 3 bölüm ilk denemede — deneme sayacı bölüm başına tutulur) +1; <code>collector_25/50/100</code> +1/+2/+3. Değerler tek sabit dosyada (<code>achievements_config.dart</code>). Kazanım anı: kazanma diyaloğunda "+N geri alma" rozeti + kısa kutlama.</td>
+    <td>Her tetikleyicinin birim testi (sınır durumlarıyla: tekrar kazanma, seri bozulması); kazanma diyaloğu doğru toplamı gösteriyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.5</td>
+    <td>Geri alma entegrasyonu</td>
+    <td>HUD düğmesi bakiyeyi gösterir (<code>↩ 3</code>); basışta <code>tryDebit("undo")</code> → başarılıysa <code>session.undo()</code> (hamle sayacı geri yüklenir — motor Faz 1'de hazır). Bakiye 0: düğme soluk; dokununca "kredi kazanma yolları" alt sayfası (başarım listesi + ilerlemeler). Kayıp diyaloğunda "Geri al ve devam et" (1 kredi): statü playing'e döner, oyun sürer (spec §9.4). Art arda basış: her adım 1 kredi.</td>
+    <td>Widget testleri: bakiye düşümü, 0 bakiye akışı, kayıptan devam; undo sonrası HUD tutarlı.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.6</td>
+    <td>Devam etme (resume)</td>
+    <td>Her hamlede debounce'lu otomatik kayıt (replay formatı). Uygulama açılışında resume varsa "Oyna" doğrudan kaldığı yere götürür (toast: "Kaldığın yerden devam ediyorsun"). Kazanmada kayıt silinir; <strong>kayıpta silinmez</strong> — "geri al &amp; devam et" uygulama yeniden açılışında da mümkün olsun (kayıp durumu replay'den yeniden kurulur). Bölümü elle yeniden başlatmak kaydı sıfırlar.</td>
+    <td>Testler: kapat-aç → aynı durum (hamle sayısı, kilit, slotlar); kayıpta aç → kayıp diyaloğu + kurtarma çalışıyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.7</td>
+    <td>Bölüm listesi</td>
+    <td>Sayfalı ızgara (20'li gruplar); durumlar: kilitli / oynanabilir (sıradaki) / tamamlandı (✓). Sıralı ilerleyiş (K/spec §13.1): N tamamlanmadan N+1 kapalı; tamamlananlar tekrar oynanabilir (tekrar kazanım kredi/başarım saymaz — yalnız <code>bestMovesLeft</code> güncellenir). Üstte toplam ilerleme: bölüm + kategori sayacı (Koleksiyoncu ilerlemesi görünür).</td>
+    <td>Widget testleri: kilit mantığı, tekrar oynama etiketleri; 100 bölümde akıcı kaydırma.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.8</td>
+    <td>Öğretici</td>
+    <td>Script motoru: adım = { vurgu (BoardMetrics dikdörtgeni + karartma maskesi), metin balonu, beklenen eylem (yalnız o eyleme izin veren girdi kapısı) }. Bölüm 1–3 senaryoları (Faz 2'de sabitlenen tohumlarla yazılır — dağılım bilindiği için adımlar deterministik): B1 çekme + kelime dizme + kategori açma + toplama; B2 süpürme + kilit; B3 devir + çıkmaz uyarısı + geri alma tanıtımı. "Atla" her an var; tamamlanma bayrağı kalıcı. Ayrıca menüden "Nasıl Oynanır": 5 resimli statik sayfa (kurallar özeti, spec §13.1).</td>
+    <td>Script motoru birim testli (kapı ihlali ilerletmez); 3 bölüm uçtan uca rehberle oynanıyor; <span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: öğretici akışı</span>.</td>
+  </tr>
+  <tr>
+    <td class="id">F4.9</td>
+    <td>Ayarlar ve hakkında</td>
+    <td>Ses/haptik anahtarları (Faz 5'te işlevlenir, anahtar bugünden kalıcı), animasyon azaltma (sistem/açık/kapalı), öğreticiyi sıfırla, "Nasıl Oynanır" linki, sürüm/lisans bilgisi.</td>
+    <td>Ayarlar kalıcı; reduce-motion seçimi uçuş koordinatörüne anında yansıyor.</td>
+  </tr>
+</table></div>
+
+<h2>5. Dosya Haritası</h2>
+<pre><code>lib/app/
+├── nav/ routes.dart
+├── screens/ splash.dart · home.dart · levels.dart · settings.dart · how_to_play.dart
+├── tutorial/ tutorial_engine.dart · scripts/level1.dart · level2.dart · level3.dart
+├── meta/ wallet_service.dart · achievements.dart · achievements_config.dart · progress_service.dart
+lib/persistence/ store.dart · schemas.dart · migrations.dart
+test/app/meta/* · test/app/tutorial/* · test/persistence/*</code></pre>
+
+<h2>6. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>İlk açılış → öğretici → bölüm ilerleyişi → kayıp/kurtarma → kazanç/kredi döngüsü uçtan uca çalışıyor (M5).</li>
+  <li>Kalıcılık: kapat-aç senaryoları (oyun ortası, kayıp anı, bölüm listesi) testli.</li>
+  <li>Cüzdan/başarım birim testleri yeşil; değerler tek config dosyasında.</li>
+  <li>Öğretici kullanıcı onaylı; web dağıtımı güncel.</li>
+</ul>
+
+<h2>7. Riskler</h2>
+<ul>
+  <li><strong>Öğretici-bölüm bağı:</strong> B1–3 dağılımı değişirse script kırılır → bu bölümlerin tohumları üretim hattında "dondurulmuş" işaretlidir; yeniden üretimde değişmezlik testi vardır (F2.7).</li>
+  <li><strong>Kayıpta devam kurtarması:</strong> replay'den kayıp durumunun yeniden kurulması motorun deterministik statü geçişlerine dayanır — Faz 1 testleri bunu garanti eder; ek entegrasyon testi burada yazılır.</li>
+  <li><strong>Ekonomi dengesi:</strong> değerler config'te; Faz 5 QA'sında gerçek oynanış verisiyle (kaç bölümde kaç kredi birikti) gözden geçirilip kullanıcıyla kalibre edilir.</li>
+</ul>
+
+</main>
+<footer>Faz 4 — Meta Oyun · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

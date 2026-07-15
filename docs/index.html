@@ -54,22 +54,54 @@
 <h2>1. Tasarım</h2>
 <ul class="doclist">
   <li>
-    <a href="spec.html">Oyun Spesifikasyonu v1.0</a>
-    <span class="st ready">HAZIR — ONAY BEKLİYOR</span>
-    <span class="desc">Tek doğruluk kaynağı: kurallar, hamle ekonomisi, bölüm sistemi, içerik kütüphanesi, UX/UI, teknik mimari, karar kaydı.</span>
+    <a href="spec.html">Oyun Spesifikasyonu v1.1</a>
+    <span class="st ready">ONAYLANDI</span>
+    <span class="desc">Tek doğruluk kaynağı: kurallar, hamle ekonomisi, bölüm sistemi, içerik kütüphanesi, UX/UI, teknik mimari, karar kaydı (K1–K23).</span>
   </li>
 </ul>
 
 <h2>2. İmplementasyon Planları (fazlar)</h2>
-<div class="note">
-  Faz planları, spesifikasyonun onaylanmasının ardından hazırlanacak ve bu dizine eklenecektir.
-  Öngörülen fazlar: <strong>Faz 0</strong> proje iskeleti & altyapı · <strong>Faz 1</strong> oyun motoru ·
-  <strong>Faz 2</strong> içerik kütüphanesi + bölüm üretim hattı · <strong>Faz 3</strong> oyun ekranı UI &
-  animasyon · <strong>Faz 4</strong> meta oyun (bölümler, cüzdan, öğretici) · <strong>Faz 5</strong> cila &
-  ses · <strong>Faz 6</strong> mobil paketleme.
-</div>
 <ul class="doclist">
-  <li><span style="color:var(--ink-soft)">Faz planları</span> <span class="st pending">SPEC ONAYI BEKLENİYOR</span></li>
+  <li>
+    <a href="plan/genel-plan.html">Genel İmplementasyon Planı</a>
+    <span class="st ready">HAZIR — DEĞERLENDİRMEDE</span>
+    <span class="desc">Faz haritası, sıralama ve paralellik, kilometre taşları (M1–M6), kullanıcı onay noktaları, çalışma pratiği, risk kaydı.</span>
+  </li>
+  <li>
+    <a href="plan/faz-0-iskelet.html">Faz 0 — Proje İskeleti ve Altyapı</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Flutter kurulumu ve sürüm sabitleme, katman iskeleti, mimari koruma, PRNG, Türkçe yardımcılar, CI.</span>
+  </li>
+  <li>
+    <a href="plan/faz-1-motor.html">Faz 1 — Oyun Motoru</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Saf Dart immutable motor: modeller, kural matrisi, reducer + olaylar, legal hamleler, çıkmaz, undo, serileştirme, fuzz testleri.</span>
+  </li>
+  <li>
+    <a href="plan/faz-2-icerik-ve-uretim.html">Faz 2 — İçerik ve Üretim Hattı</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">≥60 kategorilik Türkçe havuz + doğrulayıcı, zorluk eğrisi, üretici, çözücü, 100 kanıtlı bölüm ve üretim raporu.</span>
+  </li>
+  <li>
+    <a href="plan/faz-3-oyun-ekrani.html">Faz 3 — Oyun Ekranı</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Tema onayı, BoardMetrics, kart widget'ları, sürükle-bırak, uçuş koordinatörü, HUD/diyaloglar, web test dağıtımı.</span>
+  </li>
+  <li>
+    <a href="plan/faz-4-meta-oyun.html">Faz 4 — Meta Oyun</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Ekran akışı, kalıcılık şeması, cüzdan + başarımlar, geri alma entegrasyonu, devam etme, rehberli öğretici.</span>
+  </li>
+  <li>
+    <a href="plan/faz-5-cila.html">Faz 5 — Cila</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Ses, haptik, performans geçişi, erişilebilirlik, dayanıklılık, içerik ve denge QA'sı.</span>
+  </li>
+  <li>
+    <a href="plan/faz-6-mobil-paketleme.html">Faz 6 — Mobil Paketleme</a>
+    <span class="st ready">HAZIR</span>
+    <span class="desc">Android/iOS yayın yapılandırmaları, PWA, mağaza varlıkları, gizlilik politikası, sürüm süreci.</span>
+  </li>
 </ul>
 
 </main>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manasal Solitaire — Genel İmplementasyon Planı</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+.callout.info { background:var(--accent-soft); border-color:var(--accent); }
+.pill { display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.4px; padding:2px 10px; border-radius:999px; background:var(--accent-soft); color:var(--accent); white-space:nowrap; vertical-align:middle; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a></div>
+  <h1>Genel İmplementasyon Planı</h1>
+  <div class="meta">
+    Tarih: <strong>15 Temmuz 2026</strong> · Dayanak: <strong><a href="../spec.html">Spesifikasyon v1.1 (Onaylandı)</a></strong> · Durum: <strong>Değerlendirme bekliyor</strong><br>
+    Bu doküman fazların haritasını, sıralamayı, kilometre taşlarını, onay noktalarını ve risk kaydını tutar. Her fazın ayrıntılı planı kendi dokümanındadır.
+  </div>
+</header>
+<main>
+
+<h2>1. Faz Haritası</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:70px">Faz</th><th>Ad</th><th>Tek cümlede amaç</th><th style="width:90px">Büyüklük</th><th style="width:110px">Ön koşul</th><th style="width:110px">Plan</th></tr>
+  <tr><td class="id">FAZ 0</td><td>Proje İskeleti ve Altyapı</td><td>Derlenen, test edilen, CI'lı boş Flutter uygulaması + deterministik PRNG ve Türkçe metin yardımcıları.</td><td>S–M</td><td>—</td><td><a href="faz-0-iskelet.html">faz-0</a></td></tr>
+  <tr><td class="id">FAZ 1</td><td>Oyun Motoru</td><td>Spec §5–§10'un saf Dart, immutable, %100 kural-kapsamalı gerçeklemesi (UI yok).</td><td>L</td><td>Faz 0</td><td><a href="faz-1-motor.html">faz-1</a></td></tr>
+  <tr><td class="id">FAZ 2</td><td>İçerik ve Üretim Hattı</td><td>≥60 kategorilik Türkçe havuz + üretici + çözücü + 100 kanıtlı bölüm (levels.json).</td><td>L</td><td>Faz 1 (içerik yazımı Faz 1 ile paralel)</td><td><a href="faz-2-icerik-ve-uretim.html">faz-2</a></td></tr>
+  <tr><td class="id">FAZ 3</td><td>Oyun Ekranı</td><td>Sürükle-bırak, animasyonlu, web'de baştan sona oynanabilir tek el deneyimi.</td><td>XL</td><td>Faz 1 (fixture ile başlar, Faz 2'yi beklemez)</td><td><a href="faz-3-oyun-ekrani.html">faz-3</a></td></tr>
+  <tr><td class="id">FAZ 4</td><td>Meta Oyun</td><td>Menü, bölüm listesi, ilerleme, cüzdan/başarımlar, geri alma, devam etme, öğretici.</td><td>L</td><td>Faz 2 + Faz 3</td><td><a href="faz-4-meta-oyun.html">faz-4</a></td></tr>
+  <tr><td class="id">FAZ 5</td><td>Cila</td><td>Ses, haptik, performans, erişilebilirlik, dayanıklılık, içerik QA.</td><td>M–L</td><td>Faz 4</td><td><a href="faz-5-cila.html">faz-5</a></td></tr>
+  <tr><td class="id">FAZ 6</td><td>Mobil Paketleme</td><td>Android/iOS yayın yapıları, mağaza hazırlığı, sürüm kontrol listesi.</td><td>M</td><td>Faz 5</td><td><a href="faz-6-mobil-paketleme.html">faz-6</a></td></tr>
+</table></div>
+
+<h3>Sıralama ve paralellik</h3>
+<ul>
+  <li>Ana hat doğrusaldır: <code>F0 → F1 → F3 → F4 → F5 → F6</code>. Motor bitmeden UI'a başlanmaz (UI motorun projeksiyonudur).</li>
+  <li><strong>Faz 2'nin içerik yazımı</strong> (kategori/kelime havuzu) koda bağımlı değildir; Faz 1 sürerken paralel ilerletilir. Üretici + çözücü ise Faz 1'in motorunu kullanır.</li>
+  <li><strong>Faz 3, Faz 2'yi beklemez:</strong> elle yazılmış sabit test bölümü (fixture) ile geliştirilir; Faz 2 bittiğinde gerçek bölümler takılır.</li>
+</ul>
+
+<h2>2. Kilometre Taşları</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:70px">No</th><th>Kilometre taşı</th><th>Kanıt / gösterilebilir çıktı</th><th style="width:80px">Faz</th></tr>
+  <tr><td class="id">M1</td><td>İskelet ayakta</td><td>CI yeşil; web'de placeholder ekran açılıyor; PRNG determinizm testleri geçiyor</td><td>F0</td></tr>
+  <tr><td class="id">M2</td><td>Motor kanıtlandı</td><td>Kural matrisinin tüm hücreleri + fuzz testleri yeşil; motor coverage ≥ %95</td><td>F1</td></tr>
+  <tr><td class="id">M3</td><td>100 kanıtlı bölüm</td><td><code>levels.json</code> + üretim raporu; örneklem bölümler çözücüden yeniden geçiyor</td><td>F2</td></tr>
+  <tr><td class="id">M4</td><td>İlk oynanabilir el</td><td>Web build'de bir bölüm baştan sona elle oynanıp kazanılabiliyor; test dağıtımı linki</td><td>F3</td></tr>
+  <tr><td class="id">M5</td><td>Dikey dilim</td><td>Öğretici + bölüm ilerleyişi + cüzdan/geri alma + devam etme uçtan uca çalışıyor</td><td>F4</td></tr>
+  <tr><td class="id">M6</td><td>Mağaza adayı</td><td>İmzalı AAB + iOS arşiv talimatı; sürüm kontrol listesi tamam</td><td>F6</td></tr>
+</table></div>
+
+<h2>3. Kullanıcı Onay Noktaları</h2>
+<p>Aşağıdaki anlarda iş durup ürün sahibinin onayı beklenir (spec'teki "onaya sunulur" maddelerinin takvimi):</p>
+<div class="tablewrap"><table>
+  <tr><th style="width:80px">Faz</th><th>Onay konusu</th><th>Sunulacak malzeme</th></tr>
+  <tr><td class="id">F2</td><td>İçerik pilotu</td><td>İlk 20 kategori + kelimeleri (okunabilir liste); kalite/ton kalibrasyonu sonrası kalan 40+ yazılır</td></tr>
+  <tr><td class="id">F2</td><td>Bölüm kalitesi</td><td>Üretim raporu + 3-5 örnek bölümün dökümü (kategoriler, kart sayıları, limitler)</td></tr>
+  <tr><td class="id">F3</td><td>Görsel yön ekranları</td><td>Kağıt/kitap temasının somut oyun ekranı görselleri (aydınlık + karanlık)</td></tr>
+  <tr><td class="id">F3</td><td>İlk oynanabilir el (M4)</td><td>Web test dağıtımı linki — his/akıcılık geri bildirimi</td></tr>
+  <tr><td class="id">F4</td><td>Öğretici akışı</td><td>Bölüm 1-3 rehberli deneyimi (web linki)</td></tr>
+  <tr><td class="id">F5</td><td>İçerik son onayı</td><td>Tam havuz + QA düzeltmeleri sonrası nihai liste</td></tr>
+  <tr><td class="id">F6</td><td>Mağaza metaları</td><td>Nihai ad, açıklamalar, ekran görüntüleri, gizlilik politikası</td></tr>
+</table></div>
+
+<h2>4. Çalışma Pratiği</h2>
+<ul>
+  <li><strong>Dal:</strong> Tüm geliştirme <code>claude/word-solitaire-flutter-3ru19g</code> dalında yapılır ve oraya push'lanır.</li>
+  <li><strong>Spec-önce prosedürü:</strong> Geliştirme sırasında bir kural belirsizliği/ihtiyacı çıkarsa önce <a href="../spec.html">spec</a> güncellenir (sürüm artar, karar kaydına satır eklenir), sonra kod yazılır. Kod hiçbir zaman spec'ten sapan davranış içeremez.</li>
+  <li><strong>Test-önce motor:</strong> Faz 1'de kural testleri gerçeklemeden önce/birlikte yazılır; kural matrisi test adlarıyla birebir eşlenir.</li>
+  <li><strong>Faz kapanışı:</strong> Faz bitince ilgili plan dokümanının durumu güncellenir, DoD listesi işaretlenir, kısa kapanış notu eklenir.</li>
+  <li><strong>Her faz sonunda çalışan ürün:</strong> CI her push'ta analiz + test + web build üretir; Faz 3'ten itibaren otomatik web test dağıtımı (GitHub Pages) ile telefonda denenebilir.</li>
+</ul>
+
+<div class="callout">
+  <strong>Ortam notu:</strong> Bu uzak geliştirme ortamında Flutter SDK kurulu değildir (kontrol edildi). Faz 0'ın ilk görevi,
+  sabitlenmiş sürümlü bir <code>scripts/setup.sh</code> ile SDK kurulumunu tek komuta indirmek ve aynı kurulumu CI'da da kullanmaktır.
+  SDK indirilemezse bile motor + üretici katmanları saf Dart olduğu için <code>dart test</code> ile ilerlenebilir; UI fazları web build gerektirir.
+</div>
+
+<h2>5. Risk Kaydı</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">No</th><th>Risk</th><th style="width:90px">Olasılık</th><th style="width:80px">Etki</th><th>Önlem</th></tr>
+  <tr><td class="id">R1</td><td>Çözücü performansı: bazı adaylar bütçe içinde çözülemez, üretim yavaşlar</td><td>Orta</td><td>Yüksek</td><td>Makro çekiş hamlesi, ağırlıklı A*, durum önbelleği, aday başına sıkı bütçe + tohum yenileme; zorluk parametreleri arama uzayını sınırlar (Faz 2)</td></tr>
+  <tr><td class="id">R2</td><td>İçerik kalitesi: çift kategorili kelimeler, belirsiz üyelik, tartışmalı örnekler</td><td>Yüksek</td><td>Yüksek</td><td>Otomatik sert-çakışma doğrulayıcı + softConflicts alanı + 20 kategorilik pilot üzerinde kullanıcı kalibrasyonu + F5 içerik QA</td></tr>
+  <tr><td class="id">R3</td><td>Sürükle-bırak hissi mobilde kötü (gecikme, isabet sorunları)</td><td>Orta</td><td>Yüksek</td><td>F3'te erken gerçek-cihaz testi (web dağıtımı), geometri tabanlı isabet alanları ≥48dp, drag katmanının Overlay'de yalıtımı</td></tr>
+  <tr><td class="id">R4</td><td>Sıkı dizilim kuralı bölümleri hissedilir ölçüde zorlaştırır; oyuncular erken bölümlerde takılır</td><td>Orta</td><td>Orta</td><td>Zorluk eğrisi tuning verisi; pay çarpanları cömert başlar; çözücü istatistikleri (dallanma, çözüm uzunluğu) zorluk göstergesi olarak rapora yazılır</td></tr>
+  <tr><td class="id">R5</td><td>Türkçe locale hataları (İ/ı) karşılaştırma ve görselde bozukluk yaratır</td><td>Orta</td><td>Orta</td><td>Tek merkezî <code>tr_text.dart</code> yardımcıları + birim testler; tüm karşılaştırmalar bu katmandan geçer (F0)</td></tr>
+  <tr><td class="id">R6</td><td>Uzak ortamda SDK kurulumu/proxy engeli geliştirmeyi yavaşlatır</td><td>Düşük</td><td>Orta</td><td>Sabitlenmiş sürümlü kurulum scripti, CI'da resmi flutter-action; saf Dart katmanları SDK'sız da test edilebilir</td></tr>
+  <tr><td class="id">R7</td><td>iOS imzalama/yayın için Mac gereksinimi</td><td>Yüksek</td><td>Düşük</td><td>F6'da iki yol dokümante edilir: kullanıcının Mac'i veya GitHub Actions macOS runner + geliştirici hesabı; Android ve web bundan bağımsız yürür</td></tr>
+</table></div>
+
+<h2>6. Doküman Haritası</h2>
+<pre><code>docs/
+├── index.html                  → doküman merkezi
+├── spec.html                   → Spesifikasyon v1.1 (tek doğruluk kaynağı)
+└── plan/
+    ├── genel-plan.html         → bu doküman
+    ├── faz-0-iskelet.html      → proje iskeleti ve altyapı
+    ├── faz-1-motor.html        → oyun motoru
+    ├── faz-2-icerik-ve-uretim.html → içerik + üretici + çözücü
+    ├── faz-3-oyun-ekrani.html  → oyun ekranı UI ve animasyon
+    ├── faz-4-meta-oyun.html    → meta oyun (menü, ilerleme, cüzdan, öğretici)
+    ├── faz-5-cila.html         → ses, haptik, performans, QA
+    └── faz-6-mobil-paketleme.html → Android/iOS/mağaza</code></pre>
+
+</main>
+<footer>Manasal Solitaire — Genel İmplementasyon Planı · 15 Temmuz 2026 · Dayanak: Spesifikasyon v1.1</footer>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 0 — Proje İskeleti ve Altyapı</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 0 — Proje İskeleti ve Altyapı</h1>
+  <div class="meta">Büyüklük: <strong>S–M</strong> · Ön koşul: <strong>yok</strong> · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §14</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Sonraki tüm fazların üzerinde koşacağı zemini kurmak: sabit sürümlü Flutter kurulumu, katmanlı proje
+yapısı, mimari koruma, deterministik PRNG, Türkçe metin yardımcıları ve her push'ta çalışan CI.
+Bu faz bittiğinde depo "boş ama sağlam" bir uygulamadır.</p>
+
+<h2>2. Çıktılar</h2>
+<ul>
+  <li>Web + Android + iOS hedefli, derlenen Flutter projesi (repo kökünde).</li>
+  <li><code>scripts/setup.sh</code>: tek komutla sabitlenmiş Flutter SDK kurulumu (uzak ortam ve yeni geliştirici için).</li>
+  <li>Katman dizinleri + mimari koruma testi (engine/generator'da Flutter importu yasak).</li>
+  <li><code>Prng</code> (xoshiro128**) ve <code>tr_text</code> yardımcıları, testleriyle.</li>
+  <li>GitHub Actions CI: format + analiz + test + web build.</li>
+</ul>
+
+<h2>3. Kapsam</h2>
+<div class="tablewrap"><table>
+  <tr><th>Dahil</th><th>Hariç (sonraki fazlar)</th></tr>
+  <tr><td>Proje oluşturma, lint/analiz ayarları, CI, PRNG, Türkçe yardımcılar, placeholder ekran, tema token iskeleti</td>
+      <td>Oyun modelleri ve kuralları (F1), içerik (F2), gerçek UI (F3), kalıcılık (F4), ses (F5)</td></tr>
+</table></div>
+
+<h2>4. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:210px">Görev</th><th>Detay ve teknik notlar</th><th style="width:260px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F0.1</td>
+    <td>Flutter kurulum stratejisi ve <code>scripts/setup.sh</code></td>
+    <td>Stable kanaldan tek bir sürüm sabitlenir (kurulum günündeki en güncel stable; sürüm <code>scripts/flutter-version.txt</code> dosyasına yazılır ve CI aynı dosyayı okur). Script: SDK arşivini indirir, <code>~/flutter</code>'a açar, PATH talimatı basar, <code>flutter --version</code> ve <code>flutter doctor</code> doğrulaması yapar. Uzak ortamın HTTPS proxy'siyle uyumlu (CA bundle'a saygı). Not: bu ortamda SDK kurulu değil — bu görev her şeyden önce gelir.</td>
+    <td>Temiz ortamda <code>bash scripts/setup.sh</code> sonrası <code>flutter test</code> koşuyor; sürüm tek dosyadan yönetiliyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.2</td>
+    <td>Flutter projesi oluşturma</td>
+    <td><code>flutter create --org com.manasal --project-name manasal_solitaire --platforms web,android,ios .</code> ile repo köküne. Linux/Windows/macOS masaüstü hedefleri eklenmez. <code>pubspec.yaml</code>: ad, açıklama (TR), sürüm <code>0.1.0+1</code>. Varsayılan sayaç uygulaması temizlenir.</td>
+    <td><code>flutter run -d web-server</code> placeholder ekranı açıyor; <code>flutter build web</code> hatasız.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.3</td>
+    <td>Katman dizinleri ve mimari koruma</td>
+    <td><code>lib/{engine,content,generator,persistence,app}</code> + <code>test/{engine,content,generator,app}</code> oluşturulur (spec §14.6). <code>test/architecture_test.dart</code>: <code>lib/engine</code> ve <code>lib/generator</code> altındaki tüm <code>.dart</code> dosyalarını tarar; <code>package:flutter</code> importu ve <code>dart:ui</code> bulursa test düşer. Ek kural: <code>lib/engine</code> içinde <code>dart:math Random</code> kullanımı yasak (PRNG zorunlu).</td>
+    <td>Koruma testi mevcut ve yeşil; bilerek eklenen ihlalle kırmızıya düştüğü gösterildi (sonra geri alındı).</td>
+  </tr>
+  <tr>
+    <td class="id">F0.4</td>
+    <td>Lint ve analiz sıkılaştırma</td>
+    <td><code>analysis_options.yaml</code>: <code>flutter_lints</code> tabanı + <code>language: strict-casts/strict-inference/strict-raw-types</code> + ek kurallar (<code>always_declare_return_types</code>, <code>prefer_final_locals</code>, <code>unawaited_futures</code>, <code>avoid_dynamic_calls</code>). Format: <code>dart format</code> varsayılanı.</td>
+    <td><code>flutter analyze</code> sıfır uyarıyla geçiyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.5</td>
+    <td>Deterministik PRNG</td>
+    <td><code>lib/engine/prng.dart</code>: xoshiro128** çekirdeği + SplitMix64 tohum genişletme. API: <code>Prng(int seed)</code>, <code>nextUint32()</code>, <code>nextInt(bound)</code> (modulo-bias'sız, rejection sampling), <code>shuffle&lt;T&gt;(List&lt;T&gt;)</code> (Fisher-Yates), <code>fork(int streamId)</code> (bağımsız alt akış — üreticide kategori/kelime/dağıtım ayrımı için). Spec §14.4 gereği platformlar arası bit-bit aynı.</td>
+    <td>Sabit tohum için ilk 8 çıktının known-answer testi; aynı tohum → aynı shuffle sırası; fork akışları bağımsız (test).</td>
+  </tr>
+  <tr>
+    <td class="id">F0.6</td>
+    <td>Türkçe metin yardımcıları ve ortak tipler</td>
+    <td><code>lib/content/tr_text.dart</code>: <code>trLower</code> (İ→i, I→ı dahil), <code>trUpper</code>, <code>trCapitalize</code>, <code>trEquals</code> (normalize karşılaştırma). Tüm içerik karşılaştırmaları bu katmandan geçer (risk R5). <code>lib/engine/result.dart</code>: <code>sealed Result&lt;T,E&gt; = Ok | Err</code> yardımcı tipi.</td>
+    <td>"İNCİR"→"incir", "ISPANAK"→"ıspanak", "istanbul"→"İstanbul" testleri geçiyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.7</td>
+    <td>CI (GitHub Actions)</td>
+    <td><code>.github/workflows/ci.yml</code>: push/PR tetikli; adımlar: checkout → Flutter kurulumu (sürüm <code>scripts/flutter-version.txt</code>'den) → <code>flutter pub get</code> → <code>dart format --set-exit-if-changed .</code> → <code>flutter analyze</code> → <code>flutter test</code> → <code>flutter build web --release</code> → web build artifact yükleme. (GitHub Pages otomatik dağıtımı Faz 3'te eklenir.)</td>
+    <td>Dala push'ta workflow uçtan uca yeşil; artifact indirilebilir.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.8</td>
+    <td>Placeholder uygulama ve tema token iskeleti</td>
+    <td><code>lib/main.dart</code> + <code>lib/app/theme/tokens.dart</code>: renk/aralık/köşe yarıçapı sabitlerinin iskeleti (değerler Faz 3'te kağıt/kitap temasıyla dolar; şimdilik nötr). Ana ekranda "Manasal Solitaire" başlığı ve sürüm etiketi. Portre kilidi mobilde etkin (web'de serbest).</td>
+    <td>Uygulama tema tokenlarını kullanıyor; kod içinde ham renk sabiti yok.</td>
+  </tr>
+  <tr>
+    <td class="id">F0.9</td>
+    <td>README ve geliştirme kılavuzu güncellemesi</td>
+    <td>README'ye "Geliştirme" bölümü: kurulum (<code>scripts/setup.sh</code>), koşma (<code>flutter run -d chrome</code>), test, katman kuralları özeti, doküman linkleri.</td>
+    <td>Yeni bir geliştirici README ile sıfırdan ortam kurabiliyor.</td>
+  </tr>
+</table></div>
+
+<h2>5. Dosya Haritası</h2>
+<pre><code>manasal-solitair/
+├── .github/workflows/ci.yml            (F0.7)
+├── scripts/setup.sh                    (F0.1)
+├── scripts/flutter-version.txt         (F0.1)
+├── analysis_options.yaml               (F0.4)
+├── pubspec.yaml                        (F0.2)
+├── lib/
+│   ├── main.dart                       (F0.8)
+│   ├── engine/prng.dart                (F0.5)
+│   ├── engine/result.dart              (F0.6)
+│   ├── content/tr_text.dart            (F0.6)
+│   └── app/theme/tokens.dart           (F0.8)
+└── test/
+    ├── architecture_test.dart          (F0.3)
+    ├── engine/prng_test.dart           (F0.5)
+    └── content/tr_text_test.dart       (F0.6)</code></pre>
+
+<h2>6. Test Planı</h2>
+<ul>
+  <li>PRNG known-answer + determinizm + fork bağımsızlığı + <code>nextInt</code> sınır testleri (bound 1, büyük bound).</li>
+  <li>Türkçe normalize birim testleri (İ/ı köşe durumları, boş dize, çift boşluk).</li>
+  <li>Mimari koruma testi (pozitif + bilinçli ihlalle negatif doğrulama).</li>
+  <li>CI'ın kendisi: workflow bir push'ta uçtan uca koşturulup doğrulanır.</li>
+</ul>
+
+<h2>7. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>Tüm görev kabul kriterleri karşılandı; CI yeşil (M1 kilometre taşı).</li>
+  <li><code>bash scripts/setup.sh && flutter test</code> temiz ortamda çalışıyor.</li>
+  <li>README geliştirme bölümü güncel; plan dokümanı durumu "Tamamlandı" yapıldı.</li>
+</ul>
+
+<h2>8. Riskler</h2>
+<ul>
+  <li><strong>SDK indirme engeli (R6):</strong> proxy CA'sına saygılı indirme; başarısızlıkta saf Dart katmanları <code>dart test</code> ile sürdürülebilir, UI işleri kullanıcının yerel makinesinde doğrulanır.</li>
+  <li><strong>Sürüm kayması:</strong> Flutter sürümü tek dosyada sabit; yükseltme bilinçli ve ayrı commit'le yapılır.</li>
+</ul>
+
+</main>
+<footer>Faz 0 — Proje İskeleti ve Altyapı · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

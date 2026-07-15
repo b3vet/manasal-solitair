@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manasal Solitaire — Oyun Spesifikasyonu v1.0</title>
+<title>Manasal Solitaire — Oyun Spesifikasyonu v1.1</title>
 <style>
   :root {
     --bg: #faf8f4;
@@ -113,9 +113,9 @@
 <body>
 
 <header class="doc">
-  <h1>🃏 Manasal Solitaire<br><span style="font-size:1.1rem; font-weight:500; color:var(--ink-soft)">Oyun Spesifikasyonu — v1.0</span></h1>
+  <h1>🃏 Manasal Solitaire<br><span style="font-size:1.1rem; font-weight:500; color:var(--ink-soft)">Oyun Spesifikasyonu — v1.1</span></h1>
   <div class="meta">
-    Tarih: <strong>15 Temmuz 2026</strong> &nbsp;·&nbsp; Durum: <strong>Onay bekliyor</strong> &nbsp;·&nbsp; Platform: <strong>Flutter (önce web'de test, sonra Android/iOS)</strong><br>
+    Tarih: <strong>15 Temmuz 2026</strong> &nbsp;·&nbsp; Durum: <strong>Onaylandı</strong> (v1.1 — §17 kararları işlendi) &nbsp;·&nbsp; Platform: <strong>Flutter (önce web'de test, sonra Android/iOS)</strong><br>
     Bu doküman geliştirme sürecinin tamamında başvurulacak <em>tek doğruluk kaynağıdır</em>. Kural değişiklikleri önce burada güncellenir, sonra koda yansıtılır.
   </div>
 </header>
@@ -211,7 +211,7 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
 <ul>
   <li>Kelime kartlarından <strong>ilk bakışta ayırt edilir</strong> bir görsel kimliği vardır (farklı zemin, çerçeve ve rozet). Kategori kartının <em>kendisi</em> gizli bilgi değildir; gizli olan kelimelerin üyeliğidir.</li>
   <li>Destede, atıkta veya sütundayken üzerinde: <strong>kategori adı + bu bölümdeki toplam kelime sayısı</strong> (örn. <code>MEYVELER · 6</code>). <span class="badge user">KULLANICI KARARI</span></li>
-  <li>Toplama slotundayken: <strong>toplanan / kalan</strong> formatı (örn. 6 kelimenin 2'si toplandıysa <code>MEYVELER · 2/4</code>). <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Toplama slotundayken: <strong>toplanan / toplam</strong> formatı (örn. 6 kelimenin 2'si toplandıysa <code>MEYVELER · 2/6</code>; tamamlanma anında <code>6/6</code>). <span class="badge user">KULLANICI KARARI</span> <em>— v1.1: brief'teki "toplanan/kalan" yerine soru-cevapta bilinçli olarak "toplanan/toplam" seçildi.</em></li>
   <li>Her bölümde her kategoriden <strong>tam olarak 1</strong> kategori kartı bulunur; aynı kategori bir bölümde iki kez yer almaz. <span class="badge derived">TÜRETİLMİŞ</span></li>
 </ul>
 
@@ -247,7 +247,7 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
     <rect x="152" y="80" width="60" height="84" rx="7" class="card"/>
     <rect x="220" y="80" width="60" height="84" rx="7" class="zone" stroke-dasharray="4 3"/>
     <rect x="288" y="80" width="56" height="84" rx="7" class="zone" stroke-dasharray="4 3"/>
-    <text x="22" y="100" class="sm">MEYVE</text><text x="22" y="112" class="sm">2/4</text>
+    <text x="22" y="100" class="sm">MEYVE</text><text x="22" y="112" class="sm">2/6</text>
     <text x="90" y="100" class="sm">HAYVAN</text><text x="90" y="112" class="sm">0/5</text>
     <text x="158" y="100" class="sm">RENK</text><text x="158" y="112" class="sm">3/3✓</text>
     <text x="236" y="126" class="sm">boş</text>
@@ -396,7 +396,7 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
 <h3>8.1 Kategori kartını toplama slotuna açmak</h3>
 <ul>
   <li>Boş bir toplama slotuna kategori kartı koyulduğunda slot <strong>aktifleşir</strong> ve sayaç <code>0/N</code> (toplanan/kalan) olur.</li>
-  <li>Kaynak sütundaysa <strong>süpürme</strong> gerçekleşir: kategori kartının hemen altındaki kesintisiz eşleşen kelime zinciri de aynı hamlede slota gelir ve toplanmış sayılır. Örn. altında 3 meyve varken süpürülen <code>MEYVELER · 6</code> slotta <code>3/3</code> olarak açılır. <span class="badge user">KULLANICI KARARI</span></li>
+  <li>Kaynak sütundaysa <strong>süpürme</strong> gerçekleşir: kategori kartının hemen altındaki kesintisiz eşleşen kelime zinciri de aynı hamlede slota gelir ve toplanmış sayılır. Örn. altında 3 meyve varken süpürülen <code>MEYVELER · 6</code> slotta <code>3/6</code> olarak açılır. <span class="badge user">KULLANICI KARARI</span></li>
   <li>Kaynak atıksa kart tek başına gelir (<code>0/N</code>).</li>
 </ul>
 
@@ -417,16 +417,16 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
   <div class="t">ÖRNEK — tam bir süpürme turu</div>
   Oyuncu 2. sütunda <code>Kedi → Köpek → At</code> zincirini kurdu (3 hamle). Atıktan çıkan
   <code>HAYVANLAR · 5</code> kartını zincirin üzerine koydu (1 hamle, sütun kilitlendi). Kategori
-  kartından tutup boş toplama slotuna çekti: kart + 3 hayvan tek hamlede uçtu, slot <code>3/2</code>
+  kartından tutup boş toplama slotuna çekti: kart + 3 hayvan tek hamlede uçtu, slot <code>3/5</code>
   oldu. Daha sonra desteden gelen <code>Kuş</code> ve sütundan <code>İnek</code> slota eklendi
-  (2 hamle) → <code>5/0</code>, kategori tamamlandı, slot boşaldı. Toplam 7 hamle.
+  (2 hamle) → <code>5/5</code>, kategori tamamlandı, slot boşaldı. Toplam 7 hamle.
 </div>
 
 <!-- ============================================================ -->
 <h2 id="sonuc"><span class="no">9.</span>Kazanma, Kaybetme, Çıkmaz Tespiti</h2>
 
 <h3>9.1 Kazanma</h3>
-<p>Bölümdeki <strong>tüm kategoriler tamamlandığında</strong> bölüm kazanılır. Her kart bir kategoriye ait olduğundan bu an, tahtanın tamamen boşaldığı andır. Kazanma ekranı: kutlama, kalan hamle, (önerilen) yıldızlar, kazanılan krediler, "Sıradaki Bölüm".</p>
+<p>Bölümdeki <strong>tüm kategoriler tamamlandığında</strong> bölüm kazanılır. Her kart bir kategoriye ait olduğundan bu an, tahtanın tamamen boşaldığı andır. Kazanma ekranı: kutlama, kalan hamle, kazanılan krediler, "Sıradaki Bölüm".</p>
 
 <h3>9.2 Kaybetme — iki yol</h3>
 <ol>
@@ -465,8 +465,8 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
   <li>Geri alma bilgi kaybettirmez (açılmış kart bilgisi oyuncunun aklındadır); bu kabul edilmiş bir sonuçtur — ücretsiz "yeniden başla" da aynı bilgiyi verir.</li>
 </ul>
 
-<h3>10.2 Kredi kazanımı — başarımlar <span class="badge proposal">ÖNERİ</span></h3>
-<p>Aşağıdaki başlangıç seti ve değerler ayarlanabilir (tuning) verisidir; v1'de basit tetikleyiciler olarak kodlanır, ayrı bir başarım ekranı v1 sonrasında eklenir:</p>
+<h3>10.2 Kredi kazanımı — başarımlar <span class="badge user">KULLANICI KARARI</span></h3>
+<p>Aşağıdaki set v1.1'de onaylanmıştır; değerler ayarlanabilir (tuning) veridir ve yayın öncesi kalibre edilir. v1'de basit tetikleyiciler olarak kodlanır, ayrı bir başarım ekranı v1 sonrasında eklenir:</p>
 <div class="tablewrap"><table>
   <tr><th>Başarım</th><th>Koşul</th><th style="width:90px">Ödül</th></tr>
   <tr><td>Hoş geldin</td><td>Yeni oyuncu başlangıç bakiyesi</td><td>3 kredi</td></tr>
@@ -545,7 +545,7 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
 <h3>12.2 Kalite kuralları</h3>
 <ul>
   <li><strong>Tekillik (sert kural):</strong> Aynı kelime iki kategorinin listesinde yer alıyorsa bu <em>sert çakışmadır</em>; doğrulama aracı bunu üretimde otomatik yakalar ve o iki kategori aynı bölümde asla birlikte seçilmez (tercihen içerik düzeltilir). Bir bölümdeki her kelime, o bölümdeki <strong>tam olarak bir</strong> kategoriye ait olmalıdır. <span class="badge derived">TÜRETİLMİŞ</span></li>
-  <li><strong>Yumuşak çakışma:</strong> Kelime listeleri kesişmese de anlamca komşu kategoriler (<code>softConflicts</code>) elle işaretlenir; düşük zorlukta birlikte seçilmez, yüksek zorlukta bilinçli tuzak olarak birlikte gelebilir. <span class="badge proposal">ÖNERİ</span></li>
+  <li><strong>Yumuşak çakışma:</strong> Kelime listeleri kesişmese de anlamca komşu kategoriler (<code>softConflicts</code>) elle işaretlenir; düşük zorlukta birlikte seçilmez, yüksek zorlukta bilinçli tuzak olarak birlikte gelebilir. <span class="badge user">KULLANICI KARARI</span> <em>(v1.1)</em></li>
   <li><strong>Türkçe normalizasyon:</strong> Karşılaştırmalar Türkçe locale ile yapılır (İ/i, I/ı büyük-küçük dönüşümleri); kartlarda kelimeler ilk harfi büyük gösterilir; kategori adları KÜÇÜK BÜYÜK fark etmeksizin tekil <code>id</code> ile anılır.</li>
   <li>Kelimeler tek kelime veya en fazla iki kelimelik yerleşik ifadeler olmalı; herkesçe bilinir, güncel, kültürel olarak kapsayıcı; marka adı ve özel isim ancak kategori bunu gerektiriyorsa (örn. "Türkiye'deki Şehirler").</li>
   <li>Kategori adı, üyeliği <em>tanımlayacak kadar net</em> olmalı: "İçecekler" iyi; "Güzel Şeyler" belirsiz, kabul edilmez.</li>
@@ -568,10 +568,10 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
              ├──► Nasıl Oynanır?        Oyun Ekranı ◄──── "Sıradaki bölüm"
              └──► Ayarlar                │        │
                                 Kazanma diyaloğu  Kayıp diyaloğu
-                                (yıldız/kredi)    (geri al & devam / yeniden)</code></pre>
+                                (kredi kazanımı)  (geri al & devam / yeniden)</code></pre>
 <ul>
   <li><strong>Bölüm ilerleyişi sıralıdır:</strong> Bölüm N tamamlanmadan N+1 açılmaz. Tamamlanan bölümler yeniden oynanabilir.</li>
-  <li><strong>Devam etme:</strong> Yarım kalan bölüm, uygulama kapatılsa bile kaldığı yerden sürer (durum anlık kaydedilir). <span class="badge proposal">ÖNERİ</span></li>
+  <li><strong>Devam etme:</strong> Yarım kalan bölüm, uygulama kapatılsa bile kaldığı yerden sürer (durum anlık kaydedilir). <span class="badge user">KULLANICI KARARI</span> <em>(v1.1)</em></li>
   <li><strong>Öğretici:</strong> İlk 3 bölüm rehberlidir (vurgulu ok/maske ile "desteden kart çek", "elmayı çileğin üzerine koy" gibi yönlendirme) + menüden erişilen kısa resimli "Nasıl Oynanır" sayfası.</li>
 </ul>
 
@@ -599,11 +599,11 @@ web hedefinde geliştirilir ve oynanır; oyun oturduktan sonra Android/iOS paket
 </table></div>
 <p>Tüm animasyonlar kesilebilir (oyuncu beklemek zorunda kalmaz) ve sistemin "animasyonları azalt" tercihine saygı duyar.</p>
 
-<h3>13.4 Görsel yön <span class="badge proposal">ÖNERİ</span></h3>
-<p>Sıcak, kağıt/kitap esintili bir tema: krem zemin üzerinde hafif dokulu beyaz kartlar, mürekkep yeşili vurgu rengi, yumuşak gölgeler, okunabilirliği yüksek bir sans-serif (gömülü font, tam Türkçe glif desteği). Kategori kartları koyu zeminli ve rozetli. Karanlık tema v1'de desteklenir. Kesin sanat yönü, Faz 3 başında örnek ekranlarla onaya sunulur.</p>
+<h3>13.4 Görsel yön <span class="badge user">KULLANICI KARARI</span></h3>
+<p>Sıcak, kağıt/kitap esintili bir tema (v1.1'de onaylandı): krem zemin üzerinde hafif dokulu beyaz kartlar, mürekkep yeşili vurgu rengi, yumuşak gölgeler, okunabilirliği yüksek bir sans-serif (gömülü font, tam Türkçe glif desteği). Kategori kartları koyu zeminli ve rozetli. Karanlık tema v1'de desteklenir. Somut örnek ekranlar Faz 3 başında ayrıca onaya sunulur.</p>
 
-<h3>13.5 Yıldız sistemi <span class="badge proposal">ÖNERİ</span></h3>
-<p>Kazanılan bölümde kalan hamle oranına göre 1–3 yıldız: ★★★ kalan ≥ %30, ★★ kalan ≥ %10, ★ kazanmak. Yıldızlar bölüm listesinde görünür, "Verimli" başarımını besler. Reddedilirse kayıp yalnızca kozmetiktir.</p>
+<h3>13.5 Yıldız sistemi — yok <span class="badge user">KULLANICI KARARI</span></h3>
+<p>v1.1'de karara bağlandı: yıldız sistemi <strong>olmayacak</strong>; bölüm sonucu yalnızca kazanmak/kaybetmektir. Verimlilik ödülü yıldız yerine "Verimli" başarımıyla (hamle limitinin ≤%60'ı ile bitirme, §10.2) verilir. İleride fikir değişirse geriye dönük hesaplanabilsin diye kalıcı kayıt şemasında bölüm başına <code>bestMovesLeft</code> (en iyi kalan hamle) alanı yine de tutulur.</p>
 
 <h3>13.6 Erişilebilirlik</h3>
 <ul>
@@ -753,26 +753,35 @@ isDeadlocked(GameState) → bool</code></pre>
   <tr><td>K13</td><td>Çıkmaz tanımı: tahtayı değiştiren hiçbir legal yerleştirmenin (deste/atık dahil) kalmaması</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
   <tr><td>K14</td><td>Bölümler materyalize edilir; içerik değişikliği yayınlanmış bölümü etkilemez</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
   <tr><td>K15</td><td>UI ipucu sızdırmaz: kelime kartına hedef vurgusu ve otomatik oynatma yok</td><td><span class="badge derived">TÜRETİLMİŞ</span></td></tr>
-  <tr><td>K16</td><td>Yıldız sistemi, başarım seti, zorluk eğrisi değerleri, animasyon envanteri, görsel yön, paket seçimleri, devam-etme</td><td><span class="badge proposal">ÖNERİ</span></td></tr>
+  <tr><td>K16</td><td>Yıldız sistemi <strong>yok</strong>; verimlilik ödülü "Verimli" başarımıyla verilir (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K17</td><td>Kredi ekonomisi: başlangıç 3 kredi + §10.2 başarım seti (değerler tuning verisi) (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K18</td><td>Slot sayacı <strong>toplanan/toplam</strong> formatında (örn. <code>2/6</code>) (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K19</td><td>Oyun-ortası <strong>devam etme var</strong>: her hamlede otomatik kayıt (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K20</td><td>Yakın anlamlı <strong>tuzak kategoriler</strong> yüksek bölümlerde bilinçli zorluk öğesi (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K21</td><td>Görsel yön: <strong>sıcak kağıt/kitap</strong> teması; örnek ekranlar Faz 3 başında onaya gelir (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K22</td><td>Oyun adı: <strong>"Manasal Solitaire"</strong> (mağaza adı yayın öncesi son kez gözden geçirilir) (v1.1)</td><td><span class="badge user">KULLANICI</span></td></tr>
+  <tr><td>K23</td><td>Zorluk eğrisi sayıları, animasyon envanteri süreleri, paket seçimleri — faz içinde netleşen tuning/teknik ayrıntılar</td><td><span class="badge proposal">ÖNERİ</span></td></tr>
 </table></div>
 
 <!-- ============================================================ -->
-<h2 id="onay"><span class="no">17.</span>Onay Bekleyen Maddeler</h2>
-<p>Aşağıdakiler spesifikasyonun <span class="badge proposal">ÖNERİ</span> rozetli kısımlarıdır; onayın (veya değişiklik talebin) sonrasında rozetleri KULLANICI KARARI'na çevrilecek:</p>
+<h2 id="onay"><span class="no">17.</span>Onay Maddeleri — v1.1'de Karara Bağlandı</h2>
+<p>v1.0'da onay bekleyen 7 madde, 15 Temmuz 2026 soru-cevap turunda ürün sahibi tarafından karara bağlanmış ve ilgili bölümlere işlenmiştir:</p>
 <ol>
-  <li><strong>Yıldız sistemi</strong> (§13.5): kalan hamle oranına göre 1–3 yıldız — kalsın mı?</li>
-  <li><strong>Kredi ekonomisi</strong> (§10.2): başlangıç 3 kredi + başarım seti ve değerleri.</li>
-  <li><strong>Sayaç formatı teyidi</strong> (§3.2): slotta <code>toplanan/kalan</code> (örn. 6 kelimede 2 toplandıysa <code>2/4</code>). Alternatif <code>2/6</code> (toplanan/toplam) olurdu — brief'e sadık kalındı, teyit istenir.</li>
-  <li><strong>Oyun-ortası devam etme</strong> (§13.1): uygulama kapansa da bölüm kaldığı yerden sürsün — kalsın mı?</li>
-  <li><strong>Yakın anlamlı tuzak kategoriler</strong> (§11.4): yüksek bölümlerde bilinçli zorluk öğesi — kalsın mı?</li>
-  <li><strong>Görsel yön</strong> (§13.4): sıcak kağıt/kitap teması — bu yönde ilerlensin mi? (Faz 3'te örneklerle tekrar onaya gelir.)</li>
-  <li><strong>Çalışma adı:</strong> "Manasal Solitaire" — şimdilik bu adla mı ilerleyelim?</li>
+  <li><strong>Yıldız sistemi:</strong> <span style="color:var(--danger)">Olmayacak</span> (§13.5, K16). Verimlilik ödülü "Verimli" başarımıyla verilir; <code>bestMovesLeft</code> alanı geleceğe dönük saklanır.</li>
+  <li><strong>Kredi ekonomisi:</strong> Öneri onaylandı — başlangıç 3 kredi + §10.2 başarım seti; değerler tuning verisi (K17).</li>
+  <li><strong>Sayaç formatı:</strong> <code>toplanan/toplam</code> seçildi (örn. <code>2/6</code>); brief'teki "toplanan/kalan" bilinçli olarak revize edildi (§3.2, K18).</li>
+  <li><strong>Oyun-ortası devam etme:</strong> Var (§13.1, K19).</li>
+  <li><strong>Yakın anlamlı tuzak kategoriler:</strong> Var — 21+ bölümlerde nadir, 51+ bölümlerde düzenli (§11.4, §12.2, K20).</li>
+  <li><strong>Görsel yön:</strong> Sıcak kağıt/kitap teması; somut ekranlar Faz 3 başında ayrıca onaya gelir (§13.4, K21).</li>
+  <li><strong>Oyun adı:</strong> "Manasal Solitaire" (K22).</li>
 </ol>
 
 </main>
 
 <footer>
-  Manasal Solitaire — Oyun Spesifikasyonu v1.0 · 15 Temmuz 2026 · Değişiklikler bu dosyada sürümlenir (v1.1, v1.2, …).
+  Manasal Solitaire — Oyun Spesifikasyonu · Değişiklikler bu dosyada sürümlenir.<br>
+  <strong>v1.0</strong> — 15 Temmuz 2026: İlk sürüm (soru-cevap turu 1-2 kararlarıyla).<br>
+  <strong>v1.1</strong> — 15 Temmuz 2026: §17 maddeleri karara bağlandı — yıldız yok (K16), kredi seti onaylı (K17), sayaç toplanan/toplam (K18), devam etme var (K19), tuzak kategoriler var (K20), kağıt/kitap teması (K21), ad "Manasal Solitaire" (K22). Durum: <strong>Onaylandı</strong>.
 </footer>
 
 </body>

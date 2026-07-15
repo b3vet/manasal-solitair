@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 2 — İçerik Kütüphanesi ve Bölüm Üretim Hattı</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+.callout.info { background:var(--accent-soft); border-color:var(--accent); }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 2 — İçerik Kütüphanesi ve Bölüm Üretim Hattı</h1>
+  <div class="meta">Büyüklük: <strong>L</strong> · Ön koşul: <strong>Faz 1</strong> (içerik yazımı Faz 1 ile paralel başlar) · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §11–§12</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Oyunun hammaddesini üretmek: (a) ≥60 kategorilik, ≥1.000 kelimelik, doğrulanmış Türkçe içerik havuzu;
+(b) bu havuzdan sabit tohumla bölüm üreten, her bölümün çözülebilirliğini çözücüyle kanıtlayan ve
+hamle limitini hesaplayan üretim hattı; (c) 100 materyalize bölümlük <code>levels.json</code>.</p>
+
+<h2>2. Çıktılar</h2>
+<ul>
+  <li><code>assets/content/categories.json</code> (≥60 kategori) + doğrulayıcı CLI.</li>
+  <li><code>lib/generator/</code>: zorluk eğrisi, üretici, çözücü.</li>
+  <li><code>bin/generate_levels.dart</code> CLI + <code>assets/levels/levels.json</code> (100 bölüm) + insan-okunur üretim raporu.</li>
+  <li>Uygulama içi yükleyiciler (<code>content/loader.dart</code>, <code>levels repository</code>).</li>
+</ul>
+
+<h2>3. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:200px">Görev</th><th>Detay ve teknik notlar</th><th style="width:250px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F2.1</td>
+    <td>İçerik şeması ve doğrulayıcı</td>
+    <td>Şema spec §12.1. <code>lib/content/validator.dart</code> + <code>bin/validate_content.dart</code>: id benzersizliği; kategori içi kelime benzersizliği (trLower ile); <strong>kategoriler arası sert çakışma taraması</strong> (aynı normalize kelime 2 kategoride → hata, K/spec §12.2); kelime sayısı ≥18; difficulty ∈ 1..3; softConflicts simetrik ve geçerli id; kelime uzunluk raporu (en uzunlar — UI taşma denetimi için).</td>
+    <td>Doğrulayıcı bilinen hatalı örnekleri yakalıyor (test fixture'larıyla); CI adımı olarak koşuyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.2</td>
+    <td>İçerik yazımı — pilot 20 kategori</td>
+    <td>Bariz zorlukta ağırlıklı ilk parti (Renkler, Hayvanlar, Meyveler, Sebzeler, Şehirler, Meslekler, Taşıtlar, Giysiler, İçecekler, Müzik Aletleri, Spor Dalları, Mutfak Eşyaları, Sayılar, Aylar, Organlar, Duygular, Çiçekler, Deniz Canlıları, Okul Eşyaları, Tatlılar). Kategori başına 18–25 kelime; kalite kuralları spec §12.2. <strong>Ürün sahibi onayına sunulur</strong> (okunabilir liste dökümü) — ton/zorluk kalibrasyonu buradan çıkar.</td>
+    <td>Doğrulayıcı temiz; <span style="color:var(--danger);font-weight:600">KULLANICI ONAYI alındı</span>.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.3</td>
+    <td>İçerik yazımı — kalan 40+ kategori</td>
+    <td>Pilot geri bildirimiyle kalan havuz yazılır; difficulty 2–3 kategoriler (Baharatlar, Elementler, Burçlar, Akrabalık Terimleri, Hava Olayları, Yapı Türleri, Takılar, Ağaçlar, Böcekler, Kuşlar, Aletler, Mobilyalar…) ve softConflict çiftleri işaretlenir (Meyveler↔Sebzeler, Kuşlar↔Deniz Canlıları↔Böcekler, Şehirler↔Ülkeler…).</td>
+    <td>≥60 kategori, ≥1.000 kelime; doğrulayıcı temiz; softConflict grafiği raporlandı.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.4</td>
+    <td>Zorluk eğrisi konfigürasyonu</td>
+    <td><code>lib/generator/curve.dart</code>: bölüm aralığı → parametreler (kategori sayısı aralığı, kelime/kategori aralığı, tableau doluluk oranı, pay çarpanı, softConflict izni, kilitli-başlangıç izni, rotasyon penceresi=8). Başlangıç değerleri spec §11.4; tek dosyada, yorumlu, kolay tuning.</td>
+    <td>Eğri birim testli (sınır bölüm numaraları doğru parametre veriyor).</td>
+  </tr>
+  <tr>
+    <td class="id">F2.5</td>
+    <td>Bölüm üreticisi</td>
+    <td><code>lib/generator/level_generator.dart</code>. Girdi: havuz + bölüm no + tohum. PRNG fork akışları: kategori seçimi / kelime örnekleme / dağıtım (determinizm izolasyonu). Adımlar: (1) rotasyon penceresi + sert çakışma + softConflict kuralına göre kategori seç; (2) kategori başına kelime alt kümesi örnekle; (3) desteyi kur ve dağıt — kolon deseni havuzundan seç (örn. <code>[3,4,4,5,6]</code>, <code>[4,4,5,5,5]</code>…), toplam kartların ~%55–65'i tableau'ya, üstler açık, kalan deste; (4) <code>LevelDef</code> üret.</td>
+    <td>Aynı (havuz, bölüm, tohum) → bit-bit aynı LevelDef (derin eşitlik testi); üretilen bölüm motor <code>deal</code>'inden geçiyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.6</td>
+    <td>Çözücü</td>
+    <td><code>lib/generator/solver.dart</code>. Arama: ağırlıklı A* (ağırlık ~1.5, optimal şart değil — bulunan çözüm üst sınır güvencesi). <strong>Makro çekiş:</strong> "k kez çek + atıktan oyna" tek dal olarak genişletilir (maliyet k+1) — derinliği dramatik kısaltır; devir de makroya dahil. Budamalar: son hamlenin tersi yasak; eş durum tespiti (kanonik özet: kolon imzaları sıralı çoklu-küme + deste/atık dizisi + slot durumu) transposition set ile; eşdeğer boş kolonlar tekilleştirilir. Sezgisel (admissible değil, hızlı): toplanmamış kart sayısı / ortalama zincir uzunluğu + açılmamış kategori sayısı. Bütçe: aday başına 250k düğüm veya 10 sn; aşarsa aday elenir. Çıktı: <code>SolveResult{solved, moveCount, nodes, elapsed}</code>.</td>
+    <td>Fixture bölümleri çözüyor (bilinen çözüm uzunluğuna ≤ +%25 yakınlıkla); 1–50 arası eğri parametreli adayların ≥%80'i ilk tohumda çözülüyor (verim ölçümü raporda).</td>
+  </tr>
+  <tr>
+    <td class="id">F2.7</td>
+    <td>Üretim hattı CLI</td>
+    <td><code>bin/generate_levels.dart --count 100 --out assets/levels/levels.json --report build/levels_report.md</code>. Akış spec §11.2: eğri → aday → çöz → <code>moveLimit = ceil(len × pay)</code> → materyalize yaz. Başarısız adayda tohum yenile (log'la). Rapor satırı: bölüm no, tohum, kategoriler(+kelime sayıları), toplam kart, çözüm uzunluğu, limit, düğüm/süre, deneme sayısı. Bölüm 1–3 için <strong>elle seçilmiş tohumlar</strong> sabitlenir (öğretici senaryosuna uygun dağılımlar — Faz 4 girdisi).</td>
+    <td>100 bölüm &lt;10 dk'da üretiliyor; rapor okunur; bölüm 1–3 tohumları işaretli.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.8</td>
+    <td>Uygulama yükleyicileri</td>
+    <td><code>content/loader.dart</code> (asset'ten havuz), <code>content/levels_repository.dart</code> (levels.json → LevelDef listesi; yapısal bütünlük kontrolleri: id'ler, kart sayıları, sayaç toplamları). Hata durumunda güvenli fallback + anlaşılır hata (Faz 5 dayanıklılıkla derinleşir).</td>
+    <td>Yükleme birim testli; bozuk JSON fixture'ı düzgün hata veriyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F2.9</td>
+    <td>Doğrulama testleri ve CI entegrasyonu</td>
+    <td>CI'ya: içerik doğrulayıcı + üretici determinizm testi + <strong>örneklem çözülebilirlik</strong> (20 rastgele-sabit bölüm çözücüden yeniden geçirilir; 100'ün tamamı yalnızca üretim anında ve elle tetiklenen workflow'da). Bölüm kalite dökümü (3-5 örnek bölümün insan-okunur özeti) ürün sahibine sunulur.</td>
+    <td>CI süresi kabul edilebilir (&lt;5 dk); <span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: bölüm kalitesi</span>.</td>
+  </tr>
+</table></div>
+
+<h2>4. Üretim Hattı Akışı (özet)</h2>
+<pre><code>havuz (categories.json)
+   │  doğrulayıcı (sert çakışma, hacim, normalize)
+   ▼
+eğri(bölümNo) ──► kategori seç ──► kelime örnekle ──► dağıt ──► ÇÖZ ──► limit = ceil(len × pay)
+      ▲                │  rotasyon penceresi              │ başarısız: tohum yenile
+      │                └── softConflict kuralı            ▼
+   tuning verisi                                   levels.json + rapor (materyalize)</code></pre>
+
+<div class="callout info"><strong>Neden materyalize?</strong> (spec K14) Bölümler kart kart yazılır; içerik havuzunda
+sonradan yapılan düzeltmeler yayınlanmış bölümleri değiştirmez. Tohum yalnızca yeniden üretim/tanılama içindir.</div>
+
+<h2>5. Dosya Haritası</h2>
+<pre><code>assets/content/categories.json          (F2.2, F2.3)
+assets/levels/levels.json               (F2.7)
+bin/validate_content.dart               (F2.1)
+bin/generate_levels.dart                (F2.7)
+lib/content/ schema.dart · validator.dart · loader.dart · levels_repository.dart
+lib/generator/ curve.dart · level_generator.dart · solver.dart
+test/content/* · test/generator/*       (F2.1, F2.5, F2.6, F2.9)
+build/levels_report.md                  (üretim çıktısı, commit'lenir)</code></pre>
+
+<h2>6. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>≥60 kategori / ≥1.000 kelime, doğrulayıcı temiz, pilot + tam havuz kullanıcı onaylı.</li>
+  <li>100 bölümlük <code>levels.json</code> + rapor üretildi; örneklem çözülebilirlik CI'da yeşil (M3).</li>
+  <li>Bölüm 1–3 öğretici tohumları sabitlendi ve elle oynanarak doğrulandı.</li>
+  <li>Üretici/çözücü determinizm testleri yeşil; motor API'sinde değişiklik gerekmedi (gerektiyse spec-önce işletildi).</li>
+</ul>
+
+<h2>7. Riskler</h2>
+<ul>
+  <li><strong>Çözücü verimi (R1):</strong> makro çekiş + ağırlıklı A* ilk savunma; yetmezse zorluk parametreleri daraltılır (daha az kategori/kelime), "kilitli başlangıç" gibi pahalı özellikler üst bölümlere itilir.</li>
+  <li><strong>İçerik kalitesi (R2):</strong> pilot onay turu tonu erken sabitler; sert çakışma otomasyonu insan hatasını yakalar; şüpheli kelimeler için <code>notes</code> alanı ve QA listesi tutulur.</li>
+  <li><strong>Limit dengesi (R4):</strong> pay çarpanları cömert başlar; rapor çözüm uzunluğu/limit oranını görünür kılar — tuning kanıta dayanır.</li>
+</ul>
+
+</main>
+<footer>Faz 2 — İçerik ve Üretim Hattı · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

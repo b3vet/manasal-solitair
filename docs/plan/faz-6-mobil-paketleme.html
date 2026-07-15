@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 6 — Mobil Paketleme ve Mağaza Hazırlığı</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 6 — Mobil Paketleme ve Mağaza Hazırlığı</h1>
+  <div class="meta">Büyüklük: <strong>M</strong> · Ön koşul: <strong>Faz 5</strong> · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §14.7, §15</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Web'de olgunlaşan oyunu Android ve iOS yayın paketlerine dönüştürmek; mağaza varlıklarını,
+gizlilik politikasını ve tekrarlanabilir bir sürüm sürecini hazırlamak (M6: mağaza adayı).</p>
+
+<h2>2. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:190px">Görev</th><th>Detay ve teknik notlar</th><th style="width:240px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F6.1</td>
+    <td>Android yayın yapılandırması</td>
+    <td><code>applicationId: com.manasal.solitaire</code> (kullanıcı teyidiyle); sürümleme <code>pubspec</code>'ten (<code>1.0.0+N</code>); portre kilidi manifest'te; adaptive icon (ön plan vektörü + arka plan rengi) ve splash (<code>flutter_native_splash</code>); imzalama: keystore üretim talimatı (kullanıcı sahipliğinde, <code>key.properties</code> git-ignore'lu; CI secret opsiyonu belgelenir); <code>flutter build appbundle --release</code>; R8/shrink varsayılanları doğrulanır.</td>
+    <td>İmzalı AAB üretiliyor; gerçek cihazda smoke turu (kurulum, oyun, kayıt kalıcılığı, ses/haptik) işaretli.</td>
+  </tr>
+  <tr>
+    <td class="id">F6.2</td>
+    <td>iOS yayın yapılandırması</td>
+    <td>Bundle id <code>com.manasal.solitaire</code>; ikon seti + LaunchScreen; portre kilidi (<code>UISupportedInterfaceOrientations</code>); privacy manifest (veri toplanmıyor); build yolları belgelenir: (a) kullanıcının Mac'inde <code>flutter build ipa</code>, (b) GitHub Actions macOS runner + imzalama secrets. Apple Developer hesabı gereksinimleri kontrol listesi; TestFlight dağıtım adımları.</td>
+    <td>Arşiv talimatı bir Mac'te baştan sona doğrulanabilir netlikte; CI yolu kurulacaksa çalışır durumda.</td>
+  </tr>
+  <tr>
+    <td class="id">F6.3</td>
+    <td>Web kalıcı dağıtım + PWA</td>
+    <td>GitHub Pages test dağıtımı sürer; PWA manifest (ad, tema rengi, ikonlar, portrait yönelim) ve temel offline önbellek — düşük maliyetli bonus kanal.</td>
+    <td>"Ana ekrana ekle" ile tam ekran açılıyor; offline ikinci açılış çalışıyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F6.4</td>
+    <td>Mağaza varlıkları ve politika</td>
+    <td>Nihai ad teyidi ("Manasal Solitaire", K22); TR kısa/uzun açıklama taslakları; ekran görüntüsü planı (6 sahne: tahta, süpürme, tamamlama, bölüm listesi, öğretici, karanlık tema) ve üretimi; öne çıkan görsel; kategori: Kart/Kelime; içerik derecelendirme anket cevapları (şiddet yok, veri yok); <code>docs/privacy.html</code>: veri toplanmadığını beyan eden statik gizlilik politikası (mağaza linki için).</td>
+    <td><span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: mağaza metaları</span>; tüm varlıklar depoda <code>store/</code> altında.</td>
+  </tr>
+  <tr>
+    <td class="id">F6.5</td>
+    <td>Sürüm süreci</td>
+    <td><code>docs/release-checklist.html</code>: sürüm artırma, changelog, tam test koşusu, üretim raporu doğrulama, AAB/IPA üretimi, mağaza yükleme adımları, etiketleme (<code>v1.0.0</code>). İlk sürüm bu listeyle çıkılır; liste yaşayan doküman olur.</td>
+    <td>Kontrol listesi eksiksiz; deneme koşusu (dry-run) yapıldı.</td>
+  </tr>
+</table></div>
+
+<div class="callout"><strong>Not (R7):</strong> iOS imzalama fiziksel olarak Mac/Apple hesabı gerektirir; bu fazın iOS çıktısı
+"çalışır talimat + hazır proje yapılandırması"dır. Android ve web yayını buna bağlı değildir ve önce çıkabilir.</div>
+
+<h2>3. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>İmzalı AAB + cihaz smoke turu tamam; iOS yapılandırması ve talimatı hazır (M6).</li>
+  <li>PWA/Pages dağıtımı yayında; gizlilik politikası ve mağaza varlıkları onaylı.</li>
+  <li>Sürüm kontrol listesi dry-run'dan geçti; depo <code>v1.0.0</code> etiketine hazır.</li>
+</ul>
+
+</main>
+<footer>Faz 6 — Mobil Paketleme · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 5 — Cila: Ses, Haptik, Performans, QA</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 5 — Cila: Ses, Haptik, Performans, Erişilebilirlik, QA</h1>
+  <div class="meta">Büyüklük: <strong>M–L</strong> · Ön koşul: <strong>Faz 4</strong> · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §13.3, §13.6, §14.7</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Çalışan oyunu "iyi hissettiren" oyuna çevirmek: ses ve haptik geri bildirim, 60fps hedefinin gerçek
+cihazlarda doğrulanması, erişilebilirlik, veri dayanıklılığı ve ürün sahibiyle birlikte içerik/denge QA'sı.</p>
+
+<h2>2. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:190px">Görev</th><th>Detay ve teknik notlar</th><th style="width:240px">Kabul kriterleri</th></tr>
+  <tr>
+    <td class="id">F5.1</td>
+    <td>Ses sistemi</td>
+    <td><code>audioplayers</code> tabanlı <code>SoundService</code>; web autoplay kilidi ilk dokunuşta açılır. SFX seti (CC0 kaynaklardan derlenir/uyarlanır, lisansları <code>assets/audio/LICENSES.md</code>'de): çekme, kart koyma, geçersiz, flip, süpürme (yükselen), kategori tamamlama (zil), kazanma, kayıp, düğme. Ayarlar anahtarına bağlı; ses dosyaları ön-yüklenir.</td>
+    <td>Her olayda doğru SFX; anahtar kapalıyken sessiz; web'de ilk dokunuş sonrası çalışıyor; lisans dosyası eksiksiz.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.2</td>
+    <td>Haptik</td>
+    <td>Eşleme: kart koyma → <code>lightImpact</code>; geçersiz → <code>mediumImpact</code>; kategori tamamlama → <code>heavyImpact</code>+kısa desen; kazanma → desen. Yalnız mobil; ayarlar anahtarlı.</td>
+    <td>Android/iOS'ta elle doğrulama listesi işaretlendi; web'de sessizce atlanıyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.3</td>
+    <td>Performans geçişi</td>
+    <td>DevTools profil: dağıtım, sürükleme, süpürme, tamamlama akışlarında frame süreleri. RepaintBoundary denetimi; Riverpod <code>select</code> denetimi (kart taşımada rebuild sayısı ölçülür); CanvasKit shader ısınması (ilk animasyon takılmasına karşı görünmez ısındırma sahnesi); bellek: uçuş katmanı sızıntı kontrolü.</td>
+    <td>Orta seviye Android'de ve web'de ana akışlar 60fps (profil kayıtları commit'lenir: <code>build/perf/</code>); rebuild bütçeleri not edildi.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.4</td>
+    <td>Erişilebilirlik</td>
+    <td>Sistem yazı ölçeği: kart içi sınırlı ölçek (0.9–1.3), ekranlar tam ölçek; kontrast ölçümü (tema tokenları AA); reduce-motion tam kapsama; Semantics: kartlar ("Elma, açık kart, 3. sütun, üstte"), düğmeler, sayaçlar; dokunma hedefleri ≥48dp denetimi.</td>
+    <td>Erişilebilirlik denetim listesi (spec §13.6) madde madde işaretli; TalkBack ile temel gezinme mümkün.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.5</td>
+    <td>Görsel cila</td>
+    <td>Karanlık tema ince ayarı; kart doku/gölge son hali; boş durumlar (boş slot/kolon mikro-animasyonları); en uzun kelimeler golden'ları (F2.1 raporundan); açılış ekranı geçişleri; HUD mikro-etkileşimleri.</td>
+    <td>Golden seti güncel; kullanıcı görsel turu geri bildirimi işlendi.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.6</td>
+    <td>Dayanıklılık</td>
+    <td>Bozuk kayıt senaryoları (yarım yazma, sürüm uyuşmazlığı) → kurtarma testleri; levels.json/categories.json yükleme hatası → kullanıcı dostu hata + yeniden dene; yerel hata günlüğü (halka arz öncesi crash raporlama kararı Faz 6 notu).</td>
+    <td>Hata enjeksiyon testleri yeşil; uygulama hiçbir bozuk veriyle açılışta çakılmıyor.</td>
+  </tr>
+  <tr>
+    <td class="id">F5.7</td>
+    <td>İçerik ve denge QA'sı</td>
+    <td>Örneklem oynanış turu (bölüm 1–20 tam, 21–100 örneklem): zorluk hissi, limit bolluğu/darlığı, tuzak çiftlerin adilliği; kelime düzeltme listesi → içerik güncellenir → <strong>etkilenen bölümler yeniden üretilir</strong> (rapor diff'iyle). Kredi ekonomisi gerçek verilerle gözden geçirilir (kaç bölümde kaç kredi).</td>
+    <td><span style="color:var(--danger);font-weight:600">KULLANICI ONAYI: içerik son onayı + denge</span>; yeniden üretim raporu temiz.</td>
+  </tr>
+</table></div>
+
+<h2>3. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>Ses/haptik tam, ayarlara bağlı, lisansları belgeli.</li>
+  <li>Performans kayıtları hedefleri karşılıyor; erişilebilirlik listesi tamam.</li>
+  <li>Dayanıklılık testleri yeşil; içerik son onayı alındı.</li>
+  <li>Web dağıtımı güncel — Faz 6'ya "yayınlanabilir kalite" ile giriliyor.</li>
+</ul>
+
+<h2>4. Riskler</h2>
+<ul>
+  <li><strong>SFX kaynak kalitesi:</strong> CC0 setlerde tutarlı ses ailesi bulmak zaman alabilir — erken derlenir, kullanıcıya kısa bir dinleme turu yaptırılır.</li>
+  <li><strong>Denge turu büyüyebilir:</strong> QA bulguları içerik yeniden üretimini tetikler; materyalize + rapor diff'i sayesinde etki izlenebilir kalır.</li>
+</ul>
+
+</main>
+<footer>Faz 5 — Cila · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>

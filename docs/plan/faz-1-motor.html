@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faz 1 — Oyun Motoru</title>
+<style>
+:root { --bg:#faf8f4; --surface:#fff; --ink:#26221c; --ink-soft:#5c554a; --accent:#0e7a6d; --accent-soft:#e0f2ef; --line:#e4ddd2; --code-bg:#f2efe8; --warn-bg:#fdf3dc; --warn-line:#e8c66a; --danger:#b3261e; }
+@media (prefers-color-scheme: dark) { :root { --bg:#191713; --surface:#211e19; --ink:#ece7de; --ink-soft:#b3a998; --accent:#4fc2b2; --accent-soft:#12332f; --line:#3a352c; --code-bg:#26221b; --warn-bg:#33290f; --warn-line:#8a6d1d; --danger:#ef8a84; } }
+* { box-sizing:border-box; }
+body { margin:0; padding:0 16px 80px; font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; font-size:16px; }
+main, header.doc { max-width:1000px; margin:0 auto; }
+header.doc { padding:40px 0 20px; border-bottom:3px solid var(--accent); }
+.crumb { font-size:.85rem; margin-bottom:10px; } .crumb a { color:var(--accent); text-decoration:none; } .crumb a:hover{text-decoration:underline;}
+h1 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.5px; }
+.meta { color:var(--ink-soft); font-size:.92rem; } .meta strong { color:var(--accent); }
+h2 { margin-top:44px; padding-bottom:6px; font-size:1.3rem; border-bottom:1px solid var(--line); }
+h3 { margin-top:28px; font-size:1.08rem; }
+p, li { max-width:80ch; }
+a { color:var(--accent); }
+code { background:var(--code-bg); padding:1px 6px; border-radius:5px; font-size:.86em; font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
+pre { background:var(--code-bg); border:1px solid var(--line); border-radius:10px; padding:14px 16px; overflow-x:auto; font-size:.84rem; line-height:1.5; }
+.tablewrap { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; margin:14px 0; font-size:.9rem; background:var(--surface); }
+th, td { border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top; }
+th { background:var(--accent-soft); font-weight:600; }
+td.id { font-family:ui-monospace,Menlo,monospace; font-size:.82rem; white-space:nowrap; color:var(--accent); font-weight:700; }
+.callout { background:var(--warn-bg); border:1px solid var(--warn-line); border-radius:10px; padding:12px 16px; margin:14px 0; }
+ul.dod { list-style:none; padding-left:0; } ul.dod li { padding-left:28px; position:relative; margin:6px 0; }
+ul.dod li::before { content:"☐"; position:absolute; left:0; color:var(--accent); font-size:1.1em; }
+footer { max-width:1000px; margin:56px auto 0; padding-top:14px; border-top:1px solid var(--line); color:var(--ink-soft); font-size:.85rem; }
+</style>
+</head>
+<body>
+<header class="doc">
+  <div class="crumb"><a href="../index.html">← Doküman Merkezi</a> · <a href="genel-plan.html">Genel Plan</a></div>
+  <h1>Faz 1 — Oyun Motoru</h1>
+  <div class="meta">Büyüklük: <strong>L</strong> · Ön koşul: <strong>Faz 0</strong> · Durum: <strong>Planlandı</strong> · Dayanak: <a href="../spec.html">Spec v1.1</a> §5–§10, §14.3–14.5</div>
+</header>
+<main>
+
+<h2>1. Amaç</h2>
+<p>Oyunun tüm kurallarını, Flutter'a hiç bağımlı olmayan, immutable, tamamen test edilmiş saf Dart
+motoru olarak gerçeklemek. Bu faz bittiğinde oyun "görünmez ama oynanabilir" durumdadır: her kural,
+her kenar durumu testlerle kanıtlanmıştır; çözücü (Faz 2) ve UI (Faz 3) bu motoru olduğu gibi kullanır.</p>
+
+<div class="callout"><strong>İlke:</strong> Kural matrisi (spec §6.2) test adlarıyla birebir eşlenir.
+Bir kural değişecekse önce spec değişir, sonra test, sonra kod. Motor hiçbir zaman spec'ten sapamaz.</div>
+
+<h2>2. Çıktılar</h2>
+<ul>
+  <li><code>lib/engine/</code>: modeller, hamleler, kural doğrulama, reducer, legal-move üreteci, çıkmaz tespiti, oturum (undo), serileştirme.</li>
+  <li><code>test/engine/</code>: kural matrisi + senaryo + fuzz/değişmez + serde testleri (motor coverage ≥ %95).</li>
+  <li>Elle yazılmış 2 sabit test bölümü (<code>test/fixtures/</code>): mini bölüm (2 kategori) ve dolu bölüm (5 kategori, kilitli başlangıç sütunlu) — Faz 3'ün de geliştirme malzemesi.</li>
+</ul>
+
+<h2>3. Çekirdek Tasarım</h2>
+
+<h3>3.1 Modeller</h3>
+<pre><code>// lib/engine/models/
+sealed class GameCard { final String id; }                    // id: "w:meyveler:3" | "c:meyveler"
+class WordCard extends GameCard { final String word; final String categoryId; }
+class CategoryCard extends GameCard { final String categoryId; final String name; final int totalInLevel; }
+
+class ColumnPile {           // bir tableau sütunu
+  final List&lt;GameCard&gt; faceDown;   // alt → üst
+  final List&lt;GameCard&gt; faceUp;     // alt → üst; DEĞİŞMEZ: CategoryCard varsa yalnızca son elemandır
+  bool get isLocked;               // faceUp.isNotEmpty && faceUp.last is CategoryCard
+}
+
+sealed class FoundationSlot {}
+class EmptySlot extends FoundationSlot {}
+class ActiveSlot extends FoundationSlot {
+  final CategoryCard card; final List&lt;WordCard&gt; collected;   // kart kimlikleri korunur (undo/serde)
+  bool get isComplete;             // collected.length == card.totalInLevel
+}
+
+class GameState {            // tamamen immutable; copyWith ile türetilir
+  final List&lt;ColumnPile&gt; columns;  // v1: 5, motorda parametrik
+  final List&lt;FoundationSlot&gt; slots;
+  final List&lt;GameCard&gt; stock;     // üst = son eleman
+  final List&lt;GameCard&gt; waste;
+  final int movesLeft; final int completedCount;
+  final GameStatus status;         // playing | won | lostOutOfMoves | lostDeadlock
+  final LevelDef level;
+}</code></pre>
+
+<h3>3.2 Hamleler ve birimler</h3>
+<pre><code>sealed class Move {}
+class Draw extends Move {}
+class Recycle extends Move {}
+class Place extends Move { final UnitRef unit; final TargetRef target; }
+
+sealed class UnitRef {}
+class ColumnUnit extends UnitRef { final int column; final int startIndex; } // faceUp içi indeks
+class WasteUnit extends UnitRef {}
+
+sealed class TargetRef {}
+class ColumnTarget extends TargetRef { final int column; }
+class FoundationTarget extends TargetRef { final int slot; }</code></pre>
+<p><code>unitCards(state, unit)</code> birimi çözümler ve <strong>tutulabilirlik</strong> kuralını uygular:
+U1 = <code>startIndex</code>'ten tepeye kesintisiz aynı kategori kelimeleri; U2 = aynı şey + tepede o
+kategorinin kartı; U3 = atık üstü tek kart. Aksi her şey <code>V_NOT_A_UNIT</code>.</p>
+
+<h3>3.3 Kural ihlal kodları (doğrulayıcının sözlüğü)</h3>
+<div class="tablewrap"><table>
+  <tr><th style="width:220px">Kod</th><th>Anlam (spec referansı)</th></tr>
+  <tr><td class="id">V_NOT_A_UNIT</td><td>Tutulmak istenen kartlar geçerli bir birim değil (§6.1)</td></tr>
+  <tr><td class="id">V_TARGET_LOCKED</td><td>Hedef sütun kilitli (§6.2, kilit kuralı)</td></tr>
+  <tr><td class="id">V_CAT_MISMATCH_COLUMN</td><td>Hedef sütunun üst kartıyla kategori uyuşmuyor (K1/K5)</td></tr>
+  <tr><td class="id">V_EMPTY_SLOT_NEEDS_CAT</td><td>Boş toplama slotuna kelime birimi koyulamaz (§6.2)</td></tr>
+  <tr><td class="id">V_ACTIVE_SLOT_NO_CAT</td><td>Aktif slota kategori kartı içeren birim koyulamaz (§6.2)</td></tr>
+  <tr><td class="id">V_CAT_MISMATCH_SLOT</td><td>Kelime birimi, aktif slotun kategorisiyle uyuşmuyor (§8.2)</td></tr>
+  <tr><td class="id">V_DRAW_EMPTY</td><td>Deste boşken çekilemez (devir gerekir) (§7)</td></tr>
+  <tr><td class="id">V_RECYCLE_INVALID</td><td>Devir yalnızca deste boş + atık doluyken (K3)</td></tr>
+  <tr><td class="id">V_NO_MOVES_LEFT</td><td>Hamle hakkı 0 — hiçbir eylem yapılamaz (§9.2)</td></tr>
+  <tr><td class="id">V_GAME_OVER</td><td>Statü playing değil</td></tr>
+</table></div>
+
+<h3>3.4 Reducer ve olaylar</h3>
+<pre><code>class ApplyResult { final GameState next; final List&lt;GameEvent&gt; events; }
+apply(GameState, Move) → Result&lt;ApplyResult, RuleViolation&gt;
+
+// GameEvent — UI animasyon kuyruğunun dili (Faz 3 bunları oynatır):
+Drew(card) | Recycled(count) | UnitPlaced(unit, from, to)
+| Flipped(column, card)                 // otomatik, bedava (§7)
+| SlotActivated(slot, category, sweptWords)   // süpürmeyle gelen kelimeler dahil (§8.1)
+| WordsCollected(slot, words)
+| CategoryCompleted(slot, category)     // slot boşaldı (§8.3)
+| GameWon | GameLost(reason)</code></pre>
+<p>Uygulama sırası: doğrula → hamleyi uygula → <code>movesLeft--</code> → otomatik çevirme →
+tamamlama kontrolü → kazanma kontrolü → (playing ise) hamle-bitti / çıkmaz kontrolü → olay listesi.</p>
+
+<h3>3.5 Legal hamleler ve çıkmaz</h3>
+<pre><code>legalMoves(state)   // tüm geçerli Place + Draw/Recycle; UI ve çözücü ortak kullanır
+isDeadlocked(state) // spec §9.3: (1) hiçbir legal Place yok VE
+                    // (2) stock ∪ waste'teki hiçbir kartın tahtada geçerli hedefi yok</code></pre>
+
+<h3>3.6 Oturum, geri alma, serileştirme</h3>
+<ul>
+  <li><code>GameSession</code>: <code>LevelDef</code> + oynanmış <code>List&lt;Move&gt;</code> + durum yığını. <code>play(move)</code>, <code>undo()</code> (son hamleyi düşürür; motor sınırsız destekler, kredi kontrolü Faz 4'ün işi). Kayıp durumundan <code>undo()</code> statüyü <code>playing</code>'e döndürür ("geri al &amp; devam et", spec §9.4).</li>
+  <li><strong>Kalıcı kayıt formatı = replay:</strong> <code>{levelId, moves:[...]}</code>. Yüklerken baştan oynatılır (motor deterministik). Küçük, sürüm-dayanıklı, spec K14 ile uyumlu. Anlık durum yığını yalnızca bellekte tutulur (O(1) undo).</li>
+  <li><code>serde.dart</code>: <code>LevelDef</code>/<code>Move</code>/kayıt JSON gidiş-dönüşü. <code>GameState</code> için de tanılama amaçlı toJson (golden/debug).</li>
+</ul>
+
+<h2>4. Görevler</h2>
+<div class="tablewrap"><table>
+  <tr><th style="width:60px">ID</th><th style="width:200px">Görev</th><th>Detay</th><th style="width:250px">Kabul kriterleri</th></tr>
+  <tr><td class="id">F1.1</td><td>Modeller</td><td>§3.1'deki tipler + <code>LevelDef</code> (materyalize dağılım: kolonlar, deste, kategori bilgileri, moveLimit, seed) + <code>GameState.deal(LevelDef)</code> kurucusu.</td><td>Fixture bölümden deal edilen durum el hesabıyla birebir; değişmezler assert'lü.</td></tr>
+  <tr><td class="id">F1.2</td><td>Birim çözümleme</td><td><code>unitCards</code> + U1/U2/U3 tutulabilirlik; zincir kesme kuralları (araya farklı kategori → kesilir).</td><td>Birim testleri: zincir 1..n, karışık yığında kesme, süpürme birimi (zincirli/zincirsiz), atık üstü.</td></tr>
+  <tr><td class="id">F1.3</td><td>Kural doğrulama</td><td><code>validate(state, move)</code> — §3.3 kod sözlüğüyle; yerleştirme matrisi §6.2'nin tamamı.</td><td>Matris testleri (aşağıda) tümü yeşil; her ihlal doğru kodu döndürüyor.</td></tr>
+  <tr><td class="id">F1.4</td><td>Reducer</td><td><code>apply</code> + olay üretimi + otomatik çevirme + tamamlama + statü geçişleri (§3.4 sırası).</td><td>Senaryo testleri (aşağıda) yeşil; olay listeleri beklenen sırada.</td></tr>
+  <tr><td class="id">F1.5</td><td>Legal hamleler + çıkmaz</td><td><code>legalMoves</code>, <code>isDeadlocked</code> (§3.5). Performans: tipik durumda &lt;1ms (çözücü sıcak döngüsü).</td><td>Çıkmaz pozitif/negatif senaryoları; legalMoves = validate ile tutarlı (fuzz'da çapraz kontrol).</td></tr>
+  <tr><td class="id">F1.6</td><td>Oturum ve geri alma</td><td><code>GameSession</code>: play/undo/canUndo, kayıptan geri dönüş, hamle geçmişi.</td><td>Her hamle tipi için apply→undo = özdeş durum (derin eşitlik) testi.</td></tr>
+  <tr><td class="id">F1.7</td><td>Serileştirme</td><td>LevelDef/Move/kayıt JSON; replay yükleyici; şema sürüm alanı.</td><td>Gidiş-dönüş testleri; 200 hamlelik replay &lt;50ms.</td></tr>
+  <tr><td class="id">F1.8</td><td>Test fixture bölümleri</td><td>Mini (2 kategori, 12 kart) ve dolu (5 kategori, ~28 kart, kilitli başlangıç sütunu, atıkta kategori kartı senaryosu) elle kurgulanır; Faz 3'ün geliştirme malzemesi.</td><td>Her ikisi elle çözülüp çözüm hamle listesi teste gömüldü (replay ile kazanılıyor).</td></tr>
+  <tr><td class="id">F1.9</td><td>Fuzz ve değişmezler</td><td>PRNG'li rastgele legal hamle yürüyüşü: 1.000 oyun × ≤200 hamle. Değişmezler her adımda doğrulanır.</td><td>Fuzz sıfır ihlalle geçiyor; CI süresi &lt;60sn.</td></tr>
+</table></div>
+
+<h2>5. Test Planı — kural matrisi eşlemesi</h2>
+<p>Her hücre en az bir pozitif ve (geçersizse) bir negatif test alır. Adlandırma: <code>matrix_&lt;birim&gt;_&lt;hedef&gt;_&lt;beklenti&gt;</code>.</p>
+<div class="tablewrap"><table>
+  <tr><th>Test grubu</th><th>Kapsanan durumlar</th></tr>
+  <tr><td class="id">matrix_u1_*</td><td>Kelime zinciri → dolu sütun (eşleşen ✓ / eşleşmeyen ✗), boş sütun ✓, kilitli sütun ✗, boş slot ✗, aktif slot (eşleşen ✓ tümü toplanır / eşleşmeyen ✗)</td></tr>
+  <tr><td class="id">matrix_u2_*</td><td>Süpürme birimi → eşleşen zincirli sütun ✓ (kilitlenir), boş sütun ✓ (kilitlenir), eşleşmeyen sütun ✗, kilitli ✗, boş slot ✓ (kelimeler toplanır: 0'lı ve n'li), aktif slot ✗</td></tr>
+  <tr><td class="id">matrix_u3w_*</td><td>Atıktan kelime → 5 hedef (U1 ile aynı beklentiler, tek kart)</td></tr>
+  <tr><td class="id">matrix_u3c_*</td><td>Atıktan kategori kartı → eşleşen sütun ✓ (kilit), eşleşmeyen ✗, boş sütun ✓ (kilit), boş slot ✓ (0/N), aktif slot ✗</td></tr>
+  <tr><td class="id">scenario_*</td><td>Süpürme (§8 örneği birebir: 7 hamlelik akış), tamamlama + slot boşalması + yeni kategoriye açılış, kilitli başlangıç sütunu, devir sıra korunumu (çek-çek-devir-çek aynı kartlar), hamle düşümleri (her eylem 1; otomatikler 0), kazanma (tahta boş), hamle bitince kayıp, çıkmaz kaybı</td></tr>
+  <tr><td class="id">deadlock_*</td><td>Pozitif: deste dolu ama hiçbir kart hiçbir yere oynanamıyor → çıkmaz. Negatif: tek legal hamle stokta gömülü kartın oynanabilirliği → çıkmaz değil. Sınır: yalnız faydasız ileri-geri hamle varken → çıkmaz DEĞİL (bilinçli, K13)</td></tr>
+  <tr><td class="id">undo_* / serde_*</td><td>Her hamle tipinde geri alma özdeşliği; kayıptan devam; replay determinizmi; JSON gidiş-dönüş</td></tr>
+  <tr><td class="id">fuzz_invariants</td><td>Kart korunumu (multiset), faceUp'ta kategori kartı hep sonda, kilitliye yerleştirme legalMoves'ta asla yok, collected ≤ total, movesLeft monoton azalır, statü geçişleri tekil</td></tr>
+</table></div>
+
+<h2>6. Dosya Haritası</h2>
+<pre><code>lib/engine/
+├── models/ card.dart · column.dart · foundation.dart · game_state.dart · level.dart
+├── moves.dart · units.dart · rules.dart · reducer.dart · events.dart
+├── legal_moves.dart · deadlock.dart · session.dart · serde.dart
+test/engine/ (ayna yapıda) + test/fixtures/mini_level.dart · full_level.dart</code></pre>
+
+<h2>7. Bitti Tanımı (DoD)</h2>
+<ul class="dod">
+  <li>Kural matrisi ve senaryo testlerinin tamamı yeşil; motor coverage ≥ %95 (M2).</li>
+  <li>Fuzz 1.000 oyun ihlalsiz; tüm motor test paketi &lt; 60 sn.</li>
+  <li>Mimari koruma testi hâlâ yeşil (Flutter importu yok, dart:math Random yok).</li>
+  <li>Fixture bölümler çözüm replay'leriyle birlikte hazır (Faz 3 girdisi).</li>
+</ul>
+
+<h2>8. Riskler</h2>
+<ul>
+  <li><strong>Kural boşluğu keşfi:</strong> Testler yazılırken spec'te öngörülmeyen durum çıkarsa (örn. yeni kenar durumu) spec-önce prosedürü işletilir; karar kaydına eklenir.</li>
+  <li><strong>Performans:</strong> <code>legalMoves</code> çözücünün sıcak döngüsü — immutable kopyalamada liste paylaşımı (unmodifiable görünümler) kullanılır; profil Faz 2'de doğrulanır.</li>
+</ul>
+
+</main>
+<footer>Faz 1 — Oyun Motoru · Genel plan: <a href="genel-plan.html">genel-plan.html</a></footer>
+</body>
+</html>
