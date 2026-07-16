@@ -47,11 +47,15 @@ void main() {
         for (final c in controller.state.columns)
           c.faceDown.length + c.faceUp.length,
       ];
+      final faceDown = [
+        for (final c in controller.state.columns) c.faceDown.length,
+      ];
       final m = BoardMetrics(
         size: rect.size,
         columnCount: 5,
         slotCount: 5,
         columnCounts: counts,
+        columnFaceDown: faceDown,
       );
       // En ÜSTTEKİ görünür kart = Tramvay (kolon 0, açık index 1).
       final topCardCenter =

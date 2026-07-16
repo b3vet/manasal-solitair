@@ -148,11 +148,13 @@ class _GameBoardState extends State<GameBoard>
           for (final col in state.columns)
             col.faceDown.length + col.faceUp.length,
         ];
+        final faceDown = [for (final col in state.columns) col.faceDown.length];
         final m = BoardMetrics(
           size: size,
           columnCount: state.columns.length,
           slotCount: state.slots.length,
           columnCounts: counts,
+          columnFaceDown: faceDown,
         );
 
         final children = <Widget>[];

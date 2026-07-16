@@ -145,7 +145,9 @@ class Dim {
   static const double gap = 8;
   static const double pagePad = 12;
   // Kolon içi bindirme oranları (kart yüksekliğine göre).
-  static const double overlapFaceUp = 0.32;
+  // Açık kartlar okunacak kadar açılır (üstteki yazı görünür); kapalı kartlar
+  // sıkı durur.
+  static const double overlapFaceUp = 0.40;
   static const double overlapFaceDown = 0.14;
   static const double overlapTight = 0.20; // taşma sıkıştırması
 }

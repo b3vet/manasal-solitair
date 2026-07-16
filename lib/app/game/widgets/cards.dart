@@ -121,8 +121,10 @@ class _FitText extends StatelessWidget {
         // Ölçüm ile çizim BİREBİR uyuşmalı: font ailesi ve harf aralığı burada
         // da açıkça verilir (temadan miras alınan letterSpacing farklı olup son
         // harfin taşmasına yol açıyordu).
+        // Üste hizalı: sütunda üst üste dizilince alttaki kartların yazısı da
+        // görünen üst şeritte kalır.
         return Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.topLeft,
           child: Text(
             text,
             maxLines: maxLines,

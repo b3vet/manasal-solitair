@@ -20,7 +20,8 @@ class BoardMetrics {
     required this.columnCount,
     required this.slotCount,
     required List<int> columnCounts,
-  }) {
+    required List<int> columnFaceDown,
+  }) : _faceDown = columnFaceDown {
     const pad = Dim.pagePad;
     final usableW = size.width - 2 * pad;
     final cardW = (usableW - Dim.gap * (columnCount - 1)) / columnCount;
@@ -32,33 +33,49 @@ class BoardMetrics {
     foundationTop = infoTop + cardH + Dim.gap;
     tableauTop = foundationTop + cardH + Dim.gap * 1.5;
     final tableauBottom = size.height - pad;
-    final tableauH = tableauBottom - tableauTop;
+    final avail = tableauBottom - tableauTop;
 
-    final maxCount = columnCounts.isEmpty
-        ? 1
-        : columnCounts.reduce((a, b) => a > b ? a : b);
-    final defaultStep = cardH * Dim.overlapFaceUp;
-    if (maxCount > 1) {
-      final avail = tableauH - cardH;
-      final needed = (maxCount - 1) * defaultStep;
-      step = needed > avail
-          ? (avail / (maxCount - 1)).clamp(cardH * 0.11, defaultStep)
-          : defaultStep;
-    } else {
-      step = defaultStep;
+    // Kapalı kartlar sıkı bindirilir; açık kartlar üstteki yazı okunacak kadar
+    // açılır. En yüksek sütun tahtaya sığmıyorsa iki adımı da orantılı küçült.
+    final stepDownBase = cardH * Dim.overlapFaceDown;
+    final stepUpBase = cardH * Dim.overlapFaceUp;
+    var maxExtent = cardH;
+    for (var c = 0; c < columnCount; c++) {
+      final n = c < columnCounts.length ? columnCounts[c] : 0;
+      if (n <= 0) continue;
+      final fd = (c < columnFaceDown.length ? columnFaceDown[c] : 0).clamp(
+        0,
+        n,
+      );
+      final lastDowns = (n - 1) < fd ? (n - 1) : fd;
+      final lastUps = (n - 1) - lastDowns;
+      final extent = lastDowns * stepDownBase + lastUps * stepUpBase + cardH;
+      if (extent > maxExtent) maxExtent = extent;
     }
+    final scale = maxExtent > avail ? avail / maxExtent : 1.0;
+    stepDown = stepDownBase * scale;
+    stepUp = stepUpBase * scale;
   }
 
   final Size size;
   final int columnCount;
   final int slotCount;
+  final List<int> _faceDown;
 
   late final Size card;
   late final double _pad;
   late final double infoTop;
   late final double foundationTop;
   late final double tableauTop;
-  late final double step;
+
+  /// Kapalı (arka) kartların bindirme adımı — sıkı.
+  late final double stepDown;
+
+  /// Açık kartların bindirme adımı — yazı okunacak kadar açık.
+  late final double stepUp;
+
+  /// Sürüklenen birim açık kartlardan oluşur → açık adımı kullanır.
+  double get step => stepUp;
 
   double _colX(int c) => _pad + c * (card.width + Dim.gap);
 
@@ -90,8 +107,18 @@ class BoardMetrics {
 
   Offset slotTopLeft(int i) => Offset(_colX(i), foundationTop);
   Offset columnTopLeft(int c) => Offset(_colX(c), tableauTop);
+
+  // Sütundaki k'inci kartın y'si: kapalı bölge sıkı (stepDown), açık bölge
+  // açık (stepUp) adımla dizilir.
+  double _cardY(int c, int k) {
+    final fd = c < _faceDown.length ? _faceDown[c] : 0;
+    final downs = k < fd ? k : fd;
+    final ups = k < fd ? 0 : k - fd;
+    return tableauTop + downs * stepDown + ups * stepUp;
+  }
+
   Offset cardTopLeft(int c, int indexInColumn) =>
-      Offset(_colX(c), tableauTop + indexInColumn * step);
+      Offset(_colX(c), _cardY(c, indexInColumn));
 
   /// Bir bırakma noktasına en yakın slot (toplama satırındaysa).
   int? slotAt(Offset p) {
