@@ -1,34 +1,37 @@
-/// Üst bilgi çubuğu (HUD): menü, bölüm, kalan hamle, kategori sayacı, geri al.
+/// Alt kontrol çubuğu: menü, bölüm no, ipucu, geri al.
+///
+/// Odak dışı kontroller en altta (baş parmak bölgesi); önemli oyun bilgisi
+/// (kalan hamle, kategori, deste) tahtanın en üstünde gösterilir.
 library;
 
 import 'package:flutter/material.dart';
 
-import '../../../engine/engine.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/tokens.dart';
 
-class Hud extends StatelessWidget {
-  const Hud({
+class BottomBar extends StatelessWidget {
+  const BottomBar({
     super.key,
-    required this.state,
+    required this.levelId,
     required this.undoCredits,
     required this.canUndo,
     required this.onMenu,
     required this.onUndo,
+    required this.onHint,
   });
 
-  final GameState state;
+  final int levelId;
   final int undoCredits;
   final bool canUndo;
   final VoidCallback onMenu;
   final VoidCallback onUndo;
+  final VoidCallback onHint;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final movesLow = state.movesLeft <= 5 && state.isPlaying;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
       child: Row(
         children: [
           _iconButton(colors, Icons.menu_rounded, onMenu),
@@ -37,79 +40,55 @@ class Hud extends StatelessWidget {
             child: _chip(
               colors,
               icon: Icons.tag_rounded,
-              label: 'Bölüm ${state.level.id}',
-            ),
-          ),
-          Expanded(child: Center(child: _movesBadge(colors, movesLow))),
-          Flexible(
-            child: _chip(
-              colors,
-              icon: Icons.folder_special_rounded,
-              label: '${state.completedCount}/${state.totalCategories}',
+              label: 'Bölüm $levelId',
             ),
           ),
           const SizedBox(width: 6),
-          _undoButton(colors),
+          _actionButton(
+            colors,
+            icon: Icons.lightbulb_outline_rounded,
+            label: 'İpucu',
+            onTap: onHint,
+          ),
+          const SizedBox(width: 6),
+          _actionButton(
+            colors,
+            icon: Icons.undo_rounded,
+            label: '$undoCredits',
+            onTap: canUndo && undoCredits > 0 ? onUndo : null,
+          ),
         ],
       ),
     );
   }
 
-  Widget _movesBadge(GameColors colors, bool low) {
-    final child = Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          '${state.movesLeft}',
-          style: TextStyle(
-            color: low ? colors.danger : colors.accent,
-            fontWeight: FontWeight.w900,
-            fontSize: 22,
-            height: 1,
-          ),
-        ),
-        Text(
-          'HAMLE',
-          style: TextStyle(
-            color: colors.inkSoft,
-            fontSize: 9,
-            letterSpacing: 1.5,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
-    );
-    if (!low) return child;
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.9, end: 1.0),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-      builder: (_, v, c) => Transform.scale(scale: v, child: c),
-      child: child,
-    );
-  }
-
-  Widget _undoButton(GameColors colors) {
-    final enabled = canUndo && undoCredits > 0;
+  Widget _actionButton(
+    GameColors colors, {
+    required IconData icon,
+    required String label,
+    required VoidCallback? onTap,
+  }) {
+    final enabled = onTap != null;
     return Opacity(
       opacity: enabled ? 1 : 0.4,
       child: Material(
         color: colors.accentSoft,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         child: InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: enabled ? onUndo : null,
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Row(
               children: [
-                Icon(Icons.undo_rounded, size: 18, color: colors.accent),
-                const SizedBox(width: 3),
+                Icon(icon, size: 20, color: colors.accent),
+                const SizedBox(width: 5),
                 Text(
-                  '$undoCredits',
+                  label,
                   style: TextStyle(
                     color: colors.accent,
                     fontWeight: FontWeight.w800,
+                    fontSize: 14,
                   ),
                 ),
               ],
@@ -126,10 +105,10 @@ class Hud extends StatelessWidget {
     required String label,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: colors.cardEdge),
       ),
       child: FittedBox(
@@ -156,26 +135,15 @@ class Hud extends StatelessWidget {
   Widget _iconButton(GameColors colors, IconData icon, VoidCallback onTap) {
     return Material(
       color: colors.surface,
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
       child: InkWell(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Icon(icon, size: 20, color: colors.ink),
+          padding: const EdgeInsets.all(10),
+          child: Icon(icon, size: 22, color: colors.ink),
         ),
       ),
     );
   }
-}
-
-/// Alt bilgi: deste sayısı etiketi (deste görseli tahtada).
-class StockLabel extends StatelessWidget {
-  const StockLabel({super.key, required this.count});
-  final int count;
-  @override
-  Widget build(BuildContext context) => Text(
-    '$count',
-    style: TextStyle(color: context.colors.inkSoft, fontSize: 12),
-  );
 }

@@ -9,7 +9,6 @@ import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
-import '../theme/tokens.dart';
 import 'game_board.dart';
 import 'game_controller.dart';
 import 'widgets/dialogs.dart';
@@ -192,64 +191,22 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Hud(
-              state: _controller.state,
+            Expanded(
+              child: GameBoard(
+                controller: _controller,
+                haptics: meta.haptics,
+                reduceMotion: _reduceMotion(context, meta.reducedMotion),
+              ),
+            ),
+            BottomBar(
+              levelId: _controller.state.level.id,
               undoCredits: meta.credits,
               canUndo: _controller.canUndo,
               onMenu: _pause,
               onUndo: _useUndo,
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  GameBoard(
-                    controller: _controller,
-                    haptics: meta.haptics,
-                    reduceMotion: _reduceMotion(context, meta.reducedMotion),
-                  ),
-                  Positioned(
-                    right: 14,
-                    bottom: 14,
-                    child: _hintButton(colors, meta.credits),
-                  ),
-                ],
-              ),
+              onHint: _useHint,
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _hintButton(GameColors colors, int credits) {
-    return Material(
-      color: colors.accent,
-      shape: const CircleBorder(),
-      elevation: 3,
-      shadowColor: colors.shadow,
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: _useHint,
-        child: Padding(
-          padding: const EdgeInsets.all(13),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.lightbulb_outline_rounded,
-                color: Colors.white,
-                size: 22,
-              ),
-              Text(
-                'İpucu',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.95),
-                  fontSize: 9,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

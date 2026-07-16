@@ -160,6 +160,7 @@ class _GameBoardState extends State<GameBoard>
         children.addAll(_columnFrames(m, colors));
         children.addAll(_pileFrames(m, colors));
         children.addAll(_cards(m, colors));
+        children.addAll(_topInfo(m, colors));
         if (_celebrateText != null) {
           children.add(
             Positioned.fill(
@@ -249,6 +250,60 @@ class _GameBoardState extends State<GameBoard>
           m.wasteTopLeft(),
           m.card,
           EmptyFrameView(size: m.card, colors: colors),
+        ),
+      );
+    }
+    return out;
+  }
+
+  // --- Üst bilgi (kalan hamle, kategori sayacı, deste kart sayısı) ---
+
+  List<Widget> _topInfo(BoardMetrics m, GameColors colors) {
+    final out = <Widget>[];
+    final area = m.statArea;
+    out.add(
+      Positioned(
+        left: area.left,
+        top: area.top,
+        width: area.width,
+        height: area.height,
+        child: IgnorePointer(
+          child: _StatRow(
+            movesLeft: state.movesLeft,
+            completed: state.completedCount,
+            totalCategories: state.totalCategories,
+            colors: colors,
+          ),
+        ),
+      ),
+    );
+    if (state.stock.isNotEmpty) {
+      final tl = m.stockTopLeft();
+      out.add(
+        Positioned(
+          left: tl.dx,
+          top: tl.dy + m.card.height * 0.6,
+          width: m.card.width,
+          height: m.card.height * 0.32,
+          child: IgnorePointer(
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: colors.surface.withValues(alpha: 0.92),
+                  borderRadius: BorderRadius.circular(999),
+                ),
+                child: Text(
+                  '${state.stock.length}',
+                  style: TextStyle(
+                    color: colors.ink,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       );
     }
@@ -588,6 +643,70 @@ class _Grab {
   final List<GameCard> cards;
   final Offset baseTopLeft;
   final bool isCategory;
+}
+
+/// Üstteki sayaçlar: kalan hamle + tamamlanan kategori.
+class _StatRow extends StatelessWidget {
+  const _StatRow({
+    required this.movesLeft,
+    required this.completed,
+    required this.totalCategories,
+    required this.colors,
+  });
+  final int movesLeft;
+  final int completed;
+  final int totalCategories;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _tile(
+            'HAMLE',
+            '$movesLeft',
+            movesLeft <= 5 ? colors.danger : colors.accent,
+          ),
+          const SizedBox(width: 14),
+          _tile('KATEGORİ', '$completed/$totalCategories', colors.ink),
+        ],
+      ),
+    );
+  }
+
+  Widget _tile(String label, String value, Color valueColor) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            value,
+            style: TextStyle(
+              color: valueColor,
+              fontWeight: FontWeight.w900,
+              fontSize: 26,
+              height: 1,
+            ),
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: colors.inkSoft,
+            fontSize: 9,
+            letterSpacing: 1,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 /// Kategori tamamlandığında kısa süreli kutlama afişi (belirir, solar).

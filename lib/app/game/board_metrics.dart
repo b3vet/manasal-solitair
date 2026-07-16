@@ -1,7 +1,13 @@
 /// Tahta geometrisi: yığın ve kart konumları, isabet bölgeleri.
 ///
-/// Tek kaynak: hem çizim hem sürükleme isabet testi buradan okur. Oyun
-/// alanının (HUD altındaki) boyutuna ve sütun/kart sayılarına göre hesaplar.
+/// Tek kaynak: hem çizim hem sürükleme isabet testi buradan okur.
+///
+/// Yerleşim (yukarıdan aşağı):
+///   1) Bilgi + deste satırı: deste + atık (sol) ve kalan hamle / kategori
+///      sayaçları (sağ).
+///   2) Toplama slotları (5). — sürükleme hedefleri en üstte.
+///   3) Oyun alanı (tableau), ekranın altına kadar uzanır.
+/// Menü/bölüm/geri al/ipucu kontrolleri tahtanın DIŞINDA (altta) durur.
 library;
 
 import 'package:flutter/widgets.dart';
@@ -22,10 +28,11 @@ class BoardMetrics {
     card = Size(cardW, cardH);
     _pad = pad;
 
-    foundationTop = pad;
+    infoTop = pad;
+    foundationTop = infoTop + cardH + Dim.gap;
     tableauTop = foundationTop + cardH + Dim.gap * 1.5;
-    bottomTop = size.height - cardH - pad;
-    final tableauH = bottomTop - tableauTop - Dim.gap;
+    final tableauBottom = size.height - pad;
+    final tableauH = tableauBottom - tableauTop;
 
     final maxCount = columnCounts.isEmpty
         ? 1
@@ -48,43 +55,53 @@ class BoardMetrics {
 
   late final Size card;
   late final double _pad;
+  late final double infoTop;
   late final double foundationTop;
   late final double tableauTop;
-  late final double bottomTop;
   late final double step;
 
   double _colX(int c) => _pad + c * (card.width + Dim.gap);
+
+  // Deste + atık: en üst satırın solunda.
+  Offset stockTopLeft() => Offset(_colX(0), infoTop);
+  Offset wasteTopLeft() => Offset(_colX(1), infoTop);
+
+  // Sayaç bölgesi: en üst satırın sağı (deste/atıktan sonra).
+  Rect get statArea => Rect.fromLTRB(
+    _colX(2) + Dim.gap,
+    infoTop,
+    size.width - _pad,
+    infoTop + card.height,
+  );
 
   Offset slotTopLeft(int i) => Offset(_colX(i), foundationTop);
   Offset columnTopLeft(int c) => Offset(_colX(c), tableauTop);
   Offset cardTopLeft(int c, int indexInColumn) =>
       Offset(_colX(c), tableauTop + indexInColumn * step);
-  Offset stockTopLeft() => Offset(_colX(0), bottomTop);
-  Offset wasteTopLeft() => Offset(_colX(1), bottomTop);
 
-  Rect rectAt(Offset topLeft) => topLeft & card;
-
-  /// Bir sütunun tüm isabet bölgesi (drop hedefleme için).
-  Rect columnHitRect(int c, int cardCount) {
-    final top = tableauTop;
-    final height =
-        (cardCount <= 1 ? card.height : (cardCount - 1) * step + card.height)
-            .clamp(card.height, bottomTop - tableauTop);
-    return Rect.fromLTWH(_colX(c), top, card.width, height);
-  }
-
-  /// Bir bırakma noktasına en yakın slot (foundation bölgesindeyse).
+  /// Bir bırakma noktasına en yakın slot (toplama satırındaysa).
   int? slotAt(Offset p) {
-    if (p.dy > foundationTop + card.height + Dim.gap) return null;
-    for (var i = 0; i < slotCount; i++) {
-      final r = slotTopLeft(i) & card;
-      if (_expand(r).contains(p)) return i;
+    if (p.dy < foundationTop - Dim.gap ||
+        p.dy > foundationTop + card.height + Dim.gap) {
+      return null;
     }
-    return null;
+    var best = -1;
+    var bestDist = double.infinity;
+    for (var i = 0; i < slotCount; i++) {
+      final cx = _colX(i) + card.width / 2;
+      final d = (p.dx - cx).abs();
+      if (d < bestDist) {
+        bestDist = d;
+        best = i;
+      }
+    }
+    if (best < 0 || bestDist > card.width * 0.9) return null;
+    return best;
   }
 
-  /// Bir bırakma noktasına en yakın sütun (tableau bölgesinde).
+  /// Bir bırakma noktasına en yakın sütun (oyun alanındaysa).
   int? columnAt(Offset p) {
+    if (p.dy < tableauTop - card.height * 0.5) return null;
     var best = -1;
     var bestDist = double.infinity;
     for (var c = 0; c < columnCount; c++) {
@@ -95,10 +112,7 @@ class BoardMetrics {
         best = c;
       }
     }
-    // Yatay tolerans: yarım kart genişliği + boşluk.
     if (best < 0 || bestDist > card.width * 0.9) return null;
     return best;
   }
-
-  Rect _expand(Rect r) => r.inflate(Dim.gap);
 }
