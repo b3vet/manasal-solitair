@@ -1,10 +1,15 @@
 /// Zorluk eğrisi: bölüm numarası → üretim parametreleri (tuning verisi).
 ///
-/// Tasarım (kullanıcı yönü): oynanabilir sütun sayısı bölümden bölüme DEĞİŞİR
-/// ve kategori sayısı HER ZAMAN sütun sayısından fazladır. Aradaki fark, aynı
-/// anda foundation'a sığmayan (önce tamamlanıp yer açılması gereken) kategori
-/// sayısıdır — asıl zorluk kaynağı. İlk 5 bölüm eğitimdir (küçük, cömert);
-/// ~6. bölümden sonra gerçek zorluk başlar. (Spec §11.4)
+/// Tasarım (kullanıcı yönü):
+///  - Oynanabilir sütun sayısı bölümden bölüme DEĞİŞİR (4/5/6).
+///  - Kategori sayısı DAİMA sütun sayısından fazladır. Taban kural:
+///    4 sütun→≥7 kategori, 5→≥8, 6→≥9 (yani en az columnCount+3). İlerledikçe
+///    bu sayıların da üstüne çıkılır (juggle artar).
+///  - Sütunlar DERİNDİR: sütun başına birkaç kapalı kart olur; üstteki bitince
+///    yeni kart açılır — böylece sütunu boşaltmak düşünmeyi gerektirir, oyun
+///    "kartı oradan oraya kaydırma"ya düşmez.
+///  - Yalnızca ilk 3 bölüm kolaydır; 3'ten sonra zorluk hızla tırmanır.
+///  - Hamle limiti dar tutulur (elde çok hamle kalmasın). (Spec §11.4)
 library;
 
 class LevelParams {
@@ -27,6 +32,8 @@ class LevelParams {
   final int categoryCount;
   final int minWords;
   final int maxWords;
+
+  /// Toplam kapalı (gömülü) kart sayısı — sütunlara dağıtılır (derinlik).
   final int faceDownCount;
   final double marginMultiplier;
   final int maxDifficulty;
@@ -37,95 +44,49 @@ class LevelParams {
 /// Sütun sayısını bölümden bölüme değiştiren, deterministik küçük varyasyon.
 int _columnsFor(int level, int lo, int hi) {
   final span = hi - lo + 1;
-  // Ardışık bölümler farklı sütun sayısı alsın diye dönüşümlü seç.
   return lo + (level % span);
 }
 
 LevelParams curveFor(int level) {
-  // categoryCount = columnCount + excess (excess >= 1 → kategori > sütun).
-  if (level <= 2) {
-    // Eğitim başlangıcı: en küçük, gömülü kart yok, çok cömert.
-    return const LevelParams(
-      columnCount: 4,
-      categoryCount: 5,
-      minWords: 3,
-      maxWords: 3,
-      faceDownCount: 0,
-      marginMultiplier: 2.2,
-      maxDifficulty: 1,
-      allowSoftConflict: false,
-      rotationWindow: 4,
-    );
-  }
-  if (level <= 5) {
-    // Eğitim: hâlâ küçük ama biraz gömülü kart + tek fazladan kategori.
-    final cols = level == 4 ? 5 : 4;
+  // İlk 3 bölüm: kolay eğitim (az kategori, az gömülü, cömert hamle).
+  if (level <= 3) {
+    final cats = level + 3; // 4,5,6
     return LevelParams(
-      columnCount: cols,
-      categoryCount: cols + 1,
+      columnCount: 4,
+      categoryCount: cats,
       minWords: 3,
-      maxWords: 4,
-      faceDownCount: level - 2, // 1..3
-      marginMultiplier: 1.9,
+      maxWords: level == 1 ? 3 : 4,
+      faceDownCount: level * 2, // 2,4,6 (sütun başına ~0.5-1.5)
+      marginMultiplier: level == 1 ? 1.8 : 1.55,
       maxDifficulty: 1,
       allowSoftConflict: false,
       rotationWindow: 5,
     );
   }
-  if (level <= 12) {
-    // Gerçek zorluk başlar: iki fazladan kategori (2 juggle).
-    final cols = _columnsFor(level, 4, 5);
-    return LevelParams(
-      columnCount: cols,
-      categoryCount: cols + 2,
-      minWords: 3,
-      maxWords: 5,
-      faceDownCount: 3 + (level - 6) ~/ 3, // 3..5
-      marginMultiplier: 1.6,
-      maxDifficulty: 2,
-      allowSoftConflict: false,
-      rotationWindow: 8,
-    );
-  }
-  if (level <= 25) {
-    final cols = _columnsFor(level, 4, 6);
-    return LevelParams(
-      columnCount: cols,
-      categoryCount: cols + 2,
-      minWords: 4,
-      maxWords: 5,
-      faceDownCount: 5 + (level - 13) ~/ 4, // 5..8
-      marginMultiplier: 1.5,
-      maxDifficulty: 2,
-      allowSoftConflict: false,
-      rotationWindow: 10,
-    );
-  }
-  if (level <= 45) {
-    // Juggle 3: yeterli manevra için 5-6 sütun.
-    final cols = _columnsFor(level, 5, 6);
-    return LevelParams(
-      columnCount: cols,
-      categoryCount: cols + 3,
-      minWords: 4,
-      maxWords: 6,
-      faceDownCount: 7 + (level - 26) ~/ 6, // 7..10
-      marginMultiplier: 1.45,
-      maxDifficulty: 3,
-      allowSoftConflict: false,
-      rotationWindow: 12,
-    );
-  }
-  final cols = _columnsFor(level, 5, 6);
+
+  // 4. bölümden itibaren gerçek zorluk. Taban: kategori = sütun + 3
+  // (4→7, 5→8, 6→9). İlerledikçe fazladan kategori (excess) ve sütun derinliği
+  // (depth) artar; hamle limiti daralır.
+  final cols = _columnsFor(level, 4, 6);
+  // Fazladan kategori (juggle): taban 3 (4→7,5→8,6→9), sonra 4. (Çözücünün
+  // güvenilir üretebilmesi için üst sınır 4.)
+  final excess = level <= 25 ? 3 : 4;
+  // Sütun derinliği (kapalı kart): 3 → 4. Boşaltmak düşünmeyi gerektirir.
+  final depth = level <= 12 ? 3 : 4;
+  final margin = level <= 12
+      ? 1.32
+      : level <= 35
+      ? 1.24
+      : 1.18;
   return LevelParams(
     columnCount: cols,
-    categoryCount: cols + 3,
-    minWords: 5,
-    maxWords: 6,
-    faceDownCount: 9 + ((level - 46) ~/ 12).clamp(0, 4), // 9..13
-    marginMultiplier: 1.4,
-    maxDifficulty: 3,
-    allowSoftConflict: true,
-    rotationWindow: 14,
+    categoryCount: cols + excess,
+    minWords: level <= 25 ? 4 : 5,
+    maxWords: level <= 25 ? 5 : 6,
+    faceDownCount: cols * depth,
+    marginMultiplier: margin,
+    maxDifficulty: level <= 15 ? 2 : 3,
+    allowSoftConflict: level > 40,
+    rotationWindow: 12,
   );
 }

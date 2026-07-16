@@ -49,6 +49,9 @@ void main(List<String> args) {
     var usedSeed = 0;
     var tries = 0;
 
+    LevelDef? best;
+    SolveResult? bestResult;
+    var bestSeed = 0;
     for (var t = 0; t < maxTries; t++) {
       tries++;
       final seed = _seedFor(lvl, t);
@@ -60,12 +63,27 @@ void main(List<String> args) {
       );
       final res = Solver.solve(level, maxNodes: maxNodes);
       totalNodes += res.nodes;
-      if (res.solved) {
+      if (!res.solved) continue;
+      // En kısa çözümü yedek olarak sakla.
+      if (bestResult == null || res.moveCount < bestResult.moveCount) {
+        best = level;
+        bestResult = res;
+        bestSeed = seed;
+      }
+      // Sıkı çözüm: kabul et. Aşırı uzun/dolambaçlı çözümler (çözücünün kötü
+      // yol bulduğu tohumlar) hamle limitini şişirir — onları ele, tohum dene.
+      if (res.moveCount <= level.totalCards * 2.2) {
         accepted = level;
         acceptedResult = res;
         usedSeed = seed;
         break;
       }
+    }
+    // Hiç "sıkı" çözüm çıkmadıysa en kısa olanı al.
+    if (accepted == null && best != null) {
+      accepted = best;
+      acceptedResult = bestResult;
+      usedSeed = bestSeed;
     }
     totalTries += tries;
 
