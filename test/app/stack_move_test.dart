@@ -1,15 +1,48 @@
 // Üst üste (aynı kategori) açık kartlar tek birim taşınır: en üstteki kartı
 // sürüklesen bile altındaki(ler) beraber gider; ayrı ayrı koparılamaz.
-import 'dart:io';
-
+//
+// Sentetik bir bölüm kullanır (levels.json içeriğinden bağımsız).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:manasal_solitaire/app/game/board_metrics.dart';
 import 'package:manasal_solitaire/app/game/game_board.dart';
 import 'package:manasal_solitaire/app/game/game_controller.dart';
 import 'package:manasal_solitaire/app/theme/app_theme.dart';
-import 'package:manasal_solitaire/content/levels_repository.dart';
 import 'package:manasal_solitaire/engine/engine.dart';
+
+LevelDef _twoSameCategoryLevel() => const LevelDef(
+  id: 1,
+  seed: 0,
+  columnCount: 3,
+  slotCount: 3,
+  moveLimit: 100,
+  categories: [
+    LevelCategory(categoryId: 'tasitlar', name: 'Taşıtlar', totalWords: 2),
+  ],
+  columns: [
+    ColumnDeal(
+      faceDown: [],
+      faceUp: [
+        WordCard(id: 'w:tasitlar:1', word: 'Gemi', categoryId: 'tasitlar'),
+      ],
+    ),
+    ColumnDeal(
+      faceDown: [],
+      faceUp: [
+        WordCard(id: 'w:tasitlar:2', word: 'Tramvay', categoryId: 'tasitlar'),
+      ],
+    ),
+    ColumnDeal(faceDown: [], faceUp: []),
+  ],
+  stock: [
+    CategoryCard(
+      id: 'c:tasitlar',
+      categoryId: 'tasitlar',
+      name: 'Taşıtlar',
+      totalInLevel: 2,
+    ),
+  ],
+);
 
 void main() {
   testWidgets(
@@ -19,11 +52,7 @@ void main() {
       tester.view.devicePixelRatio = 3.0;
       addTearDown(tester.view.reset);
 
-      final levels = LevelsRepository.parse(
-        File('assets/levels/levels.json').readAsStringSync(),
-      );
-      // L1: kolon 0 (Gemi) ve kolon 1 (Tramvay) ikisi de 'tasitlar'.
-      final controller = GameController(levels[0]);
+      final controller = GameController(_twoSameCategoryLevel());
 
       // Kolon 1'in kartını kolon 0'a koy → kolon 0 açık: [Gemi, Tramvay].
       final ok = controller.place(
@@ -52,8 +81,8 @@ void main() {
       ];
       final m = BoardMetrics(
         size: rect.size,
-        columnCount: 5,
-        slotCount: 5,
+        columnCount: controller.state.columns.length,
+        slotCount: controller.state.slots.length,
         columnCounts: counts,
         columnFaceDown: faceDown,
       );

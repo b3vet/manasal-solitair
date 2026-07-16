@@ -58,9 +58,9 @@ class LevelGenerator {
 
     rng.shuffle(allCards);
 
-    // Dağıtım: 5 sütun. Önce gömülü (kapalı) kartlar, sonra her sütuna 1 açık,
-    // kalanı deste.
-    const columnCount = 5;
+    // Dağıtım: bölüme özgü sütun sayısı. Önce gömülü (kapalı) kartlar, sonra
+    // her sütuna 1 açık, kalanı deste.
+    final columnCount = params.columnCount;
     final down = List.generate(columnCount, (_) => <GameCard>[]);
     final up = List<GameCard?>.filled(columnCount, null);
 
@@ -89,6 +89,8 @@ class LevelGenerator {
       stock: stock,
       categories: levelCats,
       moveLimit: 0, // CLI tarafından çözümden sonra atanır
+      columnCount: columnCount,
+      slotCount: columnCount, // foundation slot sayısı = sütun sayısı
     );
   }
 

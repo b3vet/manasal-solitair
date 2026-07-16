@@ -44,7 +44,16 @@ class _GameScreenState extends State<GameScreen> {
     _index = widget.startIndex;
     _controller = GameController(widget.levels[_index]);
     if (widget.resumeMoves != null && widget.resumeMoves!.isNotEmpty) {
-      _controller.loadReplay(widget.levels[_index], widget.resumeMoves!);
+      final applied = _controller.loadReplay(
+        widget.levels[_index],
+        widget.resumeMoves!,
+      );
+      if (!applied) {
+        // Bayat kayıt (bölüm yeniden üretilmiş): baştan başladık, kaydı temizle.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _meta.clearResume();
+        });
+      }
     }
     _controller.addListener(_onChange);
   }

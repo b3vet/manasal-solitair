@@ -31,8 +31,9 @@ void main() {
     }
 
     // Örneklem: her 12 bölümden biri çözücüden yeniden geçsin.
+    // Düğüm bütçesi üreticiyle aynı (kabul edilen her bölüm bu bütçede çözüldü).
     for (var i = 0; i < levels.length; i += 12) {
-      final res = Solver.solve(levels[i], maxNodes: 300000);
+      final res = Solver.solve(levels[i], maxNodes: 400000);
       expect(res.solved, isTrue, reason: 'Bölüm ${levels[i].id} çözülemedi');
       // Çözüm, bölümün hamle limiti içinde mi?
       expect(

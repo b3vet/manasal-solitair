@@ -74,12 +74,24 @@ class GameController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Replay'den oturumu yeniden kurar (resume).
-  void loadReplay(LevelDef level, List<Move> moves) {
-    _session = GameSession.replay(level, moves);
+  /// Replay'den oturumu yeniden kurar (resume). Kayıtlı hamleler bu bölümün
+  /// güncel dağıtımıyla uyuşmuyorsa (ör. bölüm yeniden üretildi) baştan başlar —
+  /// böylece eski kayıtlı ilerleme çökmeye yol açmaz.
+  ///
+  /// Uygulanamayan (bayat) bir replay için `false` döner; çağıran bayat kaydı
+  /// temizleyebilir.
+  bool loadReplay(LevelDef level, List<Move> moves) {
+    var applied = true;
+    try {
+      _session = GameSession.replay(level, moves);
+    } on StateError {
+      _session = GameSession.start(level);
+      applied = false;
+    }
     lastEvents = const [];
     hintMove = null;
     notifyListeners();
+    return applied;
   }
 
   List<Move> get moves => _session.moves;
