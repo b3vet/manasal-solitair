@@ -378,7 +378,27 @@ class _GameBoardState extends State<GameBoard>
         ),
       );
     }
+    // Atık: son birkaç açılan kartı yelpaze halinde göster. Eski kartlar arkada
+    // ince dikey kenar (90° yazı), en yeni tam kart (etkileşimli, en üstte).
     if (state.waste.isNotEmpty) {
+      final n = state.waste.length;
+      final shown = n < BoardMetrics.wasteFanMax ? n : BoardMetrics.wasteFanMax;
+      for (var back = shown - 1; back >= 1; back--) {
+        final edge = state.waste[n - 1 - back];
+        normal.add(
+          _positioned(
+            'wasteedge_${edge.id}',
+            m.wasteEdgeTopLeft(back),
+            Size(m.wasteStripWidth, m.card.height),
+            WasteEdgeView(
+              card: edge,
+              width: m.wasteStripWidth,
+              height: m.card.height,
+              colors: colors,
+            ),
+          ),
+        );
+      }
       final top = state.waste.last;
       if (!dragIds.contains(top.id)) {
         normal.add(
@@ -472,9 +492,10 @@ class _GameBoardState extends State<GameBoard>
     final rects = <Rect>[];
     if (hm is PlaceMove) {
       switch (hm.unit) {
-        case ColumnUnitRef(:final column, :final startIndex):
+        case ColumnUnitRef(:final column):
+          // Tüm açık yığın tek birim taşınır: yığının tabanını vurgula.
           final fd = state.columns[column].faceDown.length;
-          rects.add(m.cardTopLeft(column, fd + startIndex) & m.card);
+          rects.add(m.cardTopLeft(column, fd) & m.card);
         case WasteUnitRef():
           rects.add(m.wasteTopLeft() & m.card);
       }
@@ -613,8 +634,10 @@ class _GameBoardState extends State<GameBoard>
       for (var k = all.length - 1; k >= faceDownCount; k--) {
         final r = m.cardTopLeft(col, k) & m.card;
         if (!r.contains(p)) continue;
-        final faceUpIndex = k - faceDownCount;
-        final startIndex = column.isLocked ? 0 : faceUpIndex;
+        // Açık bölge tek kategoridir: kategori kartı olsun olmasın, tüm açık
+        // yığın tek birim olarak taşınır — kartlar birbirinden koparılamaz
+        // (kategori kartının kilidiyle aynı davranış).
+        const startIndex = 0;
         final ref = ColumnUnitRef(column: col, startIndex: startIndex);
         final resolved = Rules.resolveUnit(state, ref);
         if (resolved is Ok<MovableUnit, RuleViolation>) {

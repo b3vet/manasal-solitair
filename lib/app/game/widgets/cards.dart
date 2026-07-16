@@ -7,6 +7,144 @@ import '../../../content/tr_text.dart';
 import '../../../engine/cards.dart';
 import '../../theme/tokens.dart';
 
+/// Metnin verilen alana (maxLines satırla) sığdığı en büyük punto.
+///
+/// Not: TextPainter tema fontunu miras almaz; ölçüm ile çizimin uyuşması için
+/// 'Roboto' açıkça verilir ve ölçek kapatılır (kartlar sabit düzen).
+final _fitCache = <String, double>{};
+
+double _fitFontSize({
+  required String text,
+  required double maxW,
+  required double maxH,
+  required double minFont,
+  required double maxFont,
+  required int maxLines,
+  required FontWeight weight,
+  required double height,
+  required double letterSpacing,
+}) {
+  if (maxW <= 0 || maxH <= 0) return minFont;
+  final key =
+      '$text|${maxW.toStringAsFixed(1)}|${maxH.toStringAsFixed(1)}'
+      '|$maxLines|${weight.value}|$height|$letterSpacing'
+      '|${minFont.toStringAsFixed(1)}|${maxFont.toStringAsFixed(1)}';
+  final cached = _fitCache[key];
+  if (cached != null) return cached;
+
+  bool fits(double fs) {
+    final style = TextStyle(
+      fontSize: fs,
+      fontWeight: weight,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFamily: 'Roboto',
+    );
+    // Hiçbir kelime satır genişliğini aşmamalı (kelime ortadan bölünmesin;
+    // yalnızca boşluklardan sarılsın). Çizici tam maxW'de sardığı için 1px
+    // güvenlik payı bırakırız — aksi halde son harf alt satıra kayıyor.
+    for (final word in text.split(RegExp(r'\s+'))) {
+      if (word.isEmpty) continue;
+      final wp = TextPainter(
+        text: TextSpan(text: word, style: style),
+        textDirection: TextDirection.ltr,
+        textScaler: TextScaler.noScaling,
+      )..layout();
+      if (wp.width > maxW - 1.0) return false;
+    }
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      maxLines: maxLines,
+      textScaler: TextScaler.noScaling,
+    )..layout(maxWidth: maxW);
+    return !tp.didExceedMaxLines && tp.height <= maxH + 0.5;
+  }
+
+  double result;
+  if (fits(maxFont)) {
+    result = maxFont;
+  } else {
+    var lo = minFont, hi = maxFont;
+    for (var i = 0; i < 9; i++) {
+      final mid = (lo + hi) / 2;
+      if (fits(mid)) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    result = lo;
+  }
+  if (_fitCache.length > 400) _fitCache.clear();
+  _fitCache[key] = result;
+  return result;
+}
+
+/// Alanı dolduracak şekilde otomatik ölçeklenen, çok satırlı metin.
+class _FitText extends StatelessWidget {
+  const _FitText({
+    required this.text,
+    required this.maxLines,
+    required this.minFont,
+    required this.maxFont,
+    required this.color,
+    required this.weight,
+    this.height = 1.05,
+  });
+
+  final String text;
+  final int maxLines;
+  final double minFont;
+  final double maxFont;
+  final Color color;
+  final FontWeight weight;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, c) {
+        final fs = _fitFontSize(
+          text: text,
+          maxW: c.maxWidth,
+          maxH: c.maxHeight.isFinite
+              ? c.maxHeight
+              : maxFont * maxLines * height,
+          minFont: minFont,
+          maxFont: maxFont,
+          maxLines: maxLines,
+          weight: weight,
+          height: height,
+          letterSpacing: 0,
+        );
+        // Ölçüm ile çizim BİREBİR uyuşmalı: font ailesi ve harf aralığı burada
+        // da açıkça verilir (temadan miras alınan letterSpacing farklı olup son
+        // harfin taşmasına yol açıyordu).
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            text,
+            maxLines: maxLines,
+            textAlign: TextAlign.left,
+            softWrap: true,
+            overflow: TextOverflow.clip,
+            textScaler: TextScaler.noScaling,
+            style: TextStyle(
+              color: color,
+              fontFamily: 'Roboto',
+              fontWeight: weight,
+              fontSize: fs,
+              height: height,
+              letterSpacing: 0,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 /// Ortak kart çerçevesi.
 class _CardFrame extends StatelessWidget {
   const _CardFrame({
@@ -67,7 +205,8 @@ class WordCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pad = size.width * 0.09;
+    final padH = size.width * 0.09;
+    final padV = size.height * 0.07;
     return _CardFrame(
       size: size,
       color: colors.cardFace,
@@ -75,26 +214,18 @@ class WordCardView extends StatelessWidget {
       elevation: raised ? 8 : 2,
       shadow: colors.shadow,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(pad, pad * 0.7, pad, pad * 0.7),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.topLeft,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: size.width * 2),
-              child: Text(
-                TrText.capitalize(card.word),
-                maxLines: 2,
-                style: TextStyle(
-                  color: colors.cardText,
-                  fontWeight: FontWeight.w700,
-                  fontSize: size.height * 0.19,
-                  height: 1.05,
-                ),
-              ),
-            ),
-          ),
+        padding: EdgeInsets.symmetric(horizontal: padH, vertical: padV),
+        // Çok satır kullanır; sadece gerçekten sığmazsa küçülür (Spec K7).
+        // minFont düşük: 10+ harfli tek kelimeler (ör. "Bağışıklık") kırpılmadan
+        // sığsın.
+        child: _FitText(
+          text: TrText.capitalize(card.word),
+          maxLines: 3,
+          minFont: size.height * 0.085,
+          maxFont: size.height * 0.30,
+          color: colors.cardText,
+          weight: FontWeight.w700,
+          height: 1.06,
         ),
       ),
     );
@@ -156,16 +287,28 @@ class CategoryCardView extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                TrText.upper(card.name),
-                style: TextStyle(
-                  color: colors.categoryText,
-                  fontWeight: FontWeight.w800,
-                  fontSize: size.height * 0.13,
-                  letterSpacing: 0.3,
+            // Kategori adı uzun olabilir; serbestçe satıra sarılır ve FittedBox
+            // tüm bloğu kutuya sığacak şekilde küçültür (asla kırpma, kelimeyi
+            // ortadan bölme). maxLines yok: uzun adlar tam görünür.
+            SizedBox(
+              width: double.infinity,
+              height: size.height * 0.34,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.bottomLeft,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: size.width * 1.5),
+                  child: Text(
+                    TrText.upper(card.name),
+                    textScaler: TextScaler.noScaling,
+                    style: TextStyle(
+                      color: colors.categoryText,
+                      fontWeight: FontWeight.w800,
+                      fontSize: size.height * 0.14,
+                      height: 1.05,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -228,6 +371,75 @@ class CardBackView extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.30),
                   borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Atık yelpazesinde arkada kalan bir kartın ince dikey kenarı.
+///
+/// Yalnızca sol kenar görünür; etiket 90° döndürülüp bu dar şeride yazılır.
+/// Son birkaç açılan kartı hatırlatmak içindir (etkileşimsiz).
+class WasteEdgeView extends StatelessWidget {
+  const WasteEdgeView({
+    super.key,
+    required this.card,
+    required this.width,
+    required this.height,
+    required this.colors,
+  });
+
+  final GameCard card;
+  final double width;
+  final double height;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    final isCategory = card is CategoryCard;
+    final face = isCategory ? colors.categoryFace : colors.cardFace;
+    final textColor = isCategory ? colors.categoryText : colors.cardText;
+    final label = isCategory
+        ? TrText.upper((card as CategoryCard).name)
+        : TrText.capitalize((card as WordCard).word);
+    return SizedBox(
+      width: width,
+      height: height,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: face,
+          borderRadius: const BorderRadius.horizontal(
+            left: Radius.circular(Dim.cardRadius),
+          ),
+          border: Border(
+            left: BorderSide(color: colors.cardEdge),
+            top: BorderSide(color: colors.cardEdge),
+            bottom: BorderSide(color: colors.cardEdge),
+          ),
+        ),
+        child: ClipRect(
+          child: RotatedBox(
+            quarterTurns: 3,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: height * 0.08),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textScaler: TextScaler.noScaling,
+                  style: TextStyle(
+                    color: textColor.withValues(alpha: 0.92),
+                    fontWeight: FontWeight.w700,
+                    fontSize: width * 0.52,
+                    height: 1,
+                  ),
                 ),
               ),
             ),

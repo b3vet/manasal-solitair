@@ -62,13 +62,27 @@ class BoardMetrics {
 
   double _colX(int c) => _pad + c * (card.width + Dim.gap);
 
-  // Deste + atık: en üst satırın solunda.
-  Offset stockTopLeft() => Offset(_colX(0), infoTop);
-  Offset wasteTopLeft() => Offset(_colX(1), infoTop);
+  /// Atık yelpazesinde gösterilecek en fazla kart (en yeni + 2 eski kenar).
+  static const int wasteFanMax = 3;
 
-  // Sayaç bölgesi: en üst satırın sağı (deste/atıktan sonra).
+  /// Arkadaki eski atık kartlarının görünen dikey şerit genişliği.
+  double get wasteStripWidth => card.width * 0.22;
+
+  // Deste: en üst satırın en solunda.
+  Offset stockTopLeft() => Offset(_colX(0), infoTop);
+
+  // En yeni (etkileşimli) atık kartı: solunda eski kartların kenarlarına yer
+  // bırakmak için sabit biçimde sağa kaydırılmıştır.
+  Offset wasteTopLeft() =>
+      Offset(_colX(1) + (wasteFanMax - 1) * wasteStripWidth, infoTop);
+
+  // Arkadaki eski atık kartının kenar konumu (back=1 en yeniye komşu).
+  Offset wasteEdgeTopLeft(int back) =>
+      Offset(wasteTopLeft().dx - back * wasteStripWidth, infoTop);
+
+  // Sayaç bölgesi: atık yelpazesinin sağında kalan alan.
   Rect get statArea => Rect.fromLTRB(
-    _colX(2) + Dim.gap,
+    wasteTopLeft().dx + card.width + Dim.gap,
     infoTop,
     size.width - _pad,
     infoTop + card.height,
