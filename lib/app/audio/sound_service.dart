@@ -1,11 +1,10 @@
-/// Ses efektleri servisi (audioplayers). Kod-sentezli WAV'ları önyükler ve
-/// çalar. Ayara bağlı (enabled). Web'de ilk kullanıcı hareketiyle kilit açılır.
+/// Ses efektleri servisi. Kod-sentezli WAV'ları önyükler ve çalar; ayara bağlı
+/// (enabled). Platforma göre arka uç seçilir:
+///  - Web: Web Audio API (arka plan müziğini KESMEZ, karışır).
+///  - Yerel: audioplayers ("diğerleriyle karış" ayarıyla).
 library;
 
-import 'dart:async';
-
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
+import 'sound_backend_web.dart' if (dart.library.io) 'sound_backend_io.dart';
 
 enum Sfx {
   place,
@@ -37,44 +36,24 @@ class SoundService {
     Sfx.button: 'audio/button.wav',
   };
 
-  final Map<Sfx, AudioPlayer> _players = {};
+  final SoundBackend _backend = SoundBackend();
   bool enabled = true;
   bool _loaded = false;
 
   Future<void> load() async {
     if (_loaded) return;
-    for (final entry in _files.entries) {
-      try {
-        final p = AudioPlayer(playerId: 'sfx_${entry.key.name}');
-        await p.setReleaseMode(ReleaseMode.stop);
-        await p.setSource(AssetSource(entry.value));
-        await p.setVolume(0.7);
-        _players[entry.key] = p;
-      } catch (e) {
-        debugPrint('Ses yüklenemedi ${entry.value}: $e');
-      }
-    }
+    final files = {for (final e in _files.entries) e.key.name: e.value};
+    await _backend.load(files);
     _loaded = true;
   }
 
   void play(Sfx sfx) {
     if (!enabled || !_loaded) return;
-    final p = _players[sfx];
-    if (p == null) return;
-    // Ateşle-unut; hataları yut (web autoplay vb.).
-    unawaited(() async {
-      try {
-        await p.stop();
-        await p.resume();
-      } catch (_) {}
-    }());
+    _backend.play(sfx.name);
   }
 
   void dispose() {
-    for (final p in _players.values) {
-      p.dispose();
-    }
-    _players.clear();
+    _backend.dispose();
     _loaded = false;
   }
 }
