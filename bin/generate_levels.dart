@@ -49,9 +49,17 @@ void main(List<String> args) {
     var usedSeed = 0;
     var tries = 0;
 
-    LevelDef? best;
+    // Dar hamle limiti için: birkaç çözülebilir tohum örnekle ve EN KISA
+    // çözümü (optimuma en yakın) seç. Böylece limit = kısa_çözüm * marj gerçekten
+    // dar olur. Aşırı uzun/dolambaçlı çözümler (limiti şişiren) elenir.
+    const optimizeSamples = 3;
+    LevelDef? best; // sınır içindeki en kısa
     SolveResult? bestResult;
     var bestSeed = 0;
+    LevelDef? anyBest; // sınır dışı da olsa en kısa (yedek)
+    SolveResult? anyBestResult;
+    var anyBestSeed = 0;
+    var samples = 0;
     for (var t = 0; t < maxTries; t++) {
       tries++;
       final seed = _seedFor(lvl, t);
@@ -64,26 +72,28 @@ void main(List<String> args) {
       final res = Solver.solve(level, maxNodes: maxNodes);
       totalNodes += res.nodes;
       if (!res.solved) continue;
-      // En kısa çözümü yedek olarak sakla.
+      if (anyBestResult == null || res.moveCount < anyBestResult.moveCount) {
+        anyBest = level;
+        anyBestResult = res;
+        anyBestSeed = seed;
+      }
+      if (res.moveCount > level.totalCards * 2.2) continue; // dolambaçlı: ele
+      samples++;
       if (bestResult == null || res.moveCount < bestResult.moveCount) {
         best = level;
         bestResult = res;
         bestSeed = seed;
       }
-      // Sıkı çözüm: kabul et. Aşırı uzun/dolambaçlı çözümler (çözücünün kötü
-      // yol bulduğu tohumlar) hamle limitini şişirir — onları ele, tohum dene.
-      if (res.moveCount <= level.totalCards * 2.2) {
-        accepted = level;
-        acceptedResult = res;
-        usedSeed = seed;
-        break;
-      }
+      if (samples >= optimizeSamples) break; // yeterli örnek → en kısasını al
     }
-    // Hiç "sıkı" çözüm çıkmadıysa en kısa olanı al.
-    if (accepted == null && best != null) {
+    if (best != null) {
       accepted = best;
       acceptedResult = bestResult;
       usedSeed = bestSeed;
+    } else if (anyBest != null) {
+      accepted = anyBest;
+      acceptedResult = anyBestResult;
+      usedSeed = anyBestSeed;
     }
     totalTries += tries;
 

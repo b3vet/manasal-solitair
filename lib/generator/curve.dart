@@ -2,14 +2,14 @@
 ///
 /// Tasarım (kullanıcı yönü):
 ///  - Oynanabilir sütun sayısı bölümden bölüme DEĞİŞİR (4/5/6).
-///  - Kategori sayısı DAİMA sütun sayısından fazladır. Taban kural:
-///    4 sütun→≥7 kategori, 5→≥8, 6→≥9 (yani en az columnCount+3). İlerledikçe
-///    bu sayıların da üstüne çıkılır (juggle artar).
-///  - Sütunlar DERİNDİR: sütun başına birkaç kapalı kart olur; üstteki bitince
-///    yeni kart açılır — böylece sütunu boşaltmak düşünmeyi gerektirir, oyun
-///    "kartı oradan oraya kaydırma"ya düşmez.
-///  - Yalnızca ilk 3 bölüm kolaydır; 3'ten sonra zorluk hızla tırmanır.
-///  - Hamle limiti dar tutulur (elde çok hamle kalmasın). (Spec §11.4)
+///  - Kategori sayısı DAİMA sütun sayısından fazladır. Taban: 4→7, 5→8, 6→9
+///    (columnCount+3); ilerledikçe üstüne çıkılır (juggle artar).
+///  - Kapalı kartlar gerçek solitaire gibi MERDİVEN dizilir: sütun başına artan
+///    (soldan sağa depthMin, depthMin+1, ...). Derin sütunları boşaltmak sıra ve
+///    düşünme gerektirir.
+///  - Yalnızca ilk 3 bölüm kolaydır; 4. bölümden itibaren zorluk HIZLA tırmanır
+///    (~15. bölümde belirgin şekilde zor).
+///  - Hamle limiti dardır (üretici en kısa çözümü seçer, marj küçüktür).
 library;
 
 class LevelParams {
@@ -18,7 +18,7 @@ class LevelParams {
     required this.categoryCount,
     required this.minWords,
     required this.maxWords,
-    required this.faceDownCount,
+    required this.columnDepthMin,
     required this.marginMultiplier,
     required this.maxDifficulty,
     required this.allowSoftConflict,
@@ -33,8 +33,9 @@ class LevelParams {
   final int minWords;
   final int maxWords;
 
-  /// Toplam kapalı (gömülü) kart sayısı — sütunlara dağıtılır (derinlik).
-  final int faceDownCount;
+  /// Merdiven dağılımında en sığ (soldaki) sütunun kapalı kart sayısı. Sütun c
+  /// için kapalı kart = columnDepthMin + c (soldan sağa artar).
+  final int columnDepthMin;
   final double marginMultiplier;
   final int maxDifficulty;
   final bool allowSoftConflict;
@@ -48,45 +49,61 @@ int _columnsFor(int level, int lo, int hi) {
 }
 
 LevelParams curveFor(int level) {
-  // İlk 3 bölüm: kolay eğitim (az kategori, az gömülü, cömert hamle).
+  // İlk 3 bölüm: kolay eğitim (küçük, sığ merdiven, cömert hamle).
   if (level <= 3) {
-    final cats = level + 3; // 4,5,6
     return LevelParams(
       columnCount: 4,
-      categoryCount: cats,
+      categoryCount: level + 3, // 4,5,6
       minWords: 3,
       maxWords: level == 1 ? 3 : 4,
-      faceDownCount: level * 2, // 2,4,6 (sütun başına ~0.5-1.5)
-      marginMultiplier: level == 1 ? 1.8 : 1.55,
+      columnDepthMin: 0, // merdiven: 0,1,2,3
+      marginMultiplier: level == 1 ? 1.7 : 1.5,
       maxDifficulty: 1,
       allowSoftConflict: false,
-      rotationWindow: 5,
+      rotationWindow: 6,
     );
   }
 
-  // 4. bölümden itibaren gerçek zorluk. Taban: kategori = sütun + 3
-  // (4→7, 5→8, 6→9). İlerledikçe fazladan kategori (excess) ve sütun derinliği
-  // (depth) artar; hamle limiti daralır.
+  // 4. bölümden itibaren HIZLI tırmanış. Sütun sayısı 4/5/6 arası değişir.
   final cols = _columnsFor(level, 4, 6);
-  // Fazladan kategori (juggle): taban 3 (4→7,5→8,6→9), sonra 4. (Çözücünün
-  // güvenilir üretebilmesi için üst sınır 4.)
-  final excess = level <= 25 ? 3 : 4;
-  // Sütun derinliği (kapalı kart): 3 → 4. Boşaltmak düşünmeyi gerektirir.
-  final depth = level <= 12 ? 3 : 4;
-  final margin = level <= 12
-      ? 1.32
-      : level <= 35
-      ? 1.24
-      : 1.18;
+  final int excess; // categories - columns (juggle)
+  final int depthMin; // merdivenin en sığ sütunu
+  final double margin;
+  if (level <= 6) {
+    excess = 3;
+    depthMin = 1;
+    margin = 1.26;
+  } else if (level <= 10) {
+    excess = 3;
+    depthMin = 1;
+    margin = 1.20;
+  } else if (level <= 15) {
+    excess = 4;
+    depthMin = 2;
+    margin = 1.15;
+  } else if (level <= 30) {
+    excess = 4;
+    depthMin = 2;
+    margin = 1.13;
+  } else if (level <= 60) {
+    excess = 4;
+    depthMin = 2;
+    margin = 1.12;
+  } else {
+    excess = 4;
+    depthMin = 2;
+    margin = 1.12;
+  }
+
   return LevelParams(
     columnCount: cols,
     categoryCount: cols + excess,
-    minWords: level <= 25 ? 4 : 5,
-    maxWords: level <= 25 ? 5 : 6,
-    faceDownCount: cols * depth,
+    minWords: level <= 15 ? 4 : 5,
+    maxWords: level <= 15 ? 5 : 6,
+    columnDepthMin: depthMin,
     marginMultiplier: margin,
-    maxDifficulty: level <= 15 ? 2 : 3,
-    allowSoftConflict: level > 40,
+    maxDifficulty: level <= 10 ? 2 : 3,
+    allowSoftConflict: level > 30,
     rotationWindow: 12,
   );
 }

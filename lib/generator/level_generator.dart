@@ -58,16 +58,24 @@ class LevelGenerator {
 
     rng.shuffle(allCards);
 
-    // Dağıtım: bölüme özgü sütun sayısı. Önce gömülü (kapalı) kartlar, sonra
-    // her sütuna 1 açık, kalanı deste.
+    // Dağıtım: bölüme özgü sütun sayısı. Kapalı kartlar MERDİVEN dizilir —
+    // sütun c için (columnDepthMin + c) kapalı kart (soldan sağa artar, gerçek
+    // solitaire gibi). Her sütuna 1 açık kart, kalanı deste.
     final columnCount = params.columnCount;
     final down = List.generate(columnCount, (_) => <GameCard>[]);
     final up = List<GameCard?>.filled(columnCount, null);
+    // Merdiven: soldan sağa artar ama en fazla +3 (geniş tahtalarda en derin
+    // sütun aşırı derinleşmesin — çözülebilirlik/üretim hızı için).
+    final depths = [
+      for (var c = 0; c < columnCount; c++)
+        params.columnDepthMin + (c < 4 ? c : 3),
+    ];
 
     var idx = 0;
-    final faceDown = params.faceDownCount.clamp(0, allCards.length);
-    for (var i = 0; i < faceDown && idx < allCards.length; i++) {
-      down[i % columnCount].add(allCards[idx++]);
+    for (var c = 0; c < columnCount; c++) {
+      for (var k = 0; k < depths[c] && idx < allCards.length; k++) {
+        down[c].add(allCards[idx++]);
+      }
     }
     for (var c = 0; c < columnCount && idx < allCards.length; c++) {
       up[c] = allCards[idx++];
