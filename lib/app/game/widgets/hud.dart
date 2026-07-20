@@ -31,64 +31,86 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      padding: const EdgeInsets.fromLTRB(10, 6, 10, 8),
+      padding: const EdgeInsets.fromLTRB(12, 6, 12, 10),
       child: Row(
         children: [
-          _iconButton(colors, Icons.menu_rounded, onMenu),
-          const SizedBox(width: 6),
-          Flexible(
-            child: _chip(
-              colors,
-              icon: Icons.tag_rounded,
-              label: 'Bölüm $levelId',
-            ),
-          ),
-          const SizedBox(width: 6),
-          _actionButton(
-            colors,
-            icon: Icons.lightbulb_outline_rounded,
-            label: 'İpucu',
-            onTap: onHint,
-          ),
-          const SizedBox(width: 6),
-          _actionButton(
-            colors,
-            icon: Icons.undo_rounded,
-            label: '$undoCredits',
-            onTap: canUndo && undoCredits > 0 ? onUndo : null,
-          ),
+          _circleButton(colors, Icons.menu_rounded, onMenu),
+          const SizedBox(width: 8),
+          Flexible(child: _levelChip(colors)),
+          const Spacer(),
+          _hintButton(colors),
+          const SizedBox(width: 8),
+          _undoButton(colors),
         ],
       ),
     );
   }
 
-  Widget _actionButton(
-    GameColors colors, {
-    required IconData icon,
-    required String label,
-    required VoidCallback? onTap,
-  }) {
-    final enabled = onTap != null;
+  Widget _hintButton(GameColors colors) {
+    return Material(
+      color: colors.accentSoft,
+      borderRadius: BorderRadius.circular(Dim.pill),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(Dim.pill),
+        onTap: onHint,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 11),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.lightbulb_outline_rounded,
+                size: 19,
+                color: colors.accent,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                'İpucu',
+                style: TextStyle(
+                  color: colors.accent,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 14.5,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _undoButton(GameColors colors) {
+    final enabled = canUndo && undoCredits > 0;
     return Opacity(
-      opacity: enabled ? 1 : 0.4,
+      opacity: enabled ? 1 : 0.45,
       child: Material(
-        color: colors.accentSoft,
-        borderRadius: BorderRadius.circular(12),
+        color: colors.surface,
+        shape: const CircleBorder(),
         child: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: onTap,
+          customBorder: const CircleBorder(),
+          onTap: enabled ? onUndo : null,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.all(11),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 20, color: colors.accent),
+                Icon(Icons.undo_rounded, size: 20, color: colors.ink),
                 const SizedBox(width: 5),
-                Text(
-                  label,
-                  style: TextStyle(
+                Container(
+                  width: 20,
+                  height: 20,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
                     color: colors.accent,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '$undoCredits',
+                    style: TextStyle(
+                      color: colors.onAccent,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ],
@@ -99,48 +121,37 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-  Widget _chip(
-    GameColors colors, {
-    required IconData icon,
-    required String label,
-  }) {
+  Widget _levelChip(GameColors colors) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Dim.pill),
         border: Border.all(color: colors.cardEdge),
       ),
       child: FittedBox(
         fit: BoxFit.scaleDown,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 15, color: colors.inkSoft),
-            const SizedBox(width: 4),
-            Text(
-              label,
-              style: TextStyle(
-                color: colors.ink,
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
-              ),
-            ),
-          ],
+        child: Text(
+          'Bölüm $levelId',
+          style: TextStyle(
+            color: colors.ink,
+            fontWeight: FontWeight.w700,
+            fontSize: 13.5,
+          ),
         ),
       ),
     );
   }
 
-  Widget _iconButton(GameColors colors, IconData icon, VoidCallback onTap) {
+  Widget _circleButton(GameColors colors, IconData icon, VoidCallback onTap) {
     return Material(
       color: colors.surface,
-      borderRadius: BorderRadius.circular(12),
+      shape: const CircleBorder(),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
+        customBorder: const CircleBorder(),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(11),
           child: Icon(icon, size: 22, color: colors.ink),
         ),
       ),

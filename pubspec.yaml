@@ -67,15 +67,15 @@ flutter:
     - assets/audio/
 
   fonts:
-    - family: Roboto
+    # Manrope (arayüz) ve Lora (kelimeler + başlıklar) — ikisi de değişken font
+    # (wght ekseni). Flutter, TextStyle.fontWeight değerini wght eksenine eşler.
+    # Açık lisanslı (SIL OFL), gömülü — harici CDN yok.
+    - family: Manrope
       fonts:
-        - asset: assets/fonts/Roboto-Regular.ttf
-        - asset: assets/fonts/Roboto-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Roboto-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/Roboto-Black.ttf
-          weight: 900
+        - asset: assets/fonts/Manrope.ttf
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

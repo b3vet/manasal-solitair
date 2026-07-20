@@ -96,6 +96,7 @@ class _GameScreenState extends State<GameScreen> {
         movesLeft: s.movesLeft,
         creditsAwarded: awarded,
         hasNext: _index < widget.levels.length - 1,
+        levelId: s.level.id,
       );
     } else {
       _firstTry = false;
@@ -103,6 +104,7 @@ class _GameScreenState extends State<GameScreen> {
         context,
         status: s.status,
         canUndoContinue: _meta.credits > 0 && _controller.canUndo,
+        movesLeft: s.movesLeft,
       );
     }
     if (!mounted) return;
@@ -167,7 +169,14 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> _pause() async {
-    final action = await showPauseDialog(context);
+    final s = _controller.state;
+    final action = await showPauseDialog(
+      context,
+      levelId: s.level.id,
+      movesLeft: s.movesLeft,
+      completed: s.completedCount,
+      totalCategories: s.totalCategories,
+    );
     if (!mounted) return;
     switch (action) {
       case GameDialogAction.retry:

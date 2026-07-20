@@ -1,16 +1,22 @@
-/// Kart görselleri: kelime kartı, kategori kartı, kart sırtı, boş slot.
+/// Kart görselleri (Kilim yönü): kelime kartı, kategori kartı ("as"), kart
+/// sırtı, boş slot, atık kenarı.
+///
+/// Kelime kartları Lora (serif) ile yazılır; kategori adı Manrope (sans),
+/// büyük harf. Renk kategori anlamı taşımaz — tüm kategori kartları aynı kilim
+/// indigosudur (Spec K7).
 library;
 
 import 'package:flutter/material.dart';
 
 import '../../../content/tr_text.dart';
 import '../../../engine/cards.dart';
+import '../../theme/kilim.dart';
 import '../../theme/tokens.dart';
 
 /// Metnin verilen alana (maxLines satırla) sığdığı en büyük punto.
 ///
 /// Not: TextPainter tema fontunu miras almaz; ölçüm ile çizimin uyuşması için
-/// 'Roboto' açıkça verilir ve ölçek kapatılır (kartlar sabit düzen).
+/// font ailesi açıkça verilir ve ölçek kapatılır (kartlar sabit düzen).
 final _fitCache = <String, double>{};
 
 double _fitFontSize({
@@ -23,11 +29,12 @@ double _fitFontSize({
   required FontWeight weight,
   required double height,
   required double letterSpacing,
+  required String fontFamily,
 }) {
   if (maxW <= 0 || maxH <= 0) return minFont;
   final key =
       '$text|${maxW.toStringAsFixed(1)}|${maxH.toStringAsFixed(1)}'
-      '|$maxLines|${weight.value}|$height|$letterSpacing'
+      '|$maxLines|${weight.value}|$height|$letterSpacing|$fontFamily'
       '|${minFont.toStringAsFixed(1)}|${maxFont.toStringAsFixed(1)}';
   final cached = _fitCache[key];
   if (cached != null) return cached;
@@ -38,7 +45,7 @@ double _fitFontSize({
       fontWeight: weight,
       height: height,
       letterSpacing: letterSpacing,
-      fontFamily: 'Roboto',
+      fontFamily: fontFamily,
     );
     // Hiçbir kelime satır genişliğini aşmamalı (kelime ortadan bölünmesin;
     // yalnızca boşluklardan sarılsın). Çizici tam maxW'de sardığı için 1px
@@ -91,6 +98,7 @@ class _FitText extends StatelessWidget {
     required this.color,
     required this.weight,
     this.height = 1.05,
+    this.fontFamily = Fonts.serif,
   });
 
   final String text;
@@ -100,6 +108,7 @@ class _FitText extends StatelessWidget {
   final Color color;
   final FontWeight weight;
   final double height;
+  final String fontFamily;
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +126,11 @@ class _FitText extends StatelessWidget {
           weight: weight,
           height: height,
           letterSpacing: 0,
+          fontFamily: fontFamily,
         );
         // Ölçüm ile çizim BİREBİR uyuşmalı: font ailesi ve harf aralığı burada
-        // da açıkça verilir (temadan miras alınan letterSpacing farklı olup son
-        // harfin taşmasına yol açıyordu).
-        // Üste hizalı: sütunda üst üste dizilince alttaki kartların yazısı da
-        // görünen üst şeritte kalır.
+        // da açıkça verilir. Üste hizalı: sütunda üst üste dizilince alttaki
+        // kartların yazısı da görünen üst şeritte kalır.
         return Align(
           alignment: Alignment.topLeft,
           child: Text(
@@ -134,7 +142,7 @@ class _FitText extends StatelessWidget {
             textScaler: TextScaler.noScaling,
             style: TextStyle(
               color: color,
-              fontFamily: 'Roboto',
+              fontFamily: fontFamily,
               fontWeight: weight,
               fontSize: fs,
               height: height,
@@ -156,6 +164,8 @@ class _CardFrame extends StatelessWidget {
     required this.child,
     this.elevation = 2,
     this.shadow,
+    this.gradient,
+    this.highlight,
   });
 
   final Size size;
@@ -164,26 +174,37 @@ class _CardFrame extends StatelessWidget {
   final Widget child;
   final double elevation;
   final Color? shadow;
+  final Gradient? gradient;
+
+  /// Verilirse: bu renkte belirgin kenarlık + hafif dış parıltı (seçili/ipucu).
+  final Color? highlight;
 
   @override
   Widget build(BuildContext context) {
+    final hl = highlight;
     return SizedBox(
       width: size.width,
       height: size.height,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: color,
+          color: gradient == null ? color : null,
+          gradient: gradient,
           borderRadius: BorderRadius.circular(Dim.cardRadius),
-          border: Border.all(color: border, width: 1),
-          boxShadow: elevation > 0
-              ? [
-                  BoxShadow(
-                    color: shadow ?? const Color(0x22000000),
-                    blurRadius: elevation * 2,
-                    offset: Offset(0, elevation),
-                  ),
-                ]
-              : null,
+          border: Border.all(color: hl ?? border, width: hl != null ? 2.5 : 1),
+          boxShadow: [
+            if (elevation > 0)
+              BoxShadow(
+                color: shadow ?? const Color(0x22000000),
+                blurRadius: elevation * 2.2,
+                offset: Offset(0, elevation),
+              ),
+            if (hl != null)
+              BoxShadow(
+                color: hl.withValues(alpha: 0.35),
+                blurRadius: 14,
+                spreadRadius: 0.5,
+              ),
+          ],
         ),
         child: child,
       ),
@@ -198,36 +219,40 @@ class WordCardView extends StatelessWidget {
     required this.size,
     required this.colors,
     this.raised = false,
+    this.highlight = false,
   });
 
   final WordCard card;
   final Size size;
   final GameColors colors;
   final bool raised;
+  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
-    final padH = size.width * 0.09;
-    final padV = size.height * 0.07;
+    final padH = size.width * 0.10;
+    final padV = size.height * 0.08;
     return _CardFrame(
       size: size,
       color: colors.cardFace,
       border: colors.cardEdge,
-      elevation: raised ? 8 : 2,
+      elevation: raised ? 10 : 2,
       shadow: colors.shadow,
+      highlight: highlight ? colors.accent : null,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: padH, vertical: padV),
-        // Çok satır kullanır; sadece gerçekten sığmazsa küçülür (Spec K7).
-        // minFont düşük: 10+ harfli tek kelimeler (ör. "Bağışıklık") kırpılmadan
-        // sığsın.
+        // Lora (serif). Çok satır kullanır; sadece gerçekten sığmazsa küçülür
+        // (Spec K7). minFont düşük: 10+ harfli tek kelimeler ("Bağışıklık")
+        // kırpılmadan sığsın.
         child: _FitText(
           text: TrText.capitalize(card.word),
           maxLines: 3,
           minFont: size.height * 0.085,
-          maxFont: size.height * 0.30,
+          maxFont: size.height * 0.28,
           color: colors.cardText,
-          weight: FontWeight.w700,
-          height: 1.06,
+          weight: FontWeight.w600,
+          height: 1.08,
+          fontFamily: Fonts.serif,
         ),
       ),
     );
@@ -243,6 +268,7 @@ class CategoryCardView extends StatelessWidget {
     this.collected,
     this.locked = false,
     this.raised = false,
+    this.highlight = false,
   });
 
   final CategoryCard card;
@@ -253,19 +279,34 @@ class CategoryCardView extends StatelessWidget {
   final int? collected;
   final bool locked;
   final bool raised;
+  final bool highlight;
 
   @override
   Widget build(BuildContext context) {
     final counterText = collected == null
         ? '${card.totalInLevel}'
         : '$collected/${card.totalInLevel}';
-    final pad = size.width * 0.09;
+    // Sayaç pili: ilerleme varsa terrakotta, yoksa soluk indigo çip.
+    final progressed = collected != null && collected! > 0;
+    final pillBg = progressed
+        ? colors.accent
+        : colors.categoryText.withValues(alpha: 0.16);
+    final pillText = progressed ? colors.onAccent : colors.categoryText;
+    final pad = size.width * 0.10;
+    // Kategori kartı: hafif dikey gradyan (üstte biraz açık) — dokuma his.
+    final faceTop = Color.lerp(colors.categoryFace, colors.categoryText, 0.07)!;
     return _CardFrame(
       size: size,
       color: colors.categoryFace,
       border: colors.categoryFace,
-      elevation: raised ? 9 : 3,
+      elevation: raised ? 11 : 3,
       shadow: colors.shadow,
+      highlight: highlight ? colors.accent : null,
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [faceTop, colors.categoryFace],
+      ),
       child: Padding(
         padding: EdgeInsets.all(pad),
         child: Column(
@@ -273,25 +314,20 @@ class CategoryCardView extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.folder_special_rounded,
-                  size: size.height * 0.16,
-                  color: colors.accent,
-                ),
+                KilimDiamond(size: size.height * 0.13, color: colors.gold),
                 if (locked) ...[
                   const Spacer(),
                   Icon(
                     Icons.lock_rounded,
-                    size: size.height * 0.15,
-                    color: colors.categoryText.withValues(alpha: 0.7),
+                    size: size.height * 0.14,
+                    color: colors.categoryText.withValues(alpha: 0.75),
                   ),
                 ],
               ],
             ),
             const Spacer(),
-            // Kategori adı uzun olabilir; serbestçe satıra sarılır ve FittedBox
-            // tüm bloğu kutuya sığacak şekilde küçültür (asla kırpma, kelimeyi
-            // ortadan bölme). maxLines yok: uzun adlar tam görünür.
+            // Kategori adı Manrope (sans), büyük harf. Serbestçe satıra sarılır;
+            // FittedBox tüm bloğu kutuya sığdırır (asla kırpma).
             SizedBox(
               width: double.infinity,
               height: size.height * 0.34,
@@ -305,31 +341,33 @@ class CategoryCardView extends StatelessWidget {
                     textScaler: TextScaler.noScaling,
                     style: TextStyle(
                       color: colors.categoryText,
+                      fontFamily: Fonts.sans,
                       fontWeight: FontWeight.w800,
-                      fontSize: size.height * 0.14,
+                      fontSize: size.height * 0.135,
                       height: 1.05,
-                      letterSpacing: 0.2,
+                      letterSpacing: 0.3,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.035),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.09,
-                vertical: size.height * 0.02,
+                horizontal: size.width * 0.10,
+                vertical: size.height * 0.022,
               ),
               decoration: BoxDecoration(
-                color: colors.accent,
-                borderRadius: BorderRadius.circular(999),
+                color: pillBg,
+                borderRadius: BorderRadius.circular(Dim.pill),
               ),
               child: Text(
                 counterText,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: pillText,
+                  fontFamily: Fonts.sans,
                   fontWeight: FontWeight.w800,
-                  fontSize: size.height * 0.13,
+                  fontSize: size.height * 0.12,
                 ),
               ),
             ),
@@ -347,38 +385,22 @@ class CardBackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _CardFrame(
-      size: size,
-      color: colors.accent,
-      border: colors.cardEdge,
-      elevation: 1,
-      shadow: colors.shadow,
-      child: Center(
-        child: Container(
-          width: size.width * 0.58,
-          height: size.height * 0.58,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.35),
-              width: 1.5,
-            ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Dim.cardRadius),
+        boxShadow: [
+          BoxShadow(
+            color: colors.shadow,
+            blurRadius: 3,
+            offset: const Offset(0, 1.5),
           ),
-          child: Center(
-            child: Transform.rotate(
-              angle: 0.785398, // 45°
-              child: Container(
-                width: size.width * 0.22,
-                height: size.width * 0.22,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.30),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              ),
-            ),
-          ),
+        ],
+        border: Border.all(
+          color: colors.onAccent.withValues(alpha: 0.85),
+          width: 2,
         ),
       ),
+      child: KilimCardBack(size: size, colors: colors),
     );
   }
 }
@@ -438,8 +460,9 @@ class WasteEdgeView extends StatelessWidget {
                   textScaler: TextScaler.noScaling,
                   style: TextStyle(
                     color: textColor.withValues(alpha: 0.92),
-                    fontWeight: FontWeight.w700,
-                    fontSize: width * 0.52,
+                    fontFamily: isCategory ? Fonts.sans : Fonts.serif,
+                    fontWeight: isCategory ? FontWeight.w700 : FontWeight.w600,
+                    fontSize: width * 0.5,
                     height: 1,
                   ),
                 ),
@@ -452,7 +475,7 @@ class WasteEdgeView extends StatelessWidget {
   }
 }
 
-/// Boş yer (slot veya sütun) çerçevesi.
+/// Boş yer (slot veya sütun) çerçevesi — kesikli kilim çerçevesi.
 class EmptyFrameView extends StatelessWidget {
   const EmptyFrameView({
     super.key,
@@ -471,14 +494,10 @@ class EmptyFrameView extends StatelessWidget {
     return SizedBox(
       width: size.width,
       height: size.height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.slotEmpty.withValues(alpha: 0.35),
-          borderRadius: BorderRadius.circular(Dim.cardRadius),
-          border: Border.all(
-            color: colors.inkSoft.withValues(alpha: 0.35),
-            width: 1.2,
-          ),
+      child: CustomPaint(
+        painter: DashedRRectPainter(
+          color: colors.slotEmpty.withValues(alpha: 0.8),
+          radius: Dim.cardRadius,
         ),
         child: icon == null && label == null
             ? null
@@ -489,8 +508,8 @@ class EmptyFrameView extends StatelessWidget {
                     if (icon != null)
                       Icon(
                         icon,
-                        color: colors.inkSoft.withValues(alpha: 0.6),
-                        size: size.height * 0.24,
+                        color: colors.slotEmpty,
+                        size: size.height * 0.22,
                       ),
                     if (label != null)
                       Padding(

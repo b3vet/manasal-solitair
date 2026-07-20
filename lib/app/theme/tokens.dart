@@ -1,10 +1,25 @@
-/// Tasarım token'ları: kağıt/kitap teması renkleri, ölçüler, süreler.
+/// Tasarım token'ları: "Kilim" yönü — çağdaş Anadolu. Renkler, ölçüler, süreler.
 ///
-/// Renge dayalı kategori ayrımı YOKTUR (kelime kartlarında kategori işareti
-/// yok — Spec K7). Renkler yalnızca yüzey/mürekkep/vurgu içindir.
+/// Palet felsefesi (tasarım): toprak kızılı (accent) tek canlı vurgu; kilim
+/// indigosu (categoryFace) YALNIZCA kategori kartı ve marka yüzeylerinde;
+/// elma-altını (gold) nişan/yıldız rengi. Renk HİÇBİR yerde kategori anlamı
+/// taşımaz (kelime kartlarında kategori işareti yok — Spec K7).
+///
+/// Tipografi: Lora (serif) = kelimeler + başlıklar; Manrope (sans) = arayüz.
 library;
 
 import 'package:flutter/material.dart';
+
+/// Font aileleri — tek yerden.
+class Fonts {
+  const Fonts._();
+
+  /// Serif — kelime kartları ve ekran başlıkları.
+  static const serif = 'Lora';
+
+  /// Sans — tüm arayüz metni (buton, etiket, sayaç, kategori adı, gövde).
+  static const sans = 'Manrope';
+}
 
 /// Oyuna özgü renkler — ThemeExtension olarak taşınır.
 @immutable
@@ -12,13 +27,17 @@ class GameColors extends ThemeExtension<GameColors> {
   const GameColors({
     required this.bg,
     required this.surface,
-    required this.cardFace,
-    required this.cardEdge,
-    required this.cardText,
+    required this.surfaceAlt,
     required this.ink,
     required this.inkSoft,
     required this.accent,
+    required this.accentDeep,
     required this.accentSoft,
+    required this.onAccent,
+    required this.gold,
+    required this.cardFace,
+    required this.cardEdge,
+    required this.cardText,
     required this.categoryFace,
     required this.categoryText,
     required this.slotEmpty,
@@ -27,69 +46,122 @@ class GameColors extends ThemeExtension<GameColors> {
     required this.shadow,
   });
 
+  /// Uygulama zemini (sıcak kâğıt / sıcak koyu kahve).
   final Color bg;
+
+  /// Kart, panel, buton yüzeyi (kremimsi beyaz / koyu kahve).
   final Color surface;
-  final Color cardFace;
-  final Color cardEdge;
-  final Color cardText;
+
+  /// İkincil yüzey — kutucuk, alt panel, hafif yükselti.
+  final Color surfaceAlt;
+
+  /// Birincil metin (koyu kahve mürekkep / krem).
   final Color ink;
+
+  /// İkincil metin (soluk taupe).
   final Color inkSoft;
+
+  /// Toprak kızılı — tek canlı vurgu (dolgu buton, aktif, sayaç, ipucu).
   final Color accent;
+
+  /// Daha koyu terrakotta — basılı/gradyan alt tonu, vurgu kenarı.
+  final Color accentDeep;
+
+  /// Terrakotta doku zemini (çip/kutucuk arka planı).
   final Color accentSoft;
+
+  /// accent dolgu üzerindeki metin/ikon (açık temada krem, koyuda koyu kahve).
+  final Color onAccent;
+
+  /// Elma-altını — kilim elması, yıldız, nişan rozetleri.
+  final Color gold;
+
+  /// Kelime kartı yüzü.
+  final Color cardFace;
+
+  /// Kart kenarlığı / ayraç.
+  final Color cardEdge;
+
+  /// Kelime kartı metni.
+  final Color cardText;
+
+  /// Kategori kartı ("as") yüzü — kilim indigosu.
   final Color categoryFace;
+
+  /// Kategori kartı metni (indigo üzerinde krem).
   final Color categoryText;
+
+  /// Boş slot / boş sütun kesikli çerçeve rengi.
   final Color slotEmpty;
+
+  /// Tehlike (kritik az hamle).
   final Color danger;
+
+  /// Uyarı (hamle azalıyor).
   final Color warning;
+
+  /// Gölge rengi.
   final Color shadow;
 
   static const light = GameColors(
-    bg: Color(0xFFF7F1E4),
-    surface: Color(0xFFFFFDF7),
-    cardFace: Color(0xFFFFFDF6),
-    cardEdge: Color(0xFFE4DAC5),
-    cardText: Color(0xFF2A2620),
-    ink: Color(0xFF2A2620),
-    inkSoft: Color(0xFF6A6153),
-    accent: Color(0xFF0E7A6D),
-    accentSoft: Color(0xFFDDEEEA),
-    categoryFace: Color(0xFF243027),
-    categoryText: Color(0xFFF4ECD9),
-    slotEmpty: Color(0xFFE9E0CE),
-    danger: Color(0xFFB3261E),
-    warning: Color(0xFFB9791C),
-    shadow: Color(0x33000000),
+    bg: Color(0xFFF4E9D7),
+    surface: Color(0xFFFFFCF3),
+    surfaceAlt: Color(0xFFFBF3E3),
+    ink: Color(0xFF342519),
+    inkSoft: Color(0xFF93806A),
+    accent: Color(0xFFB14E24),
+    accentDeep: Color(0xFF8F3E1B),
+    accentSoft: Color(0xFFF2DCC9),
+    onAccent: Color(0xFFFFF8EC),
+    gold: Color(0xFFC79A3D),
+    cardFace: Color(0xFFFFFCF3),
+    cardEdge: Color(0xFFE0D0B2),
+    cardText: Color(0xFF342519),
+    categoryFace: Color(0xFF2E3854),
+    categoryText: Color(0xFFFBF3E3),
+    slotEmpty: Color(0xFFC0AC8A),
+    danger: Color(0xFF9C2F2B),
+    warning: Color(0xFFC0632B),
+    shadow: Color(0x1F2A1B0E),
   );
 
   static const dark = GameColors(
-    bg: Color(0xFF16130E),
-    surface: Color(0xFF221E17),
-    cardFace: Color(0xFF2A251C),
+    bg: Color(0xFF1A120D),
+    surface: Color(0xFF2C211A),
+    surfaceAlt: Color(0xFF241A13),
+    ink: Color(0xFFF0E9D8),
+    inkSoft: Color(0xFFA8917A),
+    accent: Color(0xFFDD7E4B),
+    accentDeep: Color(0xFFB14E24),
+    accentSoft: Color(0xFF3B2314),
+    onAccent: Color(0xFF241206),
+    gold: Color(0xFFC79A3D),
+    cardFace: Color(0xFF2C211A),
     cardEdge: Color(0xFF433C2E),
-    cardText: Color(0xFFEDE7DA),
-    ink: Color(0xFFEDE7DA),
-    inkSoft: Color(0xFFB3A991),
-    accent: Color(0xFF4FC2B2),
-    accentSoft: Color(0xFF11302B),
-    categoryFace: Color(0xFF0E1613),
-    categoryText: Color(0xFFDCE9DF),
-    slotEmpty: Color(0xFF2E2921),
-    danger: Color(0xFFEF8A84),
+    cardText: Color(0xFFF0E9D8),
+    categoryFace: Color(0xFF39466B),
+    categoryText: Color(0xFFF0E9D8),
+    slotEmpty: Color(0xFF55412E),
+    danger: Color(0xFFE06452),
     warning: Color(0xFFE0B34C),
-    shadow: Color(0x55000000),
+    shadow: Color(0x59000000),
   );
 
   @override
   GameColors copyWith({
     Color? bg,
     Color? surface,
-    Color? cardFace,
-    Color? cardEdge,
-    Color? cardText,
+    Color? surfaceAlt,
     Color? ink,
     Color? inkSoft,
     Color? accent,
+    Color? accentDeep,
     Color? accentSoft,
+    Color? onAccent,
+    Color? gold,
+    Color? cardFace,
+    Color? cardEdge,
+    Color? cardText,
     Color? categoryFace,
     Color? categoryText,
     Color? slotEmpty,
@@ -99,13 +171,17 @@ class GameColors extends ThemeExtension<GameColors> {
   }) => GameColors(
     bg: bg ?? this.bg,
     surface: surface ?? this.surface,
-    cardFace: cardFace ?? this.cardFace,
-    cardEdge: cardEdge ?? this.cardEdge,
-    cardText: cardText ?? this.cardText,
+    surfaceAlt: surfaceAlt ?? this.surfaceAlt,
     ink: ink ?? this.ink,
     inkSoft: inkSoft ?? this.inkSoft,
     accent: accent ?? this.accent,
+    accentDeep: accentDeep ?? this.accentDeep,
     accentSoft: accentSoft ?? this.accentSoft,
+    onAccent: onAccent ?? this.onAccent,
+    gold: gold ?? this.gold,
+    cardFace: cardFace ?? this.cardFace,
+    cardEdge: cardEdge ?? this.cardEdge,
+    cardText: cardText ?? this.cardText,
     categoryFace: categoryFace ?? this.categoryFace,
     categoryText: categoryText ?? this.categoryText,
     slotEmpty: slotEmpty ?? this.slotEmpty,
@@ -120,13 +196,17 @@ class GameColors extends ThemeExtension<GameColors> {
     return GameColors(
       bg: Color.lerp(bg, other.bg, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
-      cardFace: Color.lerp(cardFace, other.cardFace, t)!,
-      cardEdge: Color.lerp(cardEdge, other.cardEdge, t)!,
-      cardText: Color.lerp(cardText, other.cardText, t)!,
+      surfaceAlt: Color.lerp(surfaceAlt, other.surfaceAlt, t)!,
       ink: Color.lerp(ink, other.ink, t)!,
       inkSoft: Color.lerp(inkSoft, other.inkSoft, t)!,
       accent: Color.lerp(accent, other.accent, t)!,
+      accentDeep: Color.lerp(accentDeep, other.accentDeep, t)!,
       accentSoft: Color.lerp(accentSoft, other.accentSoft, t)!,
+      onAccent: Color.lerp(onAccent, other.onAccent, t)!,
+      gold: Color.lerp(gold, other.gold, t)!,
+      cardFace: Color.lerp(cardFace, other.cardFace, t)!,
+      cardEdge: Color.lerp(cardEdge, other.cardEdge, t)!,
+      cardText: Color.lerp(cardText, other.cardText, t)!,
       categoryFace: Color.lerp(categoryFace, other.categoryFace, t)!,
       categoryText: Color.lerp(categoryText, other.categoryText, t)!,
       slotEmpty: Color.lerp(slotEmpty, other.slotEmpty, t)!,
@@ -141,7 +221,9 @@ class GameColors extends ThemeExtension<GameColors> {
 class Dim {
   const Dim._();
   static const double cardAspect = 0.72; // genişlik / yükseklik
-  static const double cardRadius = 10;
+  static const double cardRadius = 13;
+  static const double panelRadius = 20; // panel, kutucuk, diyalog
+  static const double pill = 999; // hap biçim (buton, çip, sayaç)
   static const double gap = 8;
   static const double pagePad = 12;
   // Kolon içi bindirme oranları (kart yüksekliğine göre).

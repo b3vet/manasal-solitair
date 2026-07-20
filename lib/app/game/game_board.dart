@@ -290,17 +290,17 @@ class _GameBoardState extends State<GameBoard>
           child: IgnorePointer(
             child: Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
                 decoration: BoxDecoration(
-                  color: colors.surface.withValues(alpha: 0.92),
-                  borderRadius: BorderRadius.circular(999),
+                  color: const Color(0xE6231710),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   '${state.stock.length}',
-                  style: TextStyle(
-                    color: colors.ink,
+                  style: const TextStyle(
+                    color: Color(0xFFF4E9D7),
                     fontWeight: FontWeight.w800,
-                    fontSize: 12,
+                    fontSize: 12.5,
                   ),
                 ),
               ),
@@ -714,18 +714,21 @@ class _StatRow extends StatelessWidget {
             value,
             style: TextStyle(
               color: valueColor,
-              fontWeight: FontWeight.w900,
-              fontSize: 26,
+              fontFamily: Fonts.sans,
+              fontWeight: FontWeight.w800,
+              fontSize: 29,
               height: 1,
             ),
           ),
         ),
+        const SizedBox(height: 1),
         Text(
           label,
           style: TextStyle(
             color: colors.inkSoft,
-            fontSize: 9,
-            letterSpacing: 1,
+            fontFamily: Fonts.sans,
+            fontSize: 10,
+            letterSpacing: 1.3,
             fontWeight: FontWeight.w700,
           ),
         ),
