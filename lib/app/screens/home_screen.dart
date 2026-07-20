@@ -1,4 +1,5 @@
-/// Ana menü: devam et, oyna, bölümler, nasıl oynanır, ayarlar, kredi.
+/// Ana menü (Kilim yönü): devam et, oyna, bölümler, nasıl oynanır, ayarlar,
+/// kredi cüzdanı, ilerleme.
 library;
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../game/game_screen.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
+import '../theme/kilim.dart';
 import '../theme/tokens.dart';
 import 'achievements_screen.dart';
 import 'how_to_play_screen.dart';
@@ -35,7 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
           future: _levelsFuture,
           builder: (context, snap) {
             if (snap.connectionState != ConnectionState.done) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(color: colors.accent),
+              );
             }
             if (snap.hasError) {
               return Center(
@@ -61,115 +65,141 @@ class _HomeScreenState extends State<HomeScreen> {
     final meta = MetaScope.of(context);
     final hasResume = meta.resumeLevelId != null;
     final playIndex = meta.highestCompleted.clamp(0, levels.length - 1);
+    final progress = (meta.highestCompleted / levels.length).clamp(0.0, 1.0);
 
     return Stack(
       children: [
+        // Alt kenarda kilim bordürü.
+        const Align(alignment: Alignment.bottomCenter, child: _Footer()),
         Positioned(
-          top: 8,
-          right: 12,
+          top: 6,
+          right: 14,
           child: _creditBadge(colors, meta.credits),
         ),
         Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
+            constraints: const BoxConstraints(maxWidth: 430),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.fromLTRB(28, 20, 28, 34),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.style_rounded, size: 72, color: colors.accent),
-                  const SizedBox(height: 12),
+                  const Spacer(flex: 3),
+                  KilimLogo(width: 92, colors: colors),
+                  const SizedBox(height: 22),
                   Text(
                     'Manasal\nSolitaire',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: colors.ink,
-                      fontSize: 40,
-                      height: 1.05,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: -0.5,
+                      fontFamily: Fonts.serif,
+                      fontSize: 42,
+                      height: 1.02,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   Text(
                     'Anlamı benzer kelimeleri topla',
                     style: TextStyle(color: colors.inkSoft, fontSize: 15),
                   ),
-                  const SizedBox(height: 44),
+                  const SizedBox(height: 22),
+                  _progress(
+                    colors,
+                    progress,
+                    meta.highestCompleted,
+                    levels.length,
+                  ),
+                  const Spacer(flex: 4),
                   if (hasResume)
-                    _bigButton(
+                    _primaryButton(
                       context,
                       label: 'Devam Et  ·  Bölüm ${meta.resumeLevelId}',
-                      icon: Icons.play_circle_fill_rounded,
-                      color: colors.accent,
+                      icon: Icons.play_arrow_rounded,
                       onTap: () => _resume(context, levels, meta),
+                    )
+                  else
+                    _primaryButton(
+                      context,
+                      label: 'Oyna',
+                      icon: Icons.play_arrow_rounded,
+                      onTap: () => _openGame(context, levels, playIndex),
                     ),
-                  _bigButton(
-                    context,
-                    label: hasResume ? 'Yeni Bölüm' : 'Oyna',
-                    icon: Icons.play_arrow_rounded,
-                    color: hasResume ? colors.surface : colors.accent,
-                    textColor: hasResume ? colors.ink : Colors.white,
-                    onTap: () => _openGame(context, levels, playIndex),
-                  ),
-                  _bigButton(
+                  const SizedBox(height: 10),
+                  if (hasResume)
+                    _secondaryButton(
+                      context,
+                      label: 'Yeni Bölüm',
+                      onTap: () => _openGame(context, levels, playIndex),
+                    ),
+                  if (hasResume) const SizedBox(height: 10),
+                  _secondaryButton(
                     context,
                     label: 'Bölümler',
-                    icon: Icons.grid_view_rounded,
-                    color: colors.surface,
-                    textColor: colors.ink,
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
                         builder: (_) => LevelsScreen(levels: levels),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 2,
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _smallButton(
-                        context,
-                        'Nasıl Oynanır',
-                        Icons.help_outline_rounded,
-                        () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const HowToPlayScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      _smallButton(
-                        context,
-                        'Başarımlar',
-                        Icons.military_tech_rounded,
-                        () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const AchievementsScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      _smallButton(
-                        context,
-                        'Ayarlar',
-                        Icons.settings_rounded,
-                        () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const SettingsScreen(),
-                            ),
-                          );
-                        },
-                      ),
+                      _link(context, 'Nasıl Oynanır', () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const HowToPlayScreen(),
+                          ),
+                        );
+                      }),
+                      _dot(colors),
+                      _link(context, 'Başarımlar', () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const AchievementsScreen(),
+                          ),
+                        );
+                      }),
+                      _dot(colors),
+                      _link(context, 'Ayarlar', () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const SettingsScreen(),
+                          ),
+                        );
+                      }),
                     ],
                   ),
+                  const Spacer(flex: 1),
                 ],
               ),
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _progress(GameColors colors, double value, int done, int total) {
+    return Column(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(Dim.pill),
+          child: LinearProgressIndicator(
+            value: value,
+            minHeight: 7,
+            backgroundColor: colors.cardEdge,
+            valueColor: AlwaysStoppedAnimation(colors.accent),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          '$done / $total BÖLÜM',
+          style: TextStyle(
+            color: colors.inkSoft,
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.2,
           ),
         ),
       ],
@@ -201,71 +231,139 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _creditBadge(GameColors colors, int credits) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
       decoration: BoxDecoration(
         color: colors.accentSoft,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(Dim.pill),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(Icons.undo_rounded, size: 16, color: colors.accent),
-          const SizedBox(width: 4),
+          const SizedBox(width: 5),
           Text(
             '$credits',
-            style: TextStyle(color: colors.accent, fontWeight: FontWeight.w800),
+            style: TextStyle(
+              color: colors.accent,
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(width: 5),
+          Text(
+            'KREDİ',
+            style: TextStyle(
+              color: colors.accent.withValues(alpha: 0.85),
+              fontWeight: FontWeight.w700,
+              fontSize: 10,
+              letterSpacing: 0.8,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _bigButton(
+  Widget _primaryButton(
     BuildContext context, {
     required String label,
     required IconData icon,
-    required Color color,
-    Color textColor = Colors.white,
     required VoidCallback onTap,
   }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: SizedBox(
-        width: double.infinity,
-        child: FilledButton.icon(
-          style: FilledButton.styleFrom(
-            backgroundColor: color,
-            foregroundColor: textColor,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
+    final colors = context.colors;
+    return SizedBox(
+      width: double.infinity,
+      child: Material(
+        color: colors.accent,
+        borderRadius: BorderRadius.circular(Dim.pill),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(Dim.pill),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 17),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: colors.onAccent, size: 22),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: colors.onAccent,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
             ),
-          ),
-          onPressed: onTap,
-          icon: Icon(icon),
-          label: Text(
-            label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
           ),
         ),
       ),
     );
   }
 
-  Widget _smallButton(
-    BuildContext context,
-    String label,
-    IconData icon,
-    VoidCallback onTap,
-  ) {
+  Widget _secondaryButton(
+    BuildContext context, {
+    required String label,
+    required VoidCallback onTap,
+  }) {
     final colors = context.colors;
-    return TextButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 18, color: colors.inkSoft),
-      label: Text(
-        label,
-        style: TextStyle(color: colors.inkSoft, fontWeight: FontWeight.w600),
+    return SizedBox(
+      width: double.infinity,
+      child: Material(
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(Dim.pill),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(Dim.pill),
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Dim.pill),
+              border: Border.all(color: colors.cardEdge, width: 1.5),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              label,
+              style: TextStyle(
+                color: colors.ink,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
+
+  Widget _link(BuildContext context, String label, VoidCallback onTap) {
+    final colors = context.colors;
+    return TextButton(
+      onPressed: onTap,
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: colors.accent,
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  Widget _dot(GameColors colors) =>
+      Text('·', style: TextStyle(color: colors.inkSoft.withValues(alpha: 0.6)));
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer();
+  @override
+  Widget build(BuildContext context) =>
+      KilimBand(colors: context.colors, height: 12);
 }

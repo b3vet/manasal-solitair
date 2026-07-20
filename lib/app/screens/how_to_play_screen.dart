@@ -1,86 +1,78 @@
-/// Nasıl Oynanır — kuralların kısa özeti.
+/// Nasıl Oynanır (Kilim yönü) — numaralı adımlar, altın elmas rozetleri.
 library;
 
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
+import '../theme/kilim.dart';
+import '../theme/tokens.dart';
 
 class HowToPlayScreen extends StatelessWidget {
   const HowToPlayScreen({super.key});
+
+  static const _steps = <(String, String)>[
+    (
+      'Amaç',
+      'Her bölümde kelime kartlarını ait oldukları kategorilere göre topla. '
+          'Bir kategori kartını yukarıdaki toplama alanına koyup o kategorinin '
+          'tüm kelimelerini üzerine ekleyerek kategoriyi bitir. Destedeki tüm '
+          'kategorileri bitirince bölümü kazanırsın.',
+    ),
+    (
+      'Kartları dizme',
+      'Bir kelime kartını yalnızca AYNI kategoriden bir kartın üzerine '
+          'koyabilirsin. Kartlarda kategori yazmaz — hangi kelimenin nereye '
+          'ait olduğunu düşünerek bulman gerekir. Yanlış deneme hamle '
+          'harcamaz, kart geri döner.',
+    ),
+    (
+      'Kategori kartları',
+      'Kategori kartını, eşleşen bir kelime zincirinin üzerine veya boş bir '
+          'sütuna koyabilirsin; koyduğu sütun kilitlenir. Kategori kartını boş '
+          'bir toplama slotuna çektiğinde altındaki eşleşen kelimeler de '
+          'birlikte toplanır.',
+    ),
+    (
+      'Hamleler',
+      'Her hareket, taşıdığın kart sayısından bağımsız 1 hamledir. Desteden '
+          'kart çekmek de 1 hamle. Hamle hakkın sınırlıdır — üstteki sayaç '
+          'kalan hamleni gösterir ve azalınca uyarı rengine döner.',
+    ),
+    (
+      'Geri alma & kaybetme',
+      'Geri alma kredisiyle son hamleni geri sarabilirsin (krediler '
+          'başarımlarla kazanılır). Hamle biterse ya da anlamlı hamle kalmazsa '
+          'kaybedersin; bölümü istediğin kadar ücretsiz yeniden başlatabilirsin.',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Scaffold(
       backgroundColor: colors.bg,
-      appBar: AppBar(title: const Text('Nasıl Oynanır')),
+      appBar: kilimAppBar(context, 'Nasıl Oynanır'),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: const [
-            _Section(
-              icon: Icons.category_rounded,
-              title: 'Amaç',
-              body:
-                  'Her bölümde kelime kartlarını ait oldukları kategorilere '
-                  'göre topla. Bir kategori kartını yukarıdaki toplama '
-                  'alanına koyup o kategorinin tüm kelimelerini üzerine '
-                  'ekleyerek kategoriyi bitir. Destedeki tüm kategorileri '
-                  'bitirince bölümü kazanırsın.',
-            ),
-            _Section(
-              icon: Icons.link_rounded,
-              title: 'Kartları dizme',
-              body:
-                  'Bir kelime kartını yalnızca AYNI kategoriden bir kartın '
-                  'üzerine koyabilirsin. Kartlarda kategori yazmaz — hangi '
-                  'kelimenin nereye ait olduğunu düşünerek bulman gerekir. '
-                  'Yanlış deneme hamle harcamaz, kart geri döner.',
-            ),
-            _Section(
-              icon: Icons.folder_special_rounded,
-              title: 'Kategori kartları',
-              body:
-                  'Kategori kartını, eşleşen bir kelime zincirinin üzerine '
-                  'veya boş bir sütuna koyabilirsin; koyduğu sütun kilitlenir. '
-                  'Kategori kartını boş bir toplama slotuna çektiğinde '
-                  'altındaki eşleşen kelimeler de birlikte toplanır.',
-            ),
-            _Section(
-              icon: Icons.swipe_rounded,
-              title: 'Hamleler',
-              body:
-                  'Her hareket, taşıdığın kart sayısından bağımsız 1 hamledir. '
-                  'Desteden kart çekmek de 1 hamle. Hamle hakkın sınırlıdır — '
-                  'üstteki sayaç kalan hamleni gösterir.',
-            ),
-            _Section(
-              icon: Icons.undo_rounded,
-              title: 'Geri alma',
-              body:
-                  'Geri alma kredisiyle son hamleni geri sarabilirsin '
-                  '(harcanan hamle iade edilir). Krediler başarımlarla '
-                  'kazanılır. Kaybettiğinde kredin varsa "Geri al ve devam et" '
-                  'ile oyuna dönebilirsin.',
-            ),
-            _Section(
-              icon: Icons.emoji_events_rounded,
-              title: 'Kaybetme',
-              body:
-                  'İki şekilde kaybedersin: hamle hakkın biterse ya da '
-                  'yapılacak anlamlı bir hamle kalmazsa. Bölümü istediğin '
-                  'kadar ücretsiz yeniden başlatabilirsin.',
-            ),
-          ],
+        top: false,
+        child: ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+          itemCount: _steps.length,
+          separatorBuilder: (_, _) => const SizedBox(height: 12),
+          itemBuilder: (context, i) =>
+              _StepCard(index: i + 1, title: _steps[i].$1, body: _steps[i].$2),
         ),
       ),
     );
   }
 }
 
-class _Section extends StatelessWidget {
-  const _Section({required this.icon, required this.title, required this.body});
-  final IconData icon;
+class _StepCard extends StatelessWidget {
+  const _StepCard({
+    required this.index,
+    required this.title,
+    required this.body,
+  });
+  final int index;
   final String title;
   final String body;
 
@@ -88,11 +80,10 @@ class _Section extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: colors.surface,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(Dim.panelRadius),
         border: Border.all(color: colors.cardEdge),
       ),
       child: Column(
@@ -100,22 +91,46 @@ class _Section extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: colors.accent, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                title,
-                style: TextStyle(
-                  color: colors.ink,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 16,
+              _numBadge(colors, index),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: colors.ink,
+                    fontFamily: Fonts.serif,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 19,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
             body,
-            style: TextStyle(color: colors.inkSoft, fontSize: 14, height: 1.45),
+            style: TextStyle(color: colors.inkSoft, fontSize: 14, height: 1.5),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _numBadge(GameColors colors, int n) {
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          KilimDiamond(size: 32, color: colors.gold),
+          Text(
+            '$n',
+            style: const TextStyle(
+              color: Color(0xFF3A2A18),
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+            ),
           ),
         ],
       ),

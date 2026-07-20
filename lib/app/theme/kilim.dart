@@ -13,7 +13,36 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'app_theme.dart';
 import 'tokens.dart';
+
+/// Ekran başlığı çubuğu: sola yaslı Lora başlık, sade zemin. Meta ekranlarda
+/// tutarlı üst çubuk için.
+PreferredSizeWidget kilimAppBar(
+  BuildContext context,
+  String title, {
+  List<Widget>? actions,
+}) {
+  final colors = context.colors;
+  return AppBar(
+    backgroundColor: colors.bg,
+    surfaceTintColor: Colors.transparent,
+    foregroundColor: colors.ink,
+    elevation: 0,
+    centerTitle: false,
+    titleSpacing: 4,
+    title: Text(
+      title,
+      style: TextStyle(
+        fontFamily: Fonts.serif,
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: colors.ink,
+      ),
+    ),
+    actions: actions,
+  );
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // Kart sırtı — dokuma crosshatch + merkez elması.
@@ -205,6 +234,89 @@ class _DiamondPainter extends CustomPainter {
   @override
   bool shouldRepaint(_DiamondPainter old) =>
       old.color != color || old.filled != filled || old.stroke != stroke;
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Marka logosu — üst üste iki kart (indigo arkada, terrakotta crosshatch önde).
+// ─────────────────────────────────────────────────────────────────────────
+
+/// Manasal Solitaire markası: arkada hafif eğik kilim indigosu kart, önde
+/// crosshatch + altın elmaslı terrakotta kart (krem çerçeveli). Splash, ana
+/// ekran ve ayarlar "hakkında" için.
+class KilimLogo extends StatelessWidget {
+  const KilimLogo({super.key, this.width = 96, required this.colors});
+
+  /// Öndeki kartın genişliği; yükseklik kart oranından türetilir.
+  final double width;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    final w = width;
+    final h = w / Dim.cardAspect;
+    final cream = colors.onAccent.computeLuminance() > 0.5
+        ? colors.onAccent
+        : const Color(0xFFFFF8EC);
+    // Yığının kapladığı alan (dönme + kaydırma için biraz pay).
+    return SizedBox(
+      width: w * 1.5,
+      height: h * 1.16,
+      child: Stack(
+        alignment: Alignment.center,
+        clipBehavior: Clip.none,
+        children: [
+          // Arka indigo kart.
+          Transform.translate(
+            offset: Offset(w * 0.26, h * 0.02),
+            child: Transform.rotate(
+              angle: 0.14,
+              child: Container(
+                width: w,
+                height: h,
+                decoration: BoxDecoration(
+                  color: colors.categoryFace,
+                  borderRadius: BorderRadius.circular(Dim.cardRadius + 2),
+                  border: Border.all(color: cream, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.shadow,
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Ön terrakotta crosshatch kart.
+          Transform.translate(
+            offset: Offset(-w * 0.14, 0),
+            child: Transform.rotate(
+              angle: -0.10,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dim.cardRadius + 2),
+                  border: Border.all(color: cream, width: 3),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.shadow,
+                      blurRadius: 14,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: KilimCardBack(
+                  size: Size(w, h),
+                  colors: colors,
+                  radius: Dim.cardRadius,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────

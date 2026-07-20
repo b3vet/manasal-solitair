@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app/audio/sound_service.dart';
 import 'app/meta/meta_scope.dart';
 import 'app/meta/meta_service.dart';
-import 'app/screens/home_screen.dart';
+import 'app/screens/splash_screen.dart';
 import 'app/theme/app_theme.dart';
 import 'persistence/store.dart';
 
@@ -32,13 +32,21 @@ class ManasalApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MetaScope(
       service: meta,
-      child: MaterialApp(
-        title: 'Manasal Solitaire',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
-        themeMode: ThemeMode.system,
-        home: const HomeScreen(),
+      // Tema seçimi (ayarlar) değişince yeniden çiz.
+      child: AnimatedBuilder(
+        animation: meta,
+        builder: (context, _) => MaterialApp(
+          title: 'Manasal Solitaire',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: switch (meta.themeMode) {
+            'light' => ThemeMode.light,
+            'dark' => ThemeMode.dark,
+            _ => ThemeMode.system,
+          },
+          home: const SplashScreen(),
+        ),
       ),
     );
   }
