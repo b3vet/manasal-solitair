@@ -70,7 +70,7 @@ metninin dağıtılmasını ister. (Uygulama içi "Lisanslar" ekranı ileride ek
 4. ⬜ `README`'de kısa lisans notu; "source-available / fair-source" ifadesi
    (open-source demeden — FSL, 2 yıl sonra MIT'e döner).
 5. ✅ `pubspec.yaml` zaten `publish_to: none`.
-6. ⬜ **Kullanıcı:** `LICENSE` içindeki `BURAYA_TELIF_SAHIBI` → gerçek ad/şirket.
+6. ✅ Telif sahibi: **Berke Üçvet**.
 
 ## Karar
 
@@ -78,4 +78,4 @@ metninin dağıtılmasını ister. (Uygulama içi "Lisanslar" ekranı ileride ek
   Future License). _(PolyForm Small Business değerlendirildi; FSL tercih edildi
   — 2 yılda MIT'e dönmesi + rekabet-dışı serbestlik.)_
 - [x] `LICENSE` + `THIRD_PARTY_LICENSES.md` eklendi.
-- [ ] Telif sahibi adı dolduruldu.
+- [x] Telif sahibi adı dolduruldu (Berke Üçvet).
