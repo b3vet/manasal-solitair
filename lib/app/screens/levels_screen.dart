@@ -7,6 +7,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../engine/level.dart';
+import '../../engine/scoring.dart';
 import '../game/game_screen.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
@@ -80,12 +81,21 @@ class _LevelsScreenState extends State<LevelsScreen> {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final meta = MetaScope.of(context);
+    final totalStars = widget.levels
+        .where((l) => meta.isCompleted(l.id))
+        .fold<int>(
+          0,
+          (s, l) => s + starRating(meta.bestMovesLeft(l.id), l.moveLimit),
+        );
     return Scaffold(
       backgroundColor: colors.bg,
       appBar: kilimAppBar(
         context,
         'Bölümler',
-        actions: [_creditChip(colors, meta.credits)],
+        actions: [
+          if (totalStars > 0) _starChip(colors, totalStars),
+          _creditChip(colors, meta.credits),
+        ],
       ),
       floatingActionButton: _currentFab(colors),
       body: SafeArea(
@@ -279,11 +289,40 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   int _starsFor(LevelDef level, bool done) {
     if (!done) return 0;
-    final best = MetaScope.read(context).bestMovesLeft(level.id);
-    final ratio = level.moveLimit == 0 ? 0.0 : best / level.moveLimit;
-    if (ratio >= 0.4) return 3;
-    if (ratio >= 0.2) return 2;
-    return 1;
+    return starRating(
+      MetaScope.read(context).bestMovesLeft(level.id),
+      level.moveLimit,
+    );
+  }
+
+  Widget _starChip(GameColors colors, int total) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+          decoration: BoxDecoration(
+            color: colors.gold.withValues(alpha: 0.16),
+            borderRadius: BorderRadius.circular(Dim.pill),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.star_rounded, size: 15, color: colors.gold),
+              const SizedBox(width: 4),
+              Text(
+                '$total',
+                style: TextStyle(
+                  color: colors.ink,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _creditChip(GameColors colors, int credits) {

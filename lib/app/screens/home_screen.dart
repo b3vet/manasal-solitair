@@ -5,6 +5,7 @@ library;
 import 'package:flutter/material.dart';
 
 import '../../engine/level.dart';
+import '../../engine/scoring.dart';
 import '../data/asset_data.dart';
 import '../game/game_screen.dart';
 import '../meta/meta_scope.dart';
@@ -66,6 +67,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final hasResume = meta.resumeLevelId != null;
     final playIndex = meta.highestCompleted.clamp(0, levels.length - 1);
     final progress = (meta.highestCompleted / levels.length).clamp(0.0, 1.0);
+    final totalStars = levels
+        .where((l) => meta.isCompleted(l.id))
+        .fold<int>(
+          0,
+          (s, l) => s + starRating(meta.bestMovesLeft(l.id), l.moveLimit),
+        );
 
     return Stack(
       children: [
@@ -108,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     progress,
                     meta.highestCompleted,
                     levels.length,
+                    totalStars,
                   ),
                   const Spacer(flex: 4),
                   if (hasResume)
@@ -180,7 +188,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _progress(GameColors colors, double value, int done, int total) {
+  Widget _progress(
+    GameColors colors,
+    double value,
+    int done,
+    int total,
+    int totalStars,
+  ) {
     return Column(
       children: [
         ClipRRect(
@@ -193,23 +207,55 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Text(
-          '$done / $total BÖLÜM',
-          style: TextStyle(
-            color: colors.inkSoft,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.2,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$done / $total BÖLÜM',
+              style: TextStyle(
+                color: colors.inkSoft,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.2,
+              ),
+            ),
+            if (totalStars > 0) ...[
+              Text(
+                '   ·   ',
+                style: TextStyle(
+                  color: colors.inkSoft.withValues(alpha: 0.6),
+                  fontSize: 12,
+                ),
+              ),
+              Icon(Icons.star_rounded, size: 14, color: colors.gold),
+              const SizedBox(width: 2),
+              Text(
+                '$totalStars',
+                style: TextStyle(
+                  color: colors.inkSoft,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ],
         ),
       ],
     );
   }
 
   void _openGame(BuildContext context, List<LevelDef> levels, int index) {
+    // İlk kez oynayan (öğretici bitmemiş) ve baştan başlayan oyuncuya etkileşimli
+    // öğreticiyle başla; öğretici bitince gerçek Bölüm 1'e geçilir.
+    final startTutorial =
+        !MetaScope.read(context).tutorialCompleted && index == 0;
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => GameScreen(levels: levels, startIndex: index),
+        builder: (_) => GameScreen(
+          levels: levels,
+          startIndex: index,
+          tutorial: startTutorial,
+        ),
       ),
     );
   }

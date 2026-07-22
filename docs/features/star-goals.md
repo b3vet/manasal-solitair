@@ -1,6 +1,6 @@
 # Özellik Planı — Yıldız Hedefi
 
-**Roadmap:** Faz 1.3 · **Öncelik:** 1 · **Efor:** S–M · **Durum:** ⬜ planlı
+**Roadmap:** Faz 1.3 · **Öncelik:** 1 · **Efor:** S–M · **Durum:** ✅ bitti
 
 ## Amaç
 
@@ -93,8 +93,13 @@ istemezsek yardımcıyı `lib/app/game/scoring_meta.dart` gibi ayrı tut.)
 
 ## Kabul kriterleri
 
-- [ ] Yıldız mantığı tek yerde (`scoring.dart`), testli.
-- [ ] Kazanma diyaloğu gerçek kazanılan yıldızı animasyonla gösterir + dürtü.
-- [ ] Oyun ekranında sıradaki yıldız eşiği görünür (hafif).
-- [ ] Ana ekran/Bölümler toplam yıldızı gösterir.
-- [ ] Bölümler ekranı ortak `starRating`'i kullanır (kopya mantık yok).
+- [x] Yıldız mantığı tek yerde (`lib/engine/scoring.dart`), testli
+  (`test/engine/scoring_test.dart`).
+- [x] Kazanma diyaloğu kazanılan yıldızı sırayla parlama animasyonuyla gösterir +
+  "sonraki yıldız" dürtüsü (reduce-motion'da statik).
+- [x] Oyun HUD'unda 3-yıldız eşiği görünür (`≥N`, ipucu sızdırmaz — yalnız sayı).
+- [x] Ana ekran ve Bölümler toplam yıldızı gösterir.
+- [x] Bölümler ekranı ortak `starRating`'i kullanır (kopya mantık yok).
+
+Eşik: `movesLeft/moveLimit ≥ %40 → 3★, ≥ %20 → 2★, aksi → 1★` ("Verimli"
+başarımıyla hizalı). Görsel doğrulama: `test/app/faz1_capture_test.dart`.

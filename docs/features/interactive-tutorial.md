@@ -1,6 +1,6 @@
 # Özellik Planı — Etkileşimli Öğretici
 
-**Roadmap:** Faz 1.1 · **Öncelik:** 1 · **Efor:** M–L · **Durum:** ⬜ planlı
+**Roadmap:** Faz 1.1 · **Öncelik:** 1 · **Efor:** M–L · **Durum:** ✅ bitti
 
 ## Amaç
 
@@ -130,8 +130,24 @@ bool tutorialCompleted; // default false
 
 ## Kabul kriterleri
 
-- [ ] İlk açılışta öğretici otomatik başlar, 4 adımda kazandırır.
-- [ ] Her adım doğru hamlede ilerler; yanlış denemede tekrar yönlendirir.
-- [ ] "Geç" her an çalışır.
-- [ ] Bir daha gösterilmez (`tutorialCompleted`).
-- [ ] Analitik: `tutorial_start/step/complete/skip` olayları (Faz 3.1 sonrası).
+- [x] İlk "Oyna"da öğretici otomatik başlar, 4 adımda kazandırır (sonra gerçek
+  Bölüm 1'e geçer).
+- [x] Her adım doğru hamlede ilerler; yanlış türde hamle ilerletmez (yumuşak
+  yönlendirme — `test/app/tutorial_test.dart`).
+- [x] "Geç" her an çalışır (alt çubuktaki "Öğreticiyi geç").
+- [x] Bir daha gösterilmez (`tutorialCompleted`); Ayarlar → "Öğreticiyi tekrar
+  oynat" ile sıfırlanır.
+- [ ] Analitik: `tutorial_start/step/complete/skip` olayları (Faz 3.1 sonrası —
+  ertelendi).
+
+## Uygulama notları (gerçekleşen)
+
+- Dosyalar: `lib/app/game/tutorial.dart` (script + `TutorialController` +
+  `TutorialOverlay`), `lib/app/game/tutorial_level.dart` (elle kurulu bölüm),
+  ortak `lib/app/game/widgets/pulse_ring.dart` (ipucu + öğretici paylaşır).
+- Entegrasyon: `game_screen.dart` (öğretici modu, bittiğinde Bölüm 1'e geçiş),
+  `home_screen.dart` (ilk "Oyna" tetikler), `settings_screen.dart` (tekrar
+  oynat), `meta_service.dart` (`tutorialCompleted`).
+- Betik: (1) kategori→slot, (2) kelime topla, (3) desteden çek, (4) son kelime →
+  zafer. Spot ışığı `BlendMode.clear` ile kaynak+hedefi açar; parmak işareti
+  kaynaktan hedefe kayar (reduce-motion'da orta noktada sabit).

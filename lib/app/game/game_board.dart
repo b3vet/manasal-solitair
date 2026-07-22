@@ -16,16 +16,22 @@ import '../theme/app_theme.dart';
 import '../theme/tokens.dart';
 import 'board_metrics.dart';
 import 'game_controller.dart';
+import 'tutorial.dart';
 import 'widgets/cards.dart';
+import 'widgets/pulse_ring.dart';
 
 class GameBoard extends StatefulWidget {
   const GameBoard({
     super.key,
     required this.controller,
+    this.tutorial,
     this.reduceMotion = false,
     this.haptics = true,
   });
   final GameController controller;
+
+  /// Etkileşimli öğretici aktifse denetleyicisi; değilse null.
+  final TutorialController? tutorial;
   final bool reduceMotion;
   final bool haptics;
 
@@ -66,6 +72,7 @@ class _GameBoardState extends State<GameBoard>
       duration: const Duration(milliseconds: 850),
     );
     c.addListener(_onChange);
+    _syncPulse();
   }
 
   @override
@@ -74,6 +81,17 @@ class _GameBoardState extends State<GameBoard>
     if (old.controller != c) {
       old.controller.removeListener(_onChange);
       c.addListener(_onChange);
+    }
+    _syncPulse();
+  }
+
+  /// Nabzı yalnız gerektiğinde çalıştır (ipucu veya öğretici aktifken).
+  void _syncPulse() {
+    final wants = c.hintMove != null || widget.tutorial != null;
+    if (wants && !_pulse.isAnimating) {
+      _pulse.repeat(reverse: true);
+    } else if (!wants && _pulse.isAnimating) {
+      _pulse.stop();
     }
   }
 
@@ -96,12 +114,7 @@ class _GameBoardState extends State<GameBoard>
         _celebrateToken++;
       }
     }
-    // Nabzı yalnızca ipucu aktifken çalıştır (sonsuz animasyon değil).
-    if (c.hintMove != null && !_pulse.isAnimating) {
-      _pulse.repeat(reverse: true);
-    } else if (c.hintMove == null && _pulse.isAnimating) {
-      _pulse.stop();
-    }
+    _syncPulse();
     if (mounted) setState(() => _drag = null);
   }
 
@@ -194,6 +207,22 @@ class _GameBoardState extends State<GameBoard>
         }
         if (c.hintMove != null) {
           children.addAll(_hintRings(m, colors));
+        }
+        if (widget.tutorial != null) {
+          children.add(
+            Positioned.fill(
+              child: ListenableBuilder(
+                listenable: widget.tutorial!,
+                builder: (context, _) => TutorialOverlay(
+                  controller: widget.tutorial!,
+                  metrics: m,
+                  colors: colors,
+                  pulse: _pulse,
+                  reduceMotion: widget.reduceMotion,
+                ),
+              ),
+            ),
+          );
         }
 
         return Center(
@@ -291,6 +320,7 @@ class _GameBoardState extends State<GameBoard>
         child: IgnorePointer(
           child: _StatRow(
             movesLeft: state.movesLeft,
+            moveLimit: state.level.moveLimit,
             completed: state.completedCount,
             totalCategories: state.totalCategories,
             colors: colors,
@@ -531,35 +561,16 @@ class _GameBoardState extends State<GameBoard>
     } else if (hm is DrawMove) {
       rects.add(m.stockTopLeft() & m.card);
     }
-    return [for (final r in rects) _hintRing(r, colors)];
-  }
-
-  Widget _hintRing(Rect rect, GameColors colors) {
-    final r = rect.inflate(3);
-    return Positioned(
-      key: ValueKey('hint_${r.left}_${r.top}'),
-      left: r.left,
-      top: r.top,
-      width: r.width,
-      height: r.height,
-      child: IgnorePointer(
-        child: AnimatedBuilder(
-          animation: _pulse,
-          builder: (context, child) {
-            final t = widget.reduceMotion ? 0.5 : _pulse.value;
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dim.cardRadius + 2),
-                border: Border.all(
-                  color: colors.accent.withValues(alpha: 0.45 + 0.55 * t),
-                  width: 2.5 + 1.5 * t,
-                ),
-              ),
-            );
-          },
+    return [
+      for (final r in rects)
+        PulseRing(
+          key: ValueKey('hint_${r.left}_${r.top}'),
+          rect: r,
+          color: colors.accent,
+          pulse: _pulse,
+          reduceMotion: widget.reduceMotion,
         ),
-      ),
-    );
+    ];
   }
 
   // --- Etkileşim ---
@@ -693,11 +704,13 @@ class _Grab {
 class _StatRow extends StatelessWidget {
   const _StatRow({
     required this.movesLeft,
+    required this.moveLimit,
     required this.completed,
     required this.totalCategories,
     required this.colors,
   });
   final int movesLeft;
+  final int moveLimit;
   final int completed;
   final int totalCategories;
   final GameColors colors;
@@ -710,6 +723,7 @@ class _StatRow extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          _goal(),
           _tile(
             'HAMLE',
             '$movesLeft',
@@ -717,6 +731,52 @@ class _StatRow extends StatelessWidget {
           ),
           const SizedBox(width: 14),
           _tile('KATEGORİ', '$completed/$totalCategories', colors.ink),
+        ],
+      ),
+    );
+  }
+
+  /// 3 yıldız hedefi: gereken en az kalan hamle. Kalan hamle bu eşiğin altına
+  /// düşünce solar (ipucu sızdırmaz — yalnız eşik sayısı, hangi hamle değil).
+  Widget _goal() {
+    final n = movesForStars(3, moveLimit);
+    if (n <= 0) return const SizedBox.shrink();
+    final onTrack = movesLeft >= n;
+    final color = onTrack ? colors.gold : colors.inkSoft.withValues(alpha: 0.5);
+    return Padding(
+      padding: const EdgeInsets.only(right: 14),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.star_rounded, size: 17, color: color),
+              const SizedBox(width: 2),
+              Text(
+                '≥$n',
+                style: TextStyle(
+                  color: color,
+                  fontFamily: Fonts.sans,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                  height: 1,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 3),
+          Text(
+            '3 YILDIZ',
+            style: TextStyle(
+              color: colors.inkSoft,
+              fontFamily: Fonts.sans,
+              fontSize: 10,
+              letterSpacing: 1.3,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ],
       ),
     );

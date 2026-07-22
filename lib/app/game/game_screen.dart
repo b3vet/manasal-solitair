@@ -10,8 +10,11 @@ import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
+import '../theme/tokens.dart';
 import 'game_board.dart';
 import 'game_controller.dart';
+import 'tutorial.dart';
+import 'tutorial_level.dart';
 import 'widgets/dialogs.dart';
 import 'widgets/hud.dart';
 
@@ -21,11 +24,15 @@ class GameScreen extends StatefulWidget {
     required this.levels,
     required this.startIndex,
     this.resumeMoves,
+    this.tutorial = false,
   });
 
   final List<LevelDef> levels;
   final int startIndex;
   final List<Move>? resumeMoves;
+
+  /// İlk kez oynayana etkileşimli öğreticiyle başla (gerçek bölümden önce).
+  final bool tutorial;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -33,6 +40,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late GameController _controller;
+  TutorialController? _tutorial;
   late int _index;
   bool _handlingEnd = false;
   bool _firstTry = true;
@@ -43,6 +51,16 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     _index = widget.startIndex;
+    if (widget.tutorial) {
+      // Öğretici bölümü (id 0) — gerçek ilerlemeye sayılmaz, analitik yok.
+      _controller = GameController(tutorialLevel());
+      _tutorial = TutorialController(
+        game: _controller,
+        onComplete: _finishTutorial,
+      );
+      _controller.addListener(_onChange);
+      return;
+    }
     _controller = GameController(widget.levels[_index]);
     if (widget.resumeMoves != null && widget.resumeMoves!.isNotEmpty) {
       final applied = _controller.loadReplay(
@@ -60,8 +78,28 @@ class _GameScreenState extends State<GameScreen> {
     Analytics.instance.levelStart(widget.levels[_index].id);
   }
 
+  /// Öğretici bittiğinde (tamamlandı ya da geçildi): bayrağı kaydet ve gerçek
+  /// Bölüm 1'e geç. Nested notifyListeners'tan kaçınmak için bir sonraki karede.
+  void _finishTutorial() {
+    _meta.updateSettings(tutorialCompleted: true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _tutorial?.dispose();
+        _tutorial = null;
+        _index = 0;
+        _firstTry = true;
+        _handlingEnd = false;
+        _controller.loadLevel(widget.levels[0]);
+      });
+      Analytics.instance.levelStart(widget.levels[0].id);
+      _snack('Öğretici tamamlandı — Bölüm 1 başlıyor!');
+    });
+  }
+
   @override
   void dispose() {
+    _tutorial?.dispose();
     _controller
       ..removeListener(_onChange)
       ..dispose();
@@ -70,6 +108,12 @@ class _GameScreenState extends State<GameScreen> {
 
   void _onChange() {
     final s = _controller.state;
+    // Öğretici modunda: ilerleme kaydı yok, kazanma diyaloğu yok — zafer
+    // TutorialController.onComplete ile ele alınır.
+    if (_tutorial != null) {
+      if (mounted) setState(() {});
+      return;
+    }
     if (s.isPlaying) {
       // Devam etme: her hamlede durumu (replay) kaydet.
       _meta.saveResume(s.level.id, _controller.moves);
@@ -94,15 +138,10 @@ class _GameScreenState extends State<GameScreen> {
         firstTry: _firstTry,
       );
       final ml = s.level.moveLimit;
-      final ratio = ml > 0 ? s.movesLeft / ml : 0.0;
       Analytics.instance.levelComplete(
         s.level.id,
         movesUsed: ml - s.movesLeft,
-        stars: ratio >= 0.4
-            ? 3
-            : ratio >= 0.2
-            ? 2
-            : 1,
+        stars: starRating(s.movesLeft, ml),
         firstTry: _firstTry,
       );
       action = await showWinDialog(
@@ -111,6 +150,7 @@ class _GameScreenState extends State<GameScreen> {
         creditsAwarded: awarded,
         hasNext: _index < widget.levels.length - 1,
         levelId: s.level.id,
+        moveLimit: ml,
       );
     } else {
       Analytics.instance.levelFail(
@@ -237,20 +277,69 @@ class _GameScreenState extends State<GameScreen> {
             Expanded(
               child: GameBoard(
                 controller: _controller,
+                tutorial: _tutorial,
                 haptics: meta.haptics,
                 reduceMotion: _reduceMotion(context, meta.reducedMotion),
               ),
             ),
-            BottomBar(
-              levelId: _controller.state.level.id,
-              undoCredits: meta.credits,
-              canUndo: _controller.canUndo,
-              onMenu: _pause,
-              onUndo: _useUndo,
-              onHint: _useHint,
-            ),
+            if (_tutorial != null)
+              _TutorialBar(onSkip: () => _tutorial!.skip(), colors: colors)
+            else
+              BottomBar(
+                levelId: _controller.state.level.id,
+                undoCredits: meta.credits,
+                canUndo: _controller.canUndo,
+                onMenu: _pause,
+                onUndo: _useUndo,
+                onHint: _useHint,
+              ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Öğretici sırasındaki alt çubuk: yalnız "Öğreticiyi geç" seçeneği (undo/ipucu
+/// yok — ilk deneyimi sade tut).
+class _TutorialBar extends StatelessWidget {
+  const _TutorialBar({required this.onSkip, required this.colors});
+  final VoidCallback onSkip;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: Row(
+        children: [
+          Icon(Icons.school_rounded, size: 20, color: colors.accent),
+          const SizedBox(width: 8),
+          Text(
+            'Öğretici',
+            style: TextStyle(
+              color: colors.inkSoft,
+              fontFamily: Fonts.sans,
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
+          ),
+          const Spacer(),
+          TextButton(
+            onPressed: onSkip,
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            ),
+            child: Text(
+              'Öğreticiyi geç',
+              style: TextStyle(
+                color: colors.accent,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

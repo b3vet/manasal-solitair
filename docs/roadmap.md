@@ -37,38 +37,46 @@ Kayıt için mevcut temel:
 Oyunun çekirdeği tamam; bunlar spec ruhunda kalan boşluklar. (Erişilebilirlik
 bilinçli olarak kapsam dışı bırakıldı.)
 
-### 1.1 Etkileşimli öğretici ⬜ · efor: M–L
+### 1.1 Etkileşimli öğretici ✅ · efor: M–L
 📄 [`docs/features/interactive-tutorial.md`](features/interactive-tutorial.md)
 
 - **Ne:** İlk oyunda eli tutan, adım adım yönlendiren öğretici (statik "Nasıl
   Oynanır" yeterli değil).
 - **Neden:** İlk-oyun terk oranı (onboarding drop-off) en büyük kullanıcı
   kaybıdır; kurallar okunarak değil yaparak öğrenilir.
-- **Yaklaşım:** Elle kurulmuş küçük öğretici bölüm(ler) + `TutorialOverlay`
-  (nabız halkası + parmak + balon ipucu), yumuşak yönlendirme. Meta bayrağı
-  `tutorialCompleted`.
+- **Yapıldı:** Elle kurulmuş 4 adımlık öğretici bölüm (`tutorial_level.dart`) +
+  `TutorialController`/`TutorialOverlay` (`tutorial.dart`: spot ışığı + nabız
+  halkaları + parmak işareti + balon), yumuşak yönlendirme (motor değişmedi).
+  Meta bayrağı `tutorialCompleted`; ilk "Oyna"da otomatik, Ayarlar'dan tekrar
+  oynatılabilir. Ortak `PulseRing` ipucu ile paylaşılır. Testler:
+  `test/app/tutorial_test.dart`.
 
-### 1.2 İçerik belirsizlik koruması ⬜ · efor: M + L (içerik)
+### 1.2 İçerik belirsizlik koruması 🔨 · efor: M + L (içerik)
 📄 [`docs/features/content-ambiguity-protection.md`](features/content-ambiguity-protection.md)
 
 - **Ne:** Bir kelimenin iki kategoriye makul gelmesini (haksız yanılma)
   önlemek. Şu an 640 kategoriden yalnızca 32'sinde `softConflict` tanımlı.
 - **Neden:** "Okuyarak eşleştir" mekaniği ancak eldeki kategoriler birbirine
   karışmıyorsa adildir.
-- **Yaklaşım:** softConflict havuzunu genişlet (offline içerik geçişi) +
-  üreticinin aynı elde çakışan kategori çifti seçmesini engelle
-  (`lib/generator/level_generator.dart`); doğrulayıcıya sert kontrol ekle.
+- **Yapıldı (kod):** İki katman — `hardConflicts` (özünde belirsiz; hiçbir
+  bölümde birlikte gelmez) + `softConflicts` (yalnız yüksek seviyede). Üretici
+  hard'ı DAİMA eler (`level_generator.dart`), doğrulayıcı simetrikleştirir +
+  denetler, `bin/generate_levels.dart` hard çakışmada HATA verir + rapora yazar.
+- **Yapılıyor (içerik):** 640 kategorinin çakışma kenarları paralel denetimle
+  dolduruluyor; sonra 150 bölüm yeniden üretilecek.
 
-### 1.3 Yıldız hedefi ⬜ · efor: S–M
+### 1.3 Yıldız hedefi ✅ · efor: S–M
 📄 [`docs/features/star-goals.md`](features/star-goals.md)
 
 - **Ne:** Yıldızları oyuncuya hedef olarak göstermek ("3 yıldız için ≤X
   hamle") ve tek doğruluk kaynağına almak.
 - **Neden:** Yıldızlar şu an yalnızca Bölümler ekranında türetiliyor; oyuncu
   neyi hedefleyeceğini bilmiyor, tekrar oynama motivasyonu zayıf.
-- **Yaklaşım:** Ortak `starRating(movesLeft, moveLimit)` yardımcı fonksiyonu;
-  oyun ekranında hedef göstergesi; kazanma diyaloğunda kazanılan yıldız
-  animasyonu; ana ekranda toplam yıldız.
+- **Yapıldı:** Ortak `starRating`/`movesForStars` (`lib/engine/scoring.dart`);
+  oyun HUD'unda 3-yıldız hedef göstergesi (`≥N`); kazanma diyaloğunda kazanılan
+  yıldızların sırayla parlama animasyonu + "sonraki yıldız" dürtüsü; Bölümler ve
+  ana ekranda toplam yıldız. Testler: `test/engine/scoring_test.dart`; görsel:
+  `test/app/faz1_capture_test.dart`. (4.2 kazanma yıldız animasyonu da kapsandı.)
 
 ---
 
@@ -168,8 +176,8 @@ Faz 1 ile paralel — devreye alınması önerilir.)_
 
 - **4.1 Kutlama/konfeti** ⬜ · S — kategori tamamlama ve kazanmada tasarımdaki
   konfeti/afiş (şu an `_CelebrationBanner` var, parçacık yok).
-- **4.2 Kazanma yıldız animasyonu** ⬜ · S — diyalogda yıldızların sırayla
-  parlaması (1.3 ile bağlantılı).
+- **4.2 Kazanma yıldız animasyonu** ✅ · S — diyalogda yıldızların sırayla
+  parlaması (1.3 ile birlikte yapıldı; `dialogs.dart` `_Stars`).
 - **4.3 Ses/haptik ince ayar** ⬜ · S — kart yerleşme/çekme/tamamlama
   ritmini cihazda kalibre et.
 

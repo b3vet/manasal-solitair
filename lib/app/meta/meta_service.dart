@@ -29,6 +29,7 @@ class MetaService extends ChangeNotifier {
     required this.reducedMotion,
     required this.themeMode,
     required this.analyticsEnabled,
+    required this.tutorialCompleted,
     required int? resumeLevelId,
     required List<Move> resumeMoves,
   }) : _store = store,
@@ -60,6 +61,7 @@ class MetaService extends ChangeNotifier {
   String reducedMotion; // 'system' | 'on' | 'off'
   String themeMode; // 'system' | 'light' | 'dark'
   bool analyticsEnabled; // anonim kullanım/çökme raporu (opt-out)
+  bool tutorialCompleted; // etkileşimli öğretici oynandı mı
 
   int? _resumeLevelId;
   List<Move> _resumeMoves;
@@ -198,12 +200,14 @@ class MetaService extends ChangeNotifier {
     String? reducedMotion,
     String? themeMode,
     bool? analyticsEnabled,
+    bool? tutorialCompleted,
   }) {
     if (sound != null) this.sound = sound;
     if (haptics != null) this.haptics = haptics;
     if (reducedMotion != null) this.reducedMotion = reducedMotion;
     if (themeMode != null) this.themeMode = themeMode;
     if (analyticsEnabled != null) this.analyticsEnabled = analyticsEnabled;
+    if (tutorialCompleted != null) this.tutorialCompleted = tutorialCompleted;
     _store.writeDoc('settings', {
       'schemaVersion': 1,
       'sound': this.sound,
@@ -211,6 +215,7 @@ class MetaService extends ChangeNotifier {
       'reducedMotion': this.reducedMotion,
       'themeMode': this.themeMode,
       'analyticsEnabled': this.analyticsEnabled,
+      'tutorialCompleted': this.tutorialCompleted,
     });
     notifyListeners();
   }
@@ -289,6 +294,7 @@ class MetaService extends ChangeNotifier {
       reducedMotion: (settings?['reducedMotion'] as String?) ?? 'system',
       themeMode: (settings?['themeMode'] as String?) ?? 'system',
       analyticsEnabled: (settings?['analyticsEnabled'] as bool?) ?? true,
+      tutorialCompleted: (settings?['tutorialCompleted'] as bool?) ?? false,
       resumeLevelId: resumeLevelId,
       resumeMoves: resumeMoves,
     );

@@ -12,6 +12,7 @@ export 'prng.dart';
 export 'reducer.dart';
 export 'result.dart';
 export 'rules.dart';
+export 'scoring.dart';
 export 'serde.dart';
 export 'session.dart';
 export 'state.dart';

@@ -24,7 +24,7 @@ Future<T?> _sheet<T>(
     enableDrag: dismissible,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (context) => _Sheet(child: child),
+    builder: (context) => KilimSheet(child: child),
   );
 }
 
@@ -34,14 +34,57 @@ Future<GameDialogAction?> showWinDialog(
   required int creditsAwarded,
   required bool hasNext,
   int levelId = 0,
+  int moveLimit = 0,
 }) {
-  final colors = context.colors;
   return _sheet<GameDialogAction>(
     context,
-    child: Column(
+    child: WinDialogContent(
+      movesLeft: movesLeft,
+      creditsAwarded: creditsAwarded,
+      hasNext: hasNext,
+      levelId: levelId,
+      moveLimit: moveLimit,
+      onNext: () => Navigator.pop(context, GameDialogAction.next),
+      onRetry: () => Navigator.pop(context, GameDialogAction.retry),
+      onLevels: () => Navigator.pop(context, GameDialogAction.levels),
+    ),
+  );
+}
+
+/// Kazanma diyaloğunun gövdesi — modal plumbing'den ayrık (görsel test için
+/// doğrudan pump edilebilir). Yıldız sayısı `starRating`'ten türetilir; 3'ün
+/// altında sıradaki yıldız için gereken hamleyi dürtü çipinde gösterir.
+class WinDialogContent extends StatelessWidget {
+  const WinDialogContent({
+    super.key,
+    required this.movesLeft,
+    required this.creditsAwarded,
+    required this.hasNext,
+    this.levelId = 0,
+    this.moveLimit = 0,
+    this.onNext,
+    this.onRetry,
+    this.onLevels,
+  });
+
+  final int movesLeft;
+  final int creditsAwarded;
+  final bool hasNext;
+  final int levelId;
+  final int moveLimit;
+  final VoidCallback? onNext;
+  final VoidCallback? onRetry;
+  final VoidCallback? onLevels;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final stars = starRating(movesLeft, moveLimit);
+    final nudgeNeed = stars < 3 ? movesForStars(stars + 1, moveLimit) : 0;
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _Stars(colors: colors),
+        _Stars(earned: stars, colors: colors),
         const SizedBox(height: 14),
         _Title('Tebrikler!', colors),
         const SizedBox(height: 4),
@@ -49,6 +92,13 @@ Future<GameDialogAction?> showWinDialog(
           levelId > 0 ? 'Bölüm $levelId tamamlandı' : 'Bölüm tamamlandı',
           colors,
         ),
+        if (stars < 3) ...[
+          const SizedBox(height: 8),
+          _Nudge(
+            '${stars + 1}. yıldız için en az $nudgeNeed hamle kalmalı',
+            colors,
+          ),
+        ],
         const SizedBox(height: 20),
         Row(
           children: [
@@ -80,21 +130,21 @@ Future<GameDialogAction?> showWinDialog(
           _PrimaryButton(
             label: 'Sıradaki Bölüm',
             colors: colors,
-            onTap: () => Navigator.pop(context, GameDialogAction.next),
+            onTap: () => onNext?.call(),
           ),
         _SecondaryButton(
           label: 'Yeniden Başla',
           colors: colors,
-          onTap: () => Navigator.pop(context, GameDialogAction.retry),
+          onTap: () => onRetry?.call(),
         ),
         _LinkButton(
           label: 'Bölümler',
           colors: colors,
-          onTap: () => Navigator.pop(context, GameDialogAction.levels),
+          onTap: () => onLevels?.call(),
         ),
       ],
-    ),
-  );
+    );
+  }
 }
 
 Future<GameDialogAction?> showLoseDialog(
@@ -185,8 +235,8 @@ Future<GameDialogAction?> showPauseDialog(
 }
 
 /// Alttan çıkan sheet gövdesi: yuvarlak üst köşeler + üst kenarda kilim bandı.
-class _Sheet extends StatelessWidget {
-  const _Sheet({required this.child});
+class KilimSheet extends StatelessWidget {
+  const KilimSheet({super.key, required this.child});
   final Widget child;
 
   @override
@@ -223,24 +273,92 @@ class _Sheet extends StatelessWidget {
   }
 }
 
-class _Stars extends StatelessWidget {
-  const _Stars({required this.colors});
+/// Kazanılan yıldızlar (dolu altın) + kazanılmayanlar (soluk dış hat); sırayla
+/// beliren pop animasyonu (hareket azaltıldıysa statik).
+class _Stars extends StatefulWidget {
+  const _Stars({required this.earned, required this.colors});
+  final int earned; // 0–3
+  final GameColors colors;
+
+  @override
+  State<_Stars> createState() => _StarsState();
+}
+
+class _StarsState extends State<_Stars> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 820),
+  )..forward();
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    return AnimatedBuilder(
+      animation: _c,
+      builder: (context, _) {
+        Widget star(int i, double size) {
+          final earned = i < widget.earned;
+          final raw = ((_c.value - i * 0.22) / 0.5).clamp(0.0, 1.0);
+          final t = reduce ? 1.0 : Curves.easeOutBack.transform(raw);
+          return Transform.scale(
+            scale: earned ? (0.4 + 0.6 * t).clamp(0.0, 1.4) : 1.0,
+            child: Opacity(
+              opacity: earned ? t.clamp(0.0, 1.0) : 0.9,
+              child: Icon(
+                earned ? Icons.star_rounded : Icons.star_outline_rounded,
+                color: earned
+                    ? widget.colors.gold
+                    : widget.colors.inkSoft.withValues(alpha: 0.4),
+                size: size,
+              ),
+            ),
+          );
+        }
+
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            star(0, 34),
+            const SizedBox(width: 8),
+            star(1, 46),
+            const SizedBox(width: 8),
+            star(2, 34),
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// Küçük dürtü çipi ("N. yıldız için ...").
+class _Nudge extends StatelessWidget {
+  const _Nudge(this.text, this.colors);
+  final String text;
   final GameColors colors;
 
   @override
   Widget build(BuildContext context) {
-    Widget star(double s) =>
-        Icon(Icons.star_rounded, color: colors.gold, size: s);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        star(30),
-        const SizedBox(width: 6),
-        star(42),
-        const SizedBox(width: 6),
-        star(30),
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      decoration: BoxDecoration(
+        color: colors.accentSoft,
+        borderRadius: BorderRadius.circular(Dim.pill),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: colors.accent,
+          fontSize: 12.5,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 }

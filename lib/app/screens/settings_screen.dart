@@ -67,6 +67,30 @@ class SettingsScreen extends StatelessWidget {
               ),
             ]),
             const SizedBox(height: 22),
+            _sectionLabel(colors, 'OYUN'),
+            const SizedBox(height: 8),
+            _group(colors, [
+              _actionRow(
+                colors,
+                label: 'Öğreticiyi tekrar oynat',
+                subtitle: 'Bir sonraki yeni oyunda adım adım anlatım',
+                icon: Icons.school_rounded,
+                onTap: () {
+                  meta.updateSettings(tutorialCompleted: false);
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      const SnackBar(
+                        content: Text(
+                          'Öğretici bir sonraki yeni oyunda gösterilecek',
+                        ),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                },
+              ),
+            ]),
+            const SizedBox(height: 22),
             _sectionLabel(colors, 'TEMA'),
             const SizedBox(height: 8),
             _Segmented(
@@ -149,6 +173,63 @@ class SettingsScreen extends StatelessWidget {
             trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _actionRow(
+    GameColors colors, {
+    required String label,
+    String? subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(Dim.panelRadius),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(Dim.panelRadius),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          child: Row(
+            children: [
+              Icon(icon, size: 22, color: colors.accent),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      label,
+                      style: TextStyle(
+                        color: colors.ink,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    if (subtitle != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(
+                          subtitle,
+                          style: TextStyle(
+                            color: colors.inkSoft,
+                            fontSize: 12.5,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 22,
+                color: colors.inkSoft,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
