@@ -138,12 +138,27 @@ class _GameBoardState extends State<GameBoard>
     return null;
   }
 
+  /// Tahtanın fiili boyutu: dikey oranlı, ekranda ortalanır.
+  ///
+  /// Yükseklik her zaman tam kullanılır. Genişlik hem mutlak üst sınırla
+  /// (telefon genişliği) hem de dikey oranla kısılır; böylece geniş/yatay
+  /// ekranlarda kartlar devleşmez, tahta ortada dikey kalır. Telefon dikeyde
+  /// mevcut genişlik her iki sınırdan da küçük olduğundan tüm alan kullanılır.
+  Size _boardSize(double availW, double availH) {
+    final width = [
+      availW,
+      Dim.maxBoardWidth,
+      availH * Dim.maxBoardAspect,
+    ].reduce((a, b) => a < b ? a : b);
+    return Size(width, availH);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
     return LayoutBuilder(
       builder: (context, constraints) {
-        final size = Size(constraints.maxWidth, constraints.maxHeight);
+        final size = _boardSize(constraints.maxWidth, constraints.maxHeight);
         final counts = [
           for (final col in state.columns)
             col.faceDown.length + col.faceUp.length,
@@ -181,15 +196,19 @@ class _GameBoardState extends State<GameBoard>
           children.addAll(_hintRings(m, colors));
         }
 
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapUp: (d) => _onTap(m, d.localPosition),
-          onDoubleTapDown: (d) => _onDoubleTap(m, d.localPosition),
-          onPanStart: (d) => _onPanStart(m, d.localPosition),
-          onPanUpdate: (d) => _onPanUpdate(d.localPosition),
-          onPanEnd: (_) => _onPanEnd(m),
-          child: SizedBox.expand(
-            child: Stack(clipBehavior: Clip.none, children: children),
+        return Center(
+          child: SizedBox(
+            width: size.width,
+            height: size.height,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTapUp: (d) => _onTap(m, d.localPosition),
+              onDoubleTapDown: (d) => _onDoubleTap(m, d.localPosition),
+              onPanStart: (d) => _onPanStart(m, d.localPosition),
+              onPanUpdate: (d) => _onPanUpdate(d.localPosition),
+              onPanEnd: (_) => _onPanEnd(m),
+              child: Stack(clipBehavior: Clip.none, children: children),
+            ),
           ),
         );
       },
