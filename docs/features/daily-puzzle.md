@@ -1,6 +1,6 @@
 # Özellik Planı — Günlük Bulmaca + Paylaşılabilir Sonuç
 
-**Roadmap:** Faz 2.1 + 2.2 · **Öncelik:** 2 · **Efor:** M · **Durum:** 🔨 devam
+**Roadmap:** Faz 2.1 + 2.2 · **Öncelik:** 2 · **Efor:** M · **Durum:** ✅ bitti
 
 ## Amaç
 
@@ -101,9 +101,19 @@ lastDaily+1), değilse streak=1. Aynı günü tekrar oynamak streak'i artırmaz.
 
 ## Kabul kriterleri
 
-- [ ] Aynı gün → herkese aynı bulmaca (deterministik, testli).
-- [ ] Günlük tamamlanınca seri güncellenir; aynı günü tekrar oynamak artırmaz.
-- [ ] Ana ekranda günlük kartı + seri rozeti; oynandıysa sonuç görünür.
-- [ ] Kazanma diyaloğunda "Paylaş" → spoiler'sız emoji kartı.
-- [ ] Günlük, kampanya kredisi/ilerlemesi/başarımından bağımsız.
-- [ ] Analitik: `daily_start/complete/share` (Faz 3.1 sonrası).
+- [x] Aynı gün → herkese aynı bulmaca (deterministik, `daily_test`).
+- [x] Günlük tamamlanınca seri güncellenir; aynı günü tekrar oynamak artırmaz
+  (`daily_meta_test`).
+- [x] Ana ekranda günlük kartı + seri rozeti; oynandıysa yıldız sonucu görünür.
+- [x] Kazanma diyaloğunda "Paylaş" → spoiler'sız emoji kartı (görsel: daily_win).
+- [x] Günlük, kampanya kredisi/ilerlemesi/başarımından bağımsız.
+- [ ] Analitik: `daily_start/complete/share` (Faz 3.1 sonrası — ertelendi).
+
+## Uygulama notları (gerçekleşen)
+
+- Dosyalar: `lib/app/daily/{daily_service,daily_share}.dart`, `GameScreen.daily`
+  (`game_screen.dart`), `DailyWinContent`/`showDailyWinDialog` (`dialogs.dart`),
+  ana ekran kartı (`home_screen.dart`), meta `daily` dokümanı.
+- Runtime üretim senkron + kısa spinner; çözücü doğrulaması küçük düğüm
+  bütçesiyle (60k), fallback büyük bütçe. İleride isolate'a taşınabilir.
+- Undo/ipucu YOK (Wordle gibi tek oturum, adil). Kayıp → yeniden dene.

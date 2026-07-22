@@ -80,10 +80,11 @@ Analitik (Faz 3.1) eklendiğinde doldur:
 | 1.0.0 | 1 | — | 🔨 hazırlık | İlk sürüm: 150 bölüm, Kilim tasarımı, günlük olmayan klasik mod. | İlk listeleme (bölüm 2 alanları). |
 | 1.0.0 | 4 | 2026-07 | ✅ web | iPad/tablet yönlendirme + tahta yerleşimi; Firebase analitik/Crashlytics (mobil). | yok |
 | 1.1.0 | 5 | 2026-07 | ✅ web | Yeni: adım adım öğretici, yıldız hedefleri ve kazanma kutlaması, daha adil kategori eşleştirme. | yok |
+| 1.2.0 | 6 | 2026-07 | ✅ web | Yeni: Günlük Bulmaca — her gün yeni bir bölüm, günlük seri (🔥) ve spoiler'sız sonuç paylaşımı. | yok |
 
 <!--
 Sonraki sürümler için şablon satırı:
-| 1.2.0 | 6 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
+| 1.3.0 | 7 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
 -->
 
 ### Sürüm notları (dahili ayrıntı)
@@ -102,6 +103,13 @@ Sonraki sürümler için şablon satırı:
   üretici hard çakışan kategorileri hiçbir bölümde bir araya getirmez; 640
   kategorinin çakışma haritası denetimle dolduruldu; 150 bölüm yeniden üretildi.
 - Firebase analitik/Crashlytics kodu (mobilde config ile aktif; web no-op).
+
+**1.2.0 (build 6) — Faz 2: Günlük Bulmaca**
+- **Günlük görev** (2.1): UTC tarihe göre deterministik günlük bölüm (herkese
+  aynı), günlük seri (streak) + rekor, ana ekran giriş kartı.
+- **Paylaşılabilir sonuç** (2.2): spoiler'sız emoji sonuç kartı (yıldız+hamle+
+  seri+link); `share_plus` (web/mobil, panoya kopyala fallback).
+- Günlük mod kampanya kredi/ilerlemesinden bağımsız; undo/ipucu yok (adil).
 
 ---
 

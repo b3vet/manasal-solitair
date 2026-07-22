@@ -83,25 +83,31 @@ olarak kapsam dışı bırakıldı.)
 
 ---
 
-## Faz 2 — 2. Öncelik: Retention & organik büyüme ⬜
+## Faz 2 — 2. Öncelik: Retention & organik büyüme 🔨
 
 Oyuncuyu geri getiren ve kendiliğinden yayan özellikler.
 
-### 2.1 Günlük görev (daily puzzle) ⬜ · efor: M
+### 2.1 Günlük görev (daily puzzle) ✅ · efor: M
+📄 [`docs/features/daily-puzzle.md`](features/daily-puzzle.md)
+
 - **Ne:** Herkese aynı, güne özel tek bölüm + günlük seri (streak).
 - **Neden:** Geri gelme sebebi #1; alışkanlık oluşturur.
-- **Yaklaşım:** Deterministik günlük seed (tarih → PRNG; `lib/engine/prng.dart`
-  zaten var), günlük bölümü çalışma anında üret veya önceden üret. Meta'ya
-  `dailyStreak`, `lastDailyDate`. Ana ekrana giriş kartı.
-- **Not:** Günlük seed için tarih gerekir; üretim tohumla deterministik
-  kalmalı (kaydedilebilirlik/replay bozulmasın).
+- **Yapıldı:** `DailyService` (UTC tarih → deterministik tohum → çözülebilir
+  bölüm, önbellekli; `lib/app/daily/`), meta `daily` dokümanı (streak/bestStreak/
+  lastDayIndex/stars) + `recordDaily` seri mantığı, `GameScreen.daily` (kredi/
+  ilerlemeden bağımsız), ana ekran günlük kartı + seri rozeti. Testler:
+  `daily_test`, `daily_meta_test`.
 
-### 2.2 Paylaşılabilir sonuç (Wordle etkisi) ⬜ · efor: S–M
+### 2.2 Paylaşılabilir sonuç (Wordle etkisi) ✅ · efor: S–M
+📄 [`docs/features/daily-puzzle.md`](features/daily-puzzle.md)
+
 - **Ne:** "Bugünkü Manasal'ı 24 hamlede ⭐⭐⭐ bitirdim" emoji/metin kartı
   paylaşımı (spoiler'sız).
 - **Neden:** Sıfır maliyetli organik büyüme döngüsü.
-- **Yaklaşım:** `share_plus` paketi; sonucu emoji ızgarası + link olarak biçimle;
-  kazanma diyaloğuna "Paylaş" butonu. Analitikte `share_tapped`.
+- **Yapıldı:** `daily_share.dart` (spoiler'sız yıldız+hamle+seri+link metni),
+  `share_plus` (Web Share API / mobil sistem sayfası, panoya kopyala fallback),
+  günlük kazanma diyaloğunda "Paylaş" butonu. (Analitik `share` olayı: Faz 3.1
+  sonrası.)
 
 ### 2.3 İstatistik ekranı ⬜ · efor: S–M
 - **Ne:** Kazanma oranı, ortalama hamle, en uzun seri, tamamlanan kategori,
