@@ -229,7 +229,8 @@ class Dim {
   // Tahta, dikey oranlı sabit bir alandır; geniş/yatay ekranlarda büyümez,
   // ekranda ortalanır (kenarlar arka planla dolar). Genişlik hem mutlak üst
   // sınırla (telefon genişliği) hem de dikey oranla kısılır.
-  static const double maxBoardWidth = 460; // px — en büyük telefondan biraz geniş
+  static const double maxBoardWidth =
+      460; // px — en büyük telefondan biraz geniş
   static const double maxBoardAspect = 0.60; // genişlik / yükseklik
   // Kolon içi bindirme oranları (kart yüksekliğine göre).
   // Açık kartlar okunacak kadar açılır (üstteki yazı görünür); kapalı kartlar
