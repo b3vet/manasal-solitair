@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app/analytics/analytics_service.dart';
 import 'app/audio/sound_service.dart';
 import 'app/meta/meta_scope.dart';
 import 'app/meta/meta_service.dart';
@@ -21,6 +22,8 @@ void main() async {
   final meta = MetaService.load(Store(prefs));
   SoundService.instance.enabled = meta.sound;
   unawaited(SoundService.instance.load());
+  // Analitik + çökme raporu. Yapılandırma yoksa/web'de sessizce no-op kalır.
+  unawaited(Analytics.instance.init(enabledSetting: meta.analyticsEnabled));
   runApp(ManasalApp(meta: meta));
 }
 

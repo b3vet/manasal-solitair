@@ -38,6 +38,11 @@ dependencies:
   shared_preferences: ^2.5.5
   audioplayers: ^6.8.1
   web: ^1.1.1
+  # Analitik + çökme raporu. Yalnız mobilde (iOS/Android) aktif; web'de ve
+  # yapılandırma dosyaları eklenmeden no-op (bkz. docs/features/analytics-crashlytics.md).
+  firebase_core: ^3.8.0
+  firebase_analytics: ^11.4.0
+  firebase_crashlytics: ^4.2.0
 
 dev_dependencies:
   flutter_test:

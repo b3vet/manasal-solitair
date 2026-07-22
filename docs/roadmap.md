@@ -113,8 +113,15 @@ Halka açılmadan önce zorunlu kapılar + ölçüm altyapısı.
 _(Not: Analitik teknik olarak burada ama öğretici etkisini ölçmek için erken —
 Faz 1 ile paralel — devreye alınması önerilir.)_
 
-### 3.1 Analitik + Crash reporting ⬜ · efor: M
+### 3.1 Analitik + Crash reporting 🔨 · efor: M — kod tarafı bitti, config bekliyor
 📄 [`docs/features/analytics-crashlytics.md`](features/analytics-crashlytics.md)
+
+- **Yapıldı:** `Analytics` cephesi + koşullu backend (web no-op / mobil
+  Firebase), `main.dart` init, `analyticsEnabled` ayarı + opt-out anahtarı,
+  `level_start/complete/fail` + `hint_used/undo_used` olayları. Web build
+  firebase içermez; mobilde config eklenince aktifleşir.
+- **Bekleyen (kullanıcı):** Firebase projesi + `GoogleService-Info.plist` /
+  `google-services.json` + Gradle eklentisi (bkz. özellik dokümanı).
 
 - **Ne:** Firebase Analytics + Crashlytics.
 - **Neden:** Hangi bölümde bırakıyorlar, hangi bölüm çok zor, D1/D7 retention —
@@ -131,14 +138,15 @@ Faz 1 ile paralel — devreye alınması önerilir.)_
   link at" için en düşük sürtünme.
 - **Yaklaşım:** Statik HTML (bu repoda `docs/site/`), ayrı boş repoda gh-pages.
 
-### 3.3 Lisans ⬜ · efor: S (karar) — onay bekliyor
+### 3.3 Lisans ✅ — FSL-1.1-MIT seçildi ve eklendi
 📄 [`docs/licensing.md`](licensing.md)
 
-- **Ne:** Kaynak-görünür lisans; bireyler/küçük işletmeler serbest,
-  kurumsal/enterprise kısıtlı. Öneri: **PolyForm Small Business 1.0.0**.
-- **Neden:** İstenen "enterprise dışında herkese açık" modeli gerçek OSI
-  open-source'la mümkün değil (ayrımcılık yasağı); fair-source gerekir.
-- **Yaklaşım:** Karar onaylanınca `LICENSE` + `NOTICE` (Lora/Manrope OFL atıfı).
+- **Karar:** **Functional Source License 1.1 (MIT Future)** — rekabet-dışı her
+  kullanıma serbest, 2 yıl sonra tam MIT'e döner.
+- **Yapıldı:** kök `LICENSE` (FSL-1.1-MIT), `THIRD_PARTY_LICENSES.md` +
+  `assets/fonts/{Lora,Manrope}-OFL.txt`.
+- **Bekleyen (kullanıcı):** `LICENSE` içindeki `BURAYA_TELIF_SAHIBI` → gerçek
+  ad/şirket.
 
 ### 3.4 App Store metadata + sürüm geçmişi ⬜ · efor: S (yaşayan)
 📄 [`docs/app-store-metadata.md`](app-store-metadata.md)

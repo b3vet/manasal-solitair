@@ -3,6 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 
+import '../analytics/analytics_service.dart';
 import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
@@ -52,6 +53,17 @@ class SettingsScreen extends StatelessWidget {
                 value: meta.reducedMotion == 'off',
                 onChanged: (v) =>
                     meta.updateSettings(reducedMotion: v ? 'off' : 'on'),
+              ),
+              _divider(colors),
+              _switchRow(
+                colors,
+                label: 'Kullanım verisi',
+                subtitle: 'Anonim analitik ve çökme raporu',
+                value: meta.analyticsEnabled,
+                onChanged: (v) {
+                  meta.updateSettings(analyticsEnabled: v);
+                  Analytics.instance.setEnabled(v);
+                },
               ),
             ]),
             const SizedBox(height: 22),

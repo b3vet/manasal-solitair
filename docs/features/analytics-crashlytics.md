@@ -1,7 +1,18 @@
 # Özellik Planı — Analitik + Crash Reporting (Firebase)
 
 **Roadmap:** Faz 3.1 · **Öncelik:** yayın hazırlığı (Faz 1 ile paralel önerilir)
-· **Efor:** M · **Durum:** ⬜ planlı — **Firebase hesabı/anahtarı kullanıcıdan**
+· **Efor:** M · **Durum:** 🔨 kod tarafı BİTTİ — Firebase config kullanıcıdan
+
+> **Yapıldı (kod):** `lib/app/analytics/analytics_service.dart` cephesi + koşullu
+> backend (`analytics_backend{,_stub,_firebase}.dart` — web no-op, mobil
+> Firebase), `main.dart` init, `meta.analyticsEnabled` + Ayarlar'da opt-out
+> anahtarı, olaylar (`level_start/complete/fail`, `hint_used`, `undo_used`).
+> Analyze/format/test/web-build temiz; web derlemesi Firebase içermez.
+>
+> **Bekleyen (kullanıcı):** aşağıdaki "Kurulum adımları" — Firebase projesi +
+> `flutterfire configure` (config dosyaları + Gradle). Eklenince mobilde
+> otomatik aktifleşir (`Firebase.initializeApp()` no-options native config'i
+> okur).
 
 ## Amaç
 

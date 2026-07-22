@@ -5,6 +5,7 @@ library;
 import 'package:flutter/material.dart';
 
 import '../../engine/engine.dart';
+import '../analytics/analytics_service.dart';
 import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
@@ -56,6 +57,7 @@ class _GameScreenState extends State<GameScreen> {
       }
     }
     _controller.addListener(_onChange);
+    Analytics.instance.levelStart(widget.levels[_index].id);
   }
 
   @override
@@ -91,6 +93,18 @@ class _GameScreenState extends State<GameScreen> {
         categoriesInLevel: s.level.totalCategories,
         firstTry: _firstTry,
       );
+      final ml = s.level.moveLimit;
+      final ratio = ml > 0 ? s.movesLeft / ml : 0.0;
+      Analytics.instance.levelComplete(
+        s.level.id,
+        movesUsed: ml - s.movesLeft,
+        stars: ratio >= 0.4
+            ? 3
+            : ratio >= 0.2
+            ? 2
+            : 1,
+        firstTry: _firstTry,
+      );
       action = await showWinDialog(
         context,
         movesLeft: s.movesLeft,
@@ -99,6 +113,12 @@ class _GameScreenState extends State<GameScreen> {
         levelId: s.level.id,
       );
     } else {
+      Analytics.instance.levelFail(
+        s.level.id,
+        reason: s.status == GameStatus.lostOutOfMoves
+            ? 'out_of_moves'
+            : 'deadlock',
+      );
       _firstTry = false;
       action = await showLoseDialog(
         context,
@@ -136,11 +156,15 @@ class _GameScreenState extends State<GameScreen> {
       _firstTry = freshAttempt;
       _controller.loadLevel(widget.levels[i]);
     });
+    Analytics.instance.levelStart(widget.levels[i].id);
   }
 
   void _useUndo() {
     if (_meta.credits > 0 && _controller.canUndo) {
-      if (_controller.undo()) _meta.spendUndoCredit();
+      if (_controller.undo()) {
+        _meta.spendUndoCredit();
+        Analytics.instance.undoUsed(_controller.state.level.id);
+      }
     }
   }
 
@@ -158,6 +182,7 @@ class _GameScreenState extends State<GameScreen> {
     meta.spendUndoCredit();
     SoundService.instance.play(Sfx.button);
     _controller.showHint(move);
+    Analytics.instance.hintUsed(_controller.state.level.id);
   }
 
   void _snack(String msg) {

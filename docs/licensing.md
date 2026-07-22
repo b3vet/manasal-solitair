@@ -1,8 +1,19 @@
 # Lisans Kararı
 
-**Roadmap:** Faz 3.3 · **Durum:** ⬜ karar onayı bekliyor
+**Roadmap:** Faz 3.3 · **Durum:** ✅ karar verildi — **FSL-1.1-MIT**
 **Uyarı:** Bu hukuki tavsiye değildir; ticari kısıtlama içeren lisanslarda bir
 hukukçuya danışılması önerilir.
+
+> **KARAR:** Lisans **Functional Source License 1.1 (MIT Future License)**
+> olarak seçildi. Kök [`LICENSE`](../LICENSE) eklendi; font atıfları
+> [`THIRD_PARTY_LICENSES.md`](../THIRD_PARTY_LICENSES.md) + gömülü `*-OFL.txt`.
+> Kalan tek iş: `LICENSE`'taki `BURAYA_TELIF_SAHIBI` → gerçek ad/şirket.
+>
+> **FSL neden:** Rekabetçi kullanım dışında her kullanıma (birey, eğitim,
+> araştırma, iç kullanım) serbest; yayınlanmadan **2 yıl sonra tam MIT'e
+> döner**. "Enterprise dışında herkese açık" hedefine uyar (rakip ürün/servis
+> kısıtı) ve zamanla gerçek açık kaynağa dönerek topluluğa açılır.
+> Metin: fsl.software (resmî kaynakla doğrula).
 
 ## İstenen model
 
@@ -50,16 +61,21 @@ Yapılacak: her fontun `OFL.txt`'ini `assets/fonts/` veya bir `THIRD_PARTY.md`/
 metninin dağıtılmasını ister. (Uygulama içi "Lisanslar" ekranı ileride eklenebilir
 — Flutter `showLicensePage` bunu otomatik toplar.)
 
-## Yapılacaklar (onay sonrası)
+## Yapılacaklar
 
-1. Lisansı seç (öneri: PolyForm Small Business 1.0.0). **Kullanıcı onayı gerekli.**
-2. Kök `LICENSE` dosyasını ekle (seçilen lisansın resmi metni).
-3. `NOTICE` / `THIRD_PARTY.md`: Lora + Manrope OFL atıfları.
-4. `README`'ye lisans rozeti/kısa not; "source-available" ifadesi (open-source
-   demeden, yanlış beyandan kaçın).
-5. `pubspec.yaml` zaten `publish_to: none` (pub.dev'e yanlışlıkla yayınlanmaz).
+1. ✅ Lisans seçildi: **FSL-1.1-MIT**.
+2. ✅ Kök `LICENSE` eklendi (FSL-1.1-MIT resmi metni).
+3. ✅ `THIRD_PARTY_LICENSES.md` + `assets/fonts/{Lora,Manrope}-OFL.txt` (font
+   atıfları).
+4. ⬜ `README`'de kısa lisans notu; "source-available / fair-source" ifadesi
+   (open-source demeden — FSL, 2 yıl sonra MIT'e döner).
+5. ✅ `pubspec.yaml` zaten `publish_to: none`.
+6. ⬜ **Kullanıcı:** `LICENSE` içindeki `BURAYA_TELIF_SAHIBI` → gerçek ad/şirket.
 
 ## Karar
 
-- [ ] Lisans onaylandı: **______________** (öneri: PolyForm Small Business 1.0.0)
-- [ ] `LICENSE` + `NOTICE` eklendi.
+- [x] Lisans onaylandı: **FSL-1.1-MIT** (Functional Source License 1.1, MIT
+  Future License). _(PolyForm Small Business değerlendirildi; FSL tercih edildi
+  — 2 yılda MIT'e dönmesi + rekabet-dışı serbestlik.)_
+- [x] `LICENSE` + `THIRD_PARTY_LICENSES.md` eklendi.
+- [ ] Telif sahibi adı dolduruldu.
