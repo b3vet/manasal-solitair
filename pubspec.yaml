@@ -49,6 +49,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  # Uygulama ikonlarını assets/icon/app_icon.png'den üretir (kilim markası).
+  flutter_launcher_icons: ^0.14.4
+
+# Kilim uygulama ikonu — `dart run flutter_launcher_icons` ile üretilir.
+flutter_launcher_icons:
+  image_path: "assets/icon/app_icon.png"
+  ios: true
+  remove_alpha_ios: true
+  background_color_ios: "#B14E24"
+  android: true
+  adaptive_icon_background: "#B14E24"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
