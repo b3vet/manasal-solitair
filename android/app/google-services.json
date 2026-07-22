@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936491631849",
+    "project_id": "manasal-solitaire",
+    "storage_bucket": "manasal-solitaire.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936491631849:android:6d6442604bf86eae1a9c78",
+        "android_client_info": {
+          "package_name": "com.manasal.manasal_solitaire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnYuo-uPsC4LAHJysSx8Le5ItYkMli5RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
