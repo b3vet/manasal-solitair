@@ -109,6 +109,7 @@ class LevelGenerator {
     List<String> recent,
   ) {
     final softMap = ContentValidator.symmetricSoftConflicts(pool);
+    final hardMap = ContentValidator.symmetricHardConflicts(pool);
 
     List<Category> eligible(bool honorRecent) => pool.categories
         .where((c) => c.difficulty <= params.maxDifficulty)
@@ -125,19 +126,31 @@ class LevelGenerator {
     rng.shuffle(candidates);
 
     final chosen = <Category>[];
+
+    // Hard çakışma HER ZAMAN engellenir (seviye fark etmez — özünde belirsiz
+    // çiftler hiçbir bölümde birlikte gelmez, Spec K7 adaleti).
+    bool hardOk(Category c) {
+      final h = hardMap[c.id] ?? const <String>{};
+      return !chosen.any((x) => h.contains(x.id));
+    }
+
+    // 1. geçiş: hard'ı ele; düşük seviyede soft'u da ele.
     for (final c in candidates) {
       if (chosen.length >= params.categoryCount) break;
+      if (!hardOk(c)) continue;
       if (!params.allowSoftConflict) {
-        final conflicts = softMap[c.id] ?? const {};
-        if (chosen.any((x) => conflicts.contains(x.id))) continue;
+        final s = softMap[c.id] ?? const <String>{};
+        if (chosen.any((x) => s.contains(x.id))) continue;
       }
       chosen.add(c);
     }
-    // Çakışma yüzünden yetersizse gevşeterek doldur.
+    // 2. geçiş (yetersizse): soft'u gevşet, ama HARD'ı ASLA ihlal etme.
     if (chosen.length < params.categoryCount) {
       for (final c in candidates) {
         if (chosen.length >= params.categoryCount) break;
-        if (!chosen.contains(c)) chosen.add(c);
+        if (chosen.contains(c)) continue;
+        if (!hardOk(c)) continue;
+        chosen.add(c);
       }
     }
     return chosen;

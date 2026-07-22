@@ -22,6 +22,8 @@ class Loader {
           words: (c['words'] as List).cast<String>(),
           softConflicts:
               (c['softConflicts'] as List?)?.cast<String>() ?? const [],
+          hardConflicts:
+              (c['hardConflicts'] as List?)?.cast<String>() ?? const [],
         ),
     ];
     return CategoryPool(version: j['version'] as int? ?? 1, categories: cats);

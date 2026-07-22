@@ -82,14 +82,38 @@ class ContentValidator {
       }
     }
 
-    // 4) softConflicts geçerli id'lere işaret etmeli.
+    // 4) soft/hardConflicts geçerli id'lere işaret etmeli + kendine referans yok.
     for (final c in pool.categories) {
       for (final sc in c.softConflicts) {
-        if (pool.byId(sc) == null) {
+        if (sc == c.id) {
+          issues.add(ContentIssue('warn', '${c.id}: kendine softConflict'));
+        } else if (pool.byId(sc) == null) {
           issues.add(
             ContentIssue('warn', '${c.id}: softConflict bilinmeyen id "$sc"'),
           );
         }
+      }
+      for (final hc in c.hardConflicts) {
+        if (hc == c.id) {
+          issues.add(ContentIssue('warn', '${c.id}: kendine hardConflict'));
+        } else if (pool.byId(hc) == null) {
+          issues.add(
+            ContentIssue('warn', '${c.id}: hardConflict bilinmeyen id "$hc"'),
+          );
+        }
+      }
+      // Bir çift hem hard hem soft olmamalı — hard daha güçlü, soft gereksiz.
+      final both = c.softConflicts.toSet().intersection(
+        c.hardConflicts.toSet(),
+      );
+      for (final b in both) {
+        issues.add(
+          ContentIssue(
+            'warn',
+            '${c.id}: "$b" hem hard hem soft — hard yeterli, soft'
+                ' kaldırılmalı',
+          ),
+        );
       }
     }
 
@@ -97,13 +121,23 @@ class ContentValidator {
   }
 
   /// softConflicts ilişkisini simetrik hale getirir (a→b varsa b→a ekler).
-  static Map<String, Set<String>> symmetricSoftConflicts(CategoryPool pool) {
+  static Map<String, Set<String>> symmetricSoftConflicts(CategoryPool pool) =>
+      _symmetric(pool, (c) => c.softConflicts);
+
+  /// hardConflicts ilişkisini simetrik hale getirir (a→b varsa b→a ekler).
+  static Map<String, Set<String>> symmetricHardConflicts(CategoryPool pool) =>
+      _symmetric(pool, (c) => c.hardConflicts);
+
+  static Map<String, Set<String>> _symmetric(
+    CategoryPool pool,
+    List<String> Function(Category) edges,
+  ) {
     final map = <String, Set<String>>{
-      for (final c in pool.categories) c.id: {...c.softConflicts},
+      for (final c in pool.categories) c.id: {...edges(c)},
     };
     for (final c in pool.categories) {
-      for (final sc in c.softConflicts) {
-        map[sc]?.add(c.id);
+      for (final e in edges(c)) {
+        map[e]?.add(c.id);
       }
     }
     return map;

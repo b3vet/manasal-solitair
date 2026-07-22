@@ -10,6 +10,7 @@ import 'dart:math' as math;
 
 import 'package:manasal_solitaire/content/levels_repository.dart';
 import 'package:manasal_solitaire/content/loader.dart';
+import 'package:manasal_solitaire/content/validator.dart';
 import 'package:manasal_solitaire/engine/engine.dart';
 import 'package:manasal_solitaire/generator/curve.dart';
 import 'package:manasal_solitaire/generator/level_generator.dart';
@@ -26,6 +27,13 @@ void main(List<String> args) {
 
   final pool = Loader.parse(File(contentPath).readAsStringSync());
   stdout.writeln('Havuz: ${pool.length} kategori. $count bölüm üretiliyor...');
+
+  // Çakışma denetimi: hard hiçbir bölümde olmamalı; soft yalnız adil aralık
+  // (allowSoftConflict false) bölümlerde olmamalı.
+  final hardMap = ContentValidator.symmetricHardConflicts(pool);
+  final softMap = ContentValidator.symmetricSoftConflicts(pool);
+  final hardViolations = <String>[];
+  final softViolations = <String>[];
 
   final levels = <LevelDef>[];
   final report = StringBuffer()
@@ -112,6 +120,20 @@ void main(List<String> args) {
     final finalLevel = accepted.copyWith(moveLimit: limit);
     levels.add(finalLevel);
 
+    // Çakışma denetimi: bu bölümün kategori çiftlerini tara.
+    final ids = finalLevel.categories.map((c) => c.categoryId).toList();
+    for (var i = 0; i < ids.length; i++) {
+      for (var j = i + 1; j < ids.length; j++) {
+        final a = ids[i], b = ids[j];
+        if ((hardMap[a] ?? const <String>{}).contains(b)) {
+          hardViolations.add('Bölüm $lvl: $a ↔ $b');
+        } else if (!params.allowSoftConflict &&
+            (softMap[a] ?? const <String>{}).contains(b)) {
+          softViolations.add('Bölüm $lvl: $a ↔ $b');
+        }
+      }
+    }
+
     // Rotasyon penceresini güncelle.
     for (final c in finalLevel.categories) {
       recentWindow.add(c.categoryId);
@@ -142,7 +164,26 @@ void main(List<String> args) {
   report
     ..writeln()
     ..writeln('Toplam deneme: $totalTries, toplam düğüm: $totalNodes.')
-    ..writeln('Başarılı: ${levels.length}/$count.');
+    ..writeln('Başarılı: ${levels.length}/$count.')
+    ..writeln()
+    ..writeln('## Belirsizlik denetimi')
+    ..writeln()
+    ..writeln('- Hard çakışma (olmamalı): **${hardViolations.length}**')
+    ..writeln(
+      '- Soft çakışma, adil aralıkta (olmamalı): **${softViolations.length}**',
+    );
+  if (hardViolations.isNotEmpty) {
+    report.writeln();
+    for (final v in hardViolations) {
+      report.writeln('  - ⛔ $v');
+    }
+  }
+  if (softViolations.isNotEmpty) {
+    report.writeln();
+    for (final v in softViolations) {
+      report.writeln('  - ⚠️ $v');
+    }
+  }
   File(reportPath)
     ..createSync(recursive: true)
     ..writeAsStringSync(report.toString());
@@ -152,6 +193,19 @@ void main(List<String> args) {
 
   stdout.writeln('\n✅ ${levels.length} bölüm yazıldı → $outPath');
   stdout.writeln('   Rapor → $reportPath');
+  if (softViolations.isNotEmpty) {
+    stdout.writeln(
+      '⚠️  Adil aralıkta ${softViolations.length} soft çakışma (rapora bak).',
+    );
+  }
+  // Hard çakışma adaletin ihlalidir → üretimi HATA ile bitir.
+  if (hardViolations.isNotEmpty) {
+    stderr.writeln('\n❌ ${hardViolations.length} HARD çakışma bulundu:');
+    for (final v in hardViolations) {
+      stderr.writeln('   $v');
+    }
+    exitCode = 1;
+  }
 }
 
 int _seedFor(int level, int tryIndex) => level * 1000003 + tryIndex * 97 + 7;

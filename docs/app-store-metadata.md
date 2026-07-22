@@ -78,10 +78,12 @@ Analitik (Faz 3.1) eklendiğinde doldur:
 | Sürüm | Build | Tarih | Durum | What's New (TR, kullanıcıya) | Metadata değişikliği |
 |---|---|---|---|---|---|
 | 1.0.0 | 1 | — | 🔨 hazırlık | İlk sürüm: 150 bölüm, Kilim tasarımı, günlük olmayan klasik mod. | İlk listeleme (bölüm 2 alanları). |
+| 1.0.0 | 4 | 2026-07 | ✅ web | iPad/tablet yönlendirme + tahta yerleşimi; Firebase analitik/Crashlytics (mobil). | yok |
+| 1.1.0 | 5 | 2026-07 | ✅ web | Yeni: adım adım öğretici, yıldız hedefleri ve kazanma kutlaması, daha adil kategori eşleştirme. | yok |
 
 <!--
 Sonraki sürümler için şablon satırı:
-| 1.1.0 | 2 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
+| 1.2.0 | 6 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
 -->
 
 ### Sürüm notları (dahili ayrıntı)
@@ -90,6 +92,16 @@ Sonraki sürümler için şablon satırı:
 - Çekirdek oyun + Kilim yeniden tasarımı + iOS/Android paketleme hazır.
 - Bekleyen yayın kapıları: gizlilik politikası URL, ekran görüntüleri, lisans,
   (opsiyonel) analitik.
+
+**1.1.0 (build 5) — Faz 1 spec eksikleri**
+- **Etkileşimli öğretici** (1.1): ilk oyunda 4 adımlı, yaparak öğreten anlatım;
+  spot ışığı + nabız + parmak yönlendirmesi; Ayarlar'dan tekrar oynatılır.
+- **Yıldız hedefi** (1.3): oyun-içi 3-yıldız eşiği, kazanma diyaloğunda yıldız
+  animasyonu + dürtü, ana ekran/Bölümler toplam yıldız.
+- **İçerik belirsizlik koruması** (1.2): iki katmanlı çakışma (hard/soft);
+  üretici hard çakışan kategorileri hiçbir bölümde bir araya getirmez; 640
+  kategorinin çakışma haritası denetimle dolduruldu; 150 bölüm yeniden üretildi.
+- Firebase analitik/Crashlytics kodu (mobilde config ile aktif; web no-op).
 
 ---
 

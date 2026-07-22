@@ -8,13 +8,22 @@ class Category {
     required this.difficulty,
     required this.words,
     this.softConflicts = const [],
+    this.hardConflicts = const [],
   });
 
   final String id;
   final String name;
   final int difficulty; // 1 bariz .. 3 çetrefilli
   final List<String> words;
+
+  /// Gevşek ilişkili kategoriler — YALNIZCA yüksek seviyede (bilinçli zorluk)
+  /// birlikte gelebilir. Örn. Meyveler ↔ Sebzeler.
   final List<String> softConflicts;
+
+  /// Özünde belirsiz (aynı kelime iki kategoriye eşit yakın) kategoriler —
+  /// HİÇBİR bölümde birlikte gelmez (seviye fark etmez). Örn. Meyveler ↔ Renkler
+  /// ("Nar" ikisine de olur). Adaletin çekirdeği (Spec K7).
+  final List<String> hardConflicts;
 }
 
 class CategoryPool {
