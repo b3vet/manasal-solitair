@@ -32,10 +32,11 @@ Kayıt için mevcut temel:
 
 ---
 
-## Faz 1 — 1. Öncelik: Spec eksikleri 🔨
+## Faz 1 — 1. Öncelik: Spec eksikleri ✅
 
-Oyunun çekirdeği tamam; bunlar spec ruhunda kalan boşluklar. (Erişilebilirlik
-bilinçli olarak kapsam dışı bırakıldı.)
+Oyunun çekirdeği tamam; bunlar spec ruhunda kalan boşluklardı — üçü de bitti
+(öğretici, belirsizlik koruması, yıldız hedefi). (Erişilebilirlik bilinçli
+olarak kapsam dışı bırakıldı.)
 
 ### 1.1 Etkileşimli öğretici ✅ · efor: M–L
 📄 [`docs/features/interactive-tutorial.md`](features/interactive-tutorial.md)
@@ -51,19 +52,21 @@ bilinçli olarak kapsam dışı bırakıldı.)
   oynatılabilir. Ortak `PulseRing` ipucu ile paylaşılır. Testler:
   `test/app/tutorial_test.dart`.
 
-### 1.2 İçerik belirsizlik koruması 🔨 · efor: M + L (içerik)
+### 1.2 İçerik belirsizlik koruması ✅ · efor: M + L (içerik)
 📄 [`docs/features/content-ambiguity-protection.md`](features/content-ambiguity-protection.md)
+· 📄 [denetim raporu](features/content-ambiguity-audit-report.md)
 
 - **Ne:** Bir kelimenin iki kategoriye makul gelmesini (haksız yanılma)
-  önlemek. Şu an 640 kategoriden yalnızca 32'sinde `softConflict` tanımlı.
+  önlemek.
 - **Neden:** "Okuyarak eşleştir" mekaniği ancak eldeki kategoriler birbirine
   karışmıyorsa adildir.
 - **Yapıldı (kod):** İki katman — `hardConflicts` (özünde belirsiz; hiçbir
   bölümde birlikte gelmez) + `softConflicts` (yalnız yüksek seviyede). Üretici
   hard'ı DAİMA eler (`level_generator.dart`), doğrulayıcı simetrikleştirir +
   denetler, `bin/generate_levels.dart` hard çakışmada HATA verir + rapora yazar.
-- **Yapılıyor (içerik):** 640 kategorinin çakışma kenarları paralel denetimle
-  dolduruluyor; sonra 150 bölüm yeniden üretilecek.
+- **Yapıldı (içerik):** Paralel denetimle (8 öbek) çakışma kapsamı **32/640
+  (%5) → 613/640 (%95)** (112 hard, 605 soft kategori). 150 bölüm yeniden
+  üretildi; 0 hard çakışma. Testler: `test/content/content_test.dart`.
 
 ### 1.3 Yıldız hedefi ✅ · efor: S–M
 📄 [`docs/features/star-goals.md`](features/star-goals.md)

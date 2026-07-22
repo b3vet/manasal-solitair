@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "categories": [
     {
       "id": "meyveler",
@@ -31,8 +31,15 @@
         "Limon"
       ],
       "softConflicts": [
-        "sebzeler",
-        "yemekler"
+        "armut_cesitleri",
+        "cilek_cesitleri",
+        "egzotik_meyveler",
+        "elma_cesitleri",
+        "erik_cesitleri",
+        "hurma_cesitleri"
+      ],
+      "hardConflicts": [
+        "renkler"
       ]
     },
     {
@@ -64,9 +71,12 @@
         "Kereviz"
       ],
       "softConflicts": [
-        "meyveler",
         "baharatlar",
-        "yemekler"
+        "biber_cesitleri",
+        "deniz_sebzeleri_yosunlar",
+        "domates_cesitleri",
+        "egzotik_sebzeler",
+        "enginar_kereviz_rezene"
       ]
     },
     {
@@ -100,9 +110,12 @@
         "Gergedan"
       ],
       "softConflicts": [
-        "kuslar",
+        "afrika_savan",
+        "ayilar_soguk_iklim",
+        "bocekler",
+        "col_hayvanlari",
         "deniz_canlilari",
-        "bocekler"
+        "kedigiller_yaban"
       ]
     },
     {
@@ -136,9 +149,9 @@
         "Sığırcık"
       ],
       "softConflicts": [
-        "hayvanlar_kara",
-        "deniz_canlilari",
-        "bocekler"
+        "baykusgiller",
+        "guvercingiller",
+        "kargagiller"
       ]
     },
     {
@@ -171,10 +184,12 @@
         "Vatoz"
       ],
       "softConflicts": [
-        "hayvanlar_kara",
-        "kuslar",
+        "balina_turleri",
         "bocekler",
-        "cografi_sekiller"
+        "cografi_sekiller",
+        "deniz_yildizi_turleri",
+        "denizler_okyanuslar",
+        "hayvanlar_kara"
       ]
     },
     {
@@ -207,9 +222,12 @@
         "Mayıs böceği"
       ],
       "softConflicts": [
+        "ari_esekarisi_turleri",
+        "cekirge_circir_bocekleri",
+        "deniz_canlilari",
         "hayvanlar_kara",
-        "kuslar",
-        "deniz_canlilari"
+        "karinca_turleri",
+        "kelebek_turleri"
       ]
     },
     {
@@ -240,7 +258,13 @@
         "Somon",
         "Antrasit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerli_taslar",
+        "metaller"
+      ],
+      "hardConflicts": [
+        "meyveler"
+      ]
     },
     {
       "id": "sehirler",
@@ -273,8 +297,16 @@
         "Ordu"
       ],
       "softConflicts": [
-        "ulkeler",
-        "cografi_sekiller"
+        "akdeniz_sahil_ilceleri",
+        "akdeniz_turistik_beldeleri",
+        "ankara_ilceleri",
+        "avrupa_sehirleri",
+        "dogu_anadolu_yerleri"
+      ],
+      "hardConflicts": [
+        "ceviz_cesitleri",
+        "elma_cesitleri",
+        "turkiye_golleri"
       ]
     },
     {
@@ -307,8 +339,10 @@
         "İsviçre",
         "Polonya"
       ],
-      "softConflicts": [
-        "sehirler"
+      "hardConflicts": [
+        "ada_ulkeleri",
+        "afrika_ulkeleri",
+        "asya_ulkeleri"
       ]
     },
     {
@@ -341,7 +375,12 @@
         "Hâkim",
         "Veteriner"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eski_meslekler",
+        "is_yeri_unvanlari",
+        "ofis_rolleri",
+        "saglik_meslekleri"
+      ]
     },
     {
       "id": "tasitlar",
@@ -373,7 +412,14 @@
         "Yat",
         "Kızak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "is_makineleri"
+      ],
+      "hardConflicts": [
+        "deniz_tasitlari",
+        "hava_tasitlari",
+        "kara_tasitlari"
+      ]
     },
     {
       "id": "giysiler",
@@ -405,7 +451,19 @@
         "Kravat",
         "Kemer"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bebek_cocuk_giyim",
+        "geleneksel_kiyafet",
+        "gelinlik_abiye",
+        "ic_giyim",
+        "kumaslar",
+        "spor_giyim"
+      ],
+      "hardConflicts": [
+        "alt_giyim",
+        "dis_giyim_paltolar",
+        "orgu_triko"
+      ]
     },
     {
       "id": "icecekler",
@@ -434,8 +492,12 @@
         "Enerji içeceği"
       ],
       "softConflicts": [
-        "tatlilar",
-        "yemekler"
+        "ayran_yogurt_icecekleri",
+        "cay_cesitleri",
+        "enerji_icecekleri",
+        "gazli_icecekler",
+        "geleneksel_icecekler",
+        "kahve_cesitleri"
       ]
     },
     {
@@ -468,7 +530,14 @@
         "Bateri",
         "Org"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "enstruman_parcalari"
+      ],
+      "hardConflicts": [
+        "telli_calgilar",
+        "turk_halk_calgilari",
+        "tuslu_calgilar"
+      ]
     },
     {
       "id": "spor_dallari",
@@ -500,7 +569,14 @@
         "Kürek",
         "Yelken"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "atletizm_dallari",
+        "cocuk_oyunlari",
+        "dovus_sanatlari",
+        "ekstrem_sporlar",
+        "kis_sporlari",
+        "motor_sporlari"
+      ]
     },
     {
       "id": "vucut_organlari",
@@ -532,7 +608,12 @@
         "Dirsek",
         "Diz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "anatomi_damarlar_sinirler",
+        "anatomi_kaslar",
+        "anatomi_kemikler",
+        "vucut_sistemleri"
+      ]
     },
     {
       "id": "duygular",
@@ -564,7 +645,15 @@
         "Şükran",
         "Cesaret"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "kisilik_ozellikleri",
+        "psikoloji_kavramlari",
+        "soyut_isimler"
+      ],
+      "hardConflicts": [
+        "duygu_durumlari"
+      ]
     },
     {
       "id": "cicekler",
@@ -598,7 +687,9 @@
       ],
       "softConflicts": [
         "agaclar",
-        "baharatlar"
+        "baharatlar",
+        "sifali_otlar",
+        "yenilebilir_cicekler"
       ]
     },
     {
@@ -628,6 +719,7 @@
         "Sedir"
       ],
       "softConflicts": [
+        "bitki_caylari",
         "cicekler"
       ]
     },
@@ -662,8 +754,14 @@
         "Buzdolabı"
       ],
       "softConflicts": [
+        "aletler",
+        "ev_aletleri",
         "mobilyalar",
-        "aletler"
+        "mutfak_gerecleri",
+        "pisirme_kaplari"
+      ],
+      "hardConflicts": [
+        "yeme_icme_takimlari"
       ]
     },
     {
@@ -697,8 +795,10 @@
         "Baza"
       ],
       "softConflicts": [
+        "ev_aletleri",
         "mutfak_esyalari",
-        "okul_esyalari"
+        "okul_esyalari",
+        "yatak_odasi_esyalari"
       ]
     },
     {
@@ -729,7 +829,11 @@
       ],
       "softConflicts": [
         "aletler",
-        "mobilyalar"
+        "mobilyalar",
+        "yazim_araclari_terimleri"
+      ],
+      "hardConflicts": [
+        "cizim_araclari"
       ]
     },
     {
@@ -761,6 +865,8 @@
         "Zımpara"
       ],
       "softConflicts": [
+        "bahce_aletleri",
+        "is_makineleri",
         "mutfak_esyalari",
         "okul_esyalari"
       ]
@@ -796,8 +902,11 @@
         "Krep"
       ],
       "softConflicts": [
-        "icecekler",
-        "yemekler"
+        "cikolatali_tatlilar",
+        "dondurma_cesitleri",
+        "geleneksel_tatlilar",
+        "helva_cesitleri",
+        "kek_cesitleri"
       ]
     },
     {
@@ -829,9 +938,15 @@
         "Muskat"
       ],
       "softConflicts": [
-        "sebzeler",
+        "aromatik_otlar",
+        "baharatlik_taze_otlar",
+        "biber_cesitleri",
         "cicekler",
-        "yemekler"
+        "sebzeler",
+        "sifali_otlar"
+      ],
+      "hardConflicts": [
+        "kuru_baharatlar"
       ]
     },
     {
@@ -864,8 +979,12 @@
         "Pus"
       ],
       "softConflicts": [
+        "bulut_turleri",
+        "cografi_sekiller",
+        "doga_olaylari_afetler",
+        "dogal_afet_turleri",
         "gok_cisimleri",
-        "cografi_sekiller"
+        "ruzgar_turleri"
       ]
     },
     {
@@ -897,8 +1016,7 @@
         "Yenge",
         "Bacanak",
         "Elti"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "cografi_sekiller",
@@ -931,9 +1049,15 @@
         "Zirve"
       ],
       "softConflicts": [
-        "hava_olaylari",
+        "daglar",
         "deniz_canlilari",
-        "sehirler"
+        "denizler_okyanuslar",
+        "dunya_nehirleri",
+        "hava_olaylari",
+        "kiyi_olusumlari"
+      ],
+      "hardConflicts": [
+        "yer_sekilleri"
       ]
     },
     {
@@ -967,7 +1091,11 @@
         "Süpernova"
       ],
       "softConflicts": [
+        "astronomi_terimleri",
         "hava_olaylari"
+      ],
+      "hardConflicts": [
+        "roma_mitolojisi"
       ]
     },
     {
@@ -1000,7 +1128,15 @@
         "Hidrojen",
         "Uranyum"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerli_taslar",
+        "maden_cevher_turleri",
+        "mineraller",
+        "renkler"
+      ],
+      "hardConflicts": [
+        "kimyasal_elementler"
+      ]
     },
     {
       "id": "yemekler",
@@ -1031,11 +1167,9 @@
         "Gözleme"
       ],
       "softConflicts": [
-        "tatlilar",
-        "icecekler",
-        "sebzeler",
-        "baharatlar",
-        "meyveler"
+        "corba_cesitleri",
+        "kebap_cesitleri",
+        "kofte_cesitleri"
       ]
     },
     {
@@ -1067,7 +1201,9 @@
       ],
       "softConflicts": [
         "metaller",
-        "renkler"
+        "mineraller",
+        "renkler",
+        "takilar_aksesuarlar"
       ]
     },
     {
@@ -1099,8 +1235,13 @@
       ],
       "softConflicts": [
         "cografi_sekiller",
+        "daglar",
         "denizler_okyanuslar",
-        "daglar"
+        "dunya_golleri"
+      ],
+      "hardConflicts": [
+        "turkiye_nehirleri",
+        "unlu_nehirler"
       ]
     },
     {
@@ -1131,8 +1272,14 @@
       ],
       "softConflicts": [
         "cografi_sekiller",
+        "deniz_canlilari",
+        "dunya_golleri",
         "dunya_nehirleri",
-        "deniz_canlilari"
+        "korfezler",
+        "korfezler_bogazlar"
+      ],
+      "hardConflicts": [
+        "okyanuslar_denizler"
       ]
     },
     {
@@ -1164,7 +1311,13 @@
       ],
       "softConflicts": [
         "cografi_sekiller",
-        "dunya_nehirleri"
+        "dunya_nehirleri",
+        "siradaglar",
+        "unlu_daglar",
+        "volkanlar"
+      ],
+      "hardConflicts": [
+        "turkiye_daglari_zirveleri"
       ]
     },
     {
@@ -1195,7 +1348,14 @@
         "Kraken",
         "Yeti"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_yunan_mitolojisi",
+        "efsanevi_kahramanlar",
+        "turk_altay_mitolojisi"
+      ],
+      "hardConflicts": [
+        "mitolojik_yaratiklar"
+      ]
     },
     {
       "id": "dans_turleri",
@@ -1224,7 +1384,11 @@
         "Bolero",
         "Break dans"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bale_sahne_dansi",
+        "halk_oyunlari",
+        "muzik_turleri"
+      ]
     },
     {
       "id": "film_turleri",
@@ -1253,7 +1417,11 @@
         "Gençlik",
         "Trajedi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "edebiyat_turleri",
+        "sinema_terimleri",
+        "tiyatro_terimleri"
+      ]
     },
     {
       "id": "kumaslar",
@@ -1283,7 +1451,10 @@
         "Basma"
       ],
       "softConflicts": [
-        "giysiler"
+        "giysiler",
+        "kiyafet_desenleri",
+        "orgu_triko",
+        "terzi_dikis"
       ]
     },
     {
@@ -1314,7 +1485,10 @@
         "Piercing"
       ],
       "softConflicts": [
-        "giysiler"
+        "canta_turleri",
+        "degerli_taslar",
+        "kemer_aksesuar",
+        "saat_turleri"
       ]
     },
     {
@@ -1344,7 +1518,11 @@
         "Davlumbaz"
       ],
       "softConflicts": [
-        "mutfak_esyalari"
+        "aydinlatma_araclari",
+        "elektronik_cihazlar",
+        "mobilyalar",
+        "mutfak_esyalari",
+        "mutfak_gerecleri"
       ]
     },
     {
@@ -1374,7 +1552,13 @@
         "Piksel",
         "Şifre"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilgisayar_donanimi",
+        "elektronik_cihazlar",
+        "internet_sosyal_medya",
+        "telefon_mobil_terimler",
+        "yazilim_terimleri"
+      ]
     },
     {
       "id": "bankacilik_para",
@@ -1403,7 +1587,16 @@
         "Maaş",
         "Vergi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "borsa_yatirim_terimleri",
+        "ekonomi_terimleri",
+        "eski_olcu_para_birimleri",
+        "kripto_dijital_finans_terimleri",
+        "muhasebe_terimleri"
+      ],
+      "hardConflicts": [
+        "bankacilik_terimleri"
+      ]
     },
     {
       "id": "bayramlar",
@@ -1431,8 +1624,7 @@
         "Noel",
         "Kandil",
         "Hıdırellez"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "cocuk_oyunlari",
@@ -1462,8 +1654,11 @@
         "Kutu kutu pense"
       ],
       "softConflicts": [
+        "kart_oyunlari",
         "masa_kart_oyunlari",
-        "spor_dallari"
+        "masa_oyunlari",
+        "spor_dallari",
+        "zeka_oyunlari"
       ]
     },
     {
@@ -1494,7 +1689,12 @@
         "Dart"
       ],
       "softConflicts": [
-        "cocuk_oyunlari"
+        "cocuk_oyunlari",
+        "zeka_oyunlari"
+      ],
+      "hardConflicts": [
+        "kart_oyunlari",
+        "masa_oyunlari"
       ]
     },
     {
@@ -1525,6 +1725,8 @@
         "Omurga"
       ],
       "softConflicts": [
+        "anatomi_damarlar_sinirler",
+        "anatomi_kaslar",
         "vucut_organlari"
       ]
     },
@@ -1555,7 +1757,10 @@
         "Şafak",
         "Alacakaranlık"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "olcu_birimleri",
+        "zaman_kavramlari"
+      ]
     },
     {
       "id": "yon_konum",
@@ -1584,8 +1789,7 @@
         "Geri",
         "Orta",
         "Karşı"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "sekiller_geometri",
@@ -1615,7 +1819,9 @@
         "Nokta",
         "Çizgi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "matematik_terimleri"
+      ]
     },
     {
       "id": "peynir_cesitleri",
@@ -1645,7 +1851,10 @@
         "Manda peyniri"
       ],
       "softConflicts": [
-        "yemekler"
+        "kahvalti_urunleri"
+      ],
+      "hardConflicts": [
+        "peynirli_yiyecekler"
       ]
     },
     {
@@ -1676,7 +1885,10 @@
         "Shih tzu",
         "Dachshund"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kedi_irklari",
+        "kopekgiller_yaban"
+      ]
     },
     {
       "id": "kedi_irklari",
@@ -1705,7 +1917,10 @@
         "Sibirya kedisi",
         "Devon rex"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kedigiller_yaban",
+        "kopek_irklari"
+      ]
     },
     {
       "id": "at_irklari",
@@ -1735,7 +1950,10 @@
         "Kladruber",
         "Fjord atı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "binicilik_at_sporlari",
+        "ciftlik_hayvanlari"
+      ]
     },
     {
       "id": "inek_irklari",
@@ -1765,7 +1983,10 @@
         "Devon sığırı",
         "Sarı alaca"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ciftlik_hayvanlari",
+        "yabani_gevis_getirenler"
+      ]
     },
     {
       "id": "koyun_irklari",
@@ -1795,7 +2016,10 @@
         "Norfolk",
         "Tuj"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ciftlik_hayvanlari",
+        "keci_irklari"
+      ]
     },
     {
       "id": "keci_irklari",
@@ -1825,7 +2049,10 @@
         "Valais keçisi",
         "Damascus keçisi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ciftlik_hayvanlari",
+        "koyun_irklari"
+      ]
     },
     {
       "id": "tavsan_irklari",
@@ -1855,7 +2082,9 @@
         "Mini rex",
         "Himalaya tavşanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tavsangiller_pikalar"
+      ]
     },
     {
       "id": "ciftlik_hayvanlari",
@@ -1879,7 +2108,13 @@
         "Domuz",
         "Lama"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "at_irklari",
+        "inek_irklari",
+        "keci_irklari",
+        "koyun_irklari",
+        "kumes_hayvanlari"
+      ]
     },
     {
       "id": "evcil_kemirgenler",
@@ -1909,7 +2144,11 @@
         "Afrika süs faresi",
         "Afrika cüce faresi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fare_sican_turleri",
+        "iri_kemirgenler",
+        "sincapgiller"
+      ]
     },
     {
       "id": "kedigiller_yaban",
@@ -1937,7 +2176,12 @@
         "Margay",
         "Pampas kedisi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_savan",
+        "hayvanlar_kara",
+        "kedi_irklari",
+        "misk_kedileri_firavun_fareleri"
+      ]
     },
     {
       "id": "kopekgiller_yaban",
@@ -1967,7 +2211,10 @@
         "Küçük tilki",
         "Pampas tilkisi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_hayvanlari",
+        "kopek_irklari"
+      ]
     },
     {
       "id": "sansargiller",
@@ -1996,7 +2243,9 @@
         "Zorilla",
         "Küçük pençeli su samuru"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "misk_kedileri_firavun_fareleri"
+      ]
     },
     {
       "id": "primatlar",
@@ -2025,8 +2274,7 @@
         "Sifaka",
         "Loris",
         "Galago"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "keseliler",
@@ -2055,8 +2303,7 @@
         "Kuskus",
         "Keseli sansar",
         "Pademelon"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "yarasalar",
@@ -2085,8 +2332,7 @@
         "Boru burunlu yarasa",
         "Çıplak sırtlı yarasa",
         "Sarı kanatlı yarasa"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "geyikgiller",
@@ -2116,7 +2362,11 @@
         "Püsküllü geyik",
         "Rusa geyiği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antiloplar_ceylanlar",
+        "orman_hayvanlari",
+        "yabani_gevis_getirenler"
+      ]
     },
     {
       "id": "antiloplar_ceylanlar",
@@ -2146,7 +2396,11 @@
         "Oribi",
         "Su antilobu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_savan",
+        "geyikgiller",
+        "yabani_gevis_getirenler"
+      ]
     },
     {
       "id": "sincapgiller",
@@ -2176,7 +2430,11 @@
         "Kafkas sincabı",
         "Amerika kızıl sincabı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "evcil_kemirgenler",
+        "fare_sican_turleri",
+        "iri_kemirgenler"
+      ]
     },
     {
       "id": "fare_sican_turleri",
@@ -2206,7 +2464,11 @@
         "Fındık faresi",
         "Cüce fare"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "evcil_kemirgenler",
+        "iri_kemirgenler",
+        "sincapgiller"
+      ]
     },
     {
       "id": "yabani_gevis_getirenler",
@@ -2236,7 +2498,11 @@
         "Takin",
         "Yeleli koyun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antiloplar_ceylanlar",
+        "geyikgiller",
+        "inek_irklari"
+      ]
     },
     {
       "id": "tavsangiller_pikalar",
@@ -2266,7 +2532,9 @@
         "İli pikası",
         "Dağ tavşanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tavsan_irklari"
+      ]
     },
     {
       "id": "ayilar_soguk_iklim",
@@ -2296,7 +2564,10 @@
         "Alp dağ sıçanı",
         "Sibirya sincabı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hayvanlar_kara",
+        "orman_hayvanlari"
+      ]
     },
     {
       "id": "iri_kemirgenler",
@@ -2326,7 +2597,11 @@
         "Kaya kobayı",
         "Çinçilla faresi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "evcil_kemirgenler",
+        "fare_sican_turleri",
+        "sincapgiller"
+      ]
     },
     {
       "id": "bocekcil_memeliler",
@@ -2356,7 +2631,9 @@
         "Sıçan kirpisi",
         "Zıplayan sivri fare"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "orman_hayvanlari"
+      ]
     },
     {
       "id": "kenar_disliler_pangolinler",
@@ -2385,8 +2662,7 @@
         "Üç parmaklı tembel hayvan",
         "Boz tembel hayvan",
         "Pigme tembel hayvan"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "afrika_savan",
@@ -2415,7 +2691,13 @@
         "Bozkır kavası",
         "Afrika mandası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antiloplar_ceylanlar",
+        "col_hayvanlari",
+        "hayvanlar_kara",
+        "kedigiller_yaban",
+        "orman_hayvanlari"
+      ]
     },
     {
       "id": "orman_hayvanlari",
@@ -2445,7 +2727,13 @@
         "Tupaya",
         "Sakallı domuz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_savan",
+        "ayilar_soguk_iklim",
+        "bocekcil_memeliler",
+        "col_hayvanlari",
+        "geyikgiller"
+      ]
     },
     {
       "id": "col_hayvanlari",
@@ -2475,7 +2763,12 @@
         "Yaylı tavşan",
         "Kaya faresi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_savan",
+        "hayvanlar_kara",
+        "kopekgiller_yaban",
+        "orman_hayvanlari"
+      ]
     },
     {
       "id": "soyu_tukenmis_memeliler",
@@ -2505,7 +2798,13 @@
         "Diprotodon",
         "Kısa yüzlü ayı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "buzul_cagi_hayvanlari",
+        "fosil_canlilar"
+      ],
+      "hardConflicts": [
+        "soyu_tukenmis_memeliler_2"
+      ]
     },
     {
       "id": "misk_kedileri_firavun_fareleri",
@@ -2535,7 +2834,10 @@
         "Fanaloka",
         "Falanuk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kedigiller_yaban",
+        "sansargiller"
+      ]
     },
     {
       "id": "otucu_kuslar",
@@ -2563,7 +2865,13 @@
         "Nar bülbülü",
         "İpekkuyruk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "agackakan_otlegen",
+        "gocmen_kuslar",
+        "kargagiller",
+        "kucuk_kuslar",
+        "sercegiller"
+      ]
     },
     {
       "id": "sercegiller",
@@ -2591,7 +2899,12 @@
         "Kar serçesi",
         "Çaprazgaga"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "agackakan_otlegen",
+        "gocmen_kuslar",
+        "kucuk_kuslar",
+        "otucu_kuslar"
+      ]
     },
     {
       "id": "kucuk_kuslar",
@@ -2621,7 +2934,11 @@
         "Söğüt baştankarası",
         "Boz baştankara"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "egzotik_kuslar",
+        "otucu_kuslar",
+        "sercegiller"
+      ]
     },
     {
       "id": "agackakan_otlegen",
@@ -2651,7 +2968,10 @@
         "Dağ ötleğeni",
         "Orman çıvgını"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "otucu_kuslar",
+        "sercegiller"
+      ]
     },
     {
       "id": "kargagiller",
@@ -2680,7 +3000,10 @@
         "Ağaç saksağanı",
         "Uzun kuyruklu saksağan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kuslar",
+        "otucu_kuslar"
+      ]
     },
     {
       "id": "yirtici_kuslar",
@@ -2707,7 +3030,12 @@
         "Boz delice",
         "Kara kartal"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baykusgiller"
+      ],
+      "hardConflicts": [
+        "kanatli_avcilar"
+      ]
     },
     {
       "id": "kanatli_avcilar",
@@ -2737,7 +3065,12 @@
         "Çakır",
         "Bozkır kartalı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baykusgiller"
+      ],
+      "hardConflicts": [
+        "yirtici_kuslar"
+      ]
     },
     {
       "id": "baykusgiller",
@@ -2766,7 +3099,11 @@
         "Tüylü baykuş",
         "Atmaca baykuş"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kanatli_avcilar",
+        "kuslar",
+        "yirtici_kuslar"
+      ]
     },
     {
       "id": "su_kuslari",
@@ -2794,7 +3131,13 @@
         "Benekli suyelvesi",
         "Saz tavuğu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gocmen_kuslar",
+        "kaz_ordek",
+        "kiyi_deniz_kuslari",
+        "leylek_balikcil",
+        "okyanus_kuslari"
+      ]
     },
     {
       "id": "kaz_ordek",
@@ -2821,7 +3164,10 @@
         "Kanada kazı",
         "Küçük kuğu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kumes_hayvanlari",
+        "su_kuslari"
+      ]
     },
     {
       "id": "kiyi_deniz_kuslari",
@@ -2850,7 +3196,11 @@
         "Deniz papağanı",
         "Sümsük kuşu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "leylek_balikcil",
+        "okyanus_kuslari",
+        "su_kuslari"
+      ]
     },
     {
       "id": "okyanus_kuslari",
@@ -2880,7 +3230,11 @@
         "Akdeniz martısı",
         "Dumanlı albatros"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kiyi_deniz_kuslari",
+        "su_kuslari",
+        "ucamayan_kuslar"
+      ]
     },
     {
       "id": "leylek_balikcil",
@@ -2909,7 +3263,11 @@
         "Sarı gagalı leylek",
         "Jabiru"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gocmen_kuslar",
+        "kiyi_deniz_kuslari",
+        "su_kuslari"
+      ]
     },
     {
       "id": "guvercingiller",
@@ -2938,7 +3296,10 @@
         "Step bağırtlağı",
         "Kılkuyruklu bağırtlak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gocmen_kuslar",
+        "kuslar"
+      ]
     },
     {
       "id": "gocmen_kuslar",
@@ -2968,7 +3329,13 @@
         "Alaca sinekkapan",
         "Boz sinekkapan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "guvercingiller",
+        "leylek_balikcil",
+        "otucu_kuslar",
+        "sercegiller",
+        "su_kuslari"
+      ]
     },
     {
       "id": "ucamayan_kuslar",
@@ -2995,7 +3362,9 @@
         "Kakapo",
         "Weka"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "okyanus_kuslari"
+      ]
     },
     {
       "id": "kumes_hayvanlari",
@@ -3022,7 +3391,10 @@
         "Bantam tavuğu",
         "Altın sülün"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ciftlik_hayvanlari",
+        "kaz_ordek"
+      ]
     },
     {
       "id": "papagan_turleri",
@@ -3051,7 +3423,9 @@
         "Eklektus papağanı",
         "Gökkuşağı loriketi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "egzotik_kuslar"
+      ]
     },
     {
       "id": "egzotik_kuslar",
@@ -3081,7 +3455,10 @@
         "Kızıl ibis",
         "Kral cennet kuşu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kucuk_kuslar",
+        "papagan_turleri"
+      ]
     },
     {
       "id": "yilan_turleri",
@@ -3111,7 +3488,13 @@
         "Uçan yılan",
         "Çalı yılanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_surungenleri",
+        "tropik_surungenler"
+      ],
+      "hardConflicts": [
+        "zehirli_yilanlar"
+      ]
     },
     {
       "id": "zehirli_yilanlar",
@@ -3141,7 +3524,13 @@
         "Kaplan yılanı",
         "Kahverengi yılan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_surungenleri",
+        "tropik_surungenler"
+      ],
+      "hardConflicts": [
+        "yilan_turleri"
+      ]
     },
     {
       "id": "kertenkele_turleri",
@@ -3171,7 +3560,13 @@
         "Dağ kertenkelesi",
         "Gündüz gekosu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_surungenleri",
+        "tropik_surungenler"
+      ],
+      "hardConflicts": [
+        "iguana_benzeri"
+      ]
     },
     {
       "id": "iguana_benzeri",
@@ -3201,7 +3596,13 @@
         "Kurbağa başlı agama",
         "Hardun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_surungenleri",
+        "tropik_surungenler"
+      ],
+      "hardConflicts": [
+        "kertenkele_turleri"
+      ]
     },
     {
       "id": "kaplumbaga_turleri",
@@ -3231,7 +3632,13 @@
         "Fil kaplumbağası",
         "Leopar kaplumbağası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "timsahgiller"
+      ],
+      "hardConflicts": [
+        "deniz_surungenleri",
+        "kaplumbaga_turleri_2"
+      ]
     },
     {
       "id": "timsahgiller",
@@ -3261,7 +3668,10 @@
         "Yeni Gine timsahı",
         "Geniş burunlu kayman"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_surungenleri",
+        "kaplumbaga_turleri"
+      ]
     },
     {
       "id": "deniz_surungenleri",
@@ -3291,7 +3701,13 @@
         "Plakodus",
         "Düz sırtlı kaplumbağa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "timsahgiller"
+      ],
+      "hardConflicts": [
+        "kaplumbaga_turleri",
+        "kaplumbaga_turleri_2"
+      ]
     },
     {
       "id": "col_surungenleri",
@@ -3321,7 +3737,13 @@
         "Dikenli kuyruklu kertenkele",
         "Bozkır yılanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "iguana_benzeri",
+        "kertenkele_turleri",
+        "tropik_surungenler",
+        "yilan_turleri",
+        "zehirli_yilanlar"
+      ]
     },
     {
       "id": "tropik_surungenler",
@@ -3351,7 +3773,13 @@
         "Cüce bukalemun",
         "Yelkenli kertenkele"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "col_surungenleri",
+        "iguana_benzeri",
+        "kertenkele_turleri",
+        "yilan_turleri",
+        "zehirli_yilanlar"
+      ]
     },
     {
       "id": "kurbaga_turleri",
@@ -3381,7 +3809,9 @@
         "Bataklık kurbağası",
         "Toprak kurbağası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "semendergiller"
+      ]
     },
     {
       "id": "semendergiller",
@@ -3411,7 +3841,9 @@
         "Japon semenderi",
         "Gözlüklü semender"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kurbaga_turleri"
+      ]
     },
     {
       "id": "tatlisu_baliklari",
@@ -3441,7 +3873,14 @@
         "Kababurun",
         "Dikence"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akvaryum_baliklari",
+        "alabalik_somon",
+        "gol_baliklari",
+        "nehir_baliklari",
+        "sus_baliklari",
+        "yilanbaligi_turleri"
+      ]
     },
     {
       "id": "tuzlusu_baliklari",
@@ -3465,7 +3904,13 @@
         "Trança",
         "Fangri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alabalik_somon",
+        "balik_yemekleri",
+        "deniz_atlari_igne_baliklari",
+        "derin_deniz_canlilari",
+        "kopekbaligi_turleri"
+      ]
     },
     {
       "id": "kopekbaligi_turleri",
@@ -3495,7 +3940,13 @@
         "Sakallı köpekbalığı",
         "Yedi solungaçlı köpekbalığı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tuzlusu_baliklari",
+        "vatoz_turleri"
+      ],
+      "hardConflicts": [
+        "kikirdakli_baliklar"
+      ]
     },
     {
       "id": "kabuklu_deniz_canlilari",
@@ -3524,7 +3975,10 @@
         "Norveç istakozu",
         "Yassı istakoz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "karides_kerevit",
+        "midye_istiridyeler"
+      ]
     },
     {
       "id": "kafadanbacaklilar",
@@ -3552,7 +4006,9 @@
         "Cam kalamar",
         "Uzunkol ahtapot"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "derin_deniz_canlilari"
+      ]
     },
     {
       "id": "balina_turleri",
@@ -3582,7 +4038,10 @@
         "Cuvier gaga balinası",
         "Baird gaga balinası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_canlilari",
+        "yunusgiller"
+      ]
     },
     {
       "id": "yunusgiller",
@@ -3612,7 +4071,10 @@
         "Yalancı katil balina",
         "Hector yunusu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "balina_turleri",
+        "foklar_deniz_aslanlari"
+      ]
     },
     {
       "id": "foklar_deniz_aslanlari",
@@ -3641,7 +4103,10 @@
         "Kuzey fil foku",
         "Hawaii keşiş foku"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kutup_deniz_canlilari",
+        "yunusgiller"
+      ]
     },
     {
       "id": "akvaryum_baliklari",
@@ -3671,7 +4136,13 @@
         "Cam balığı",
         "Kırmızı burun tetra"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tatlisu_baliklari",
+        "tropik_resif_baliklari"
+      ],
+      "hardConflicts": [
+        "sus_baliklari"
+      ]
     },
     {
       "id": "mercan_turleri",
@@ -3700,7 +4171,10 @@
         "Dantel mercanı",
         "Boru mercanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "denizanasi_turleri",
+        "sunger_anemonlar"
+      ]
     },
     {
       "id": "denizanasi_turleri",
@@ -3729,7 +4203,10 @@
         "Deniz ısırganı",
         "Irukandji denizanası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mercan_turleri",
+        "sunger_anemonlar"
+      ]
     },
     {
       "id": "midye_istiridyeler",
@@ -3757,7 +4234,10 @@
         "Yumuşak kabuklu midye",
         "Taş delen midye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_salyangozlari",
+        "kabuklu_deniz_canlilari"
+      ]
     },
     {
       "id": "vatoz_turleri",
@@ -3786,7 +4266,12 @@
         "Kamçı vatoz",
         "Pelajik vatoz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kopekbaligi_turleri"
+      ],
+      "hardConflicts": [
+        "kikirdakli_baliklar"
+      ]
     },
     {
       "id": "yilanbaligi_turleri",
@@ -3816,7 +4301,9 @@
         "Deniz yılanbalığı",
         "Alaca müren"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tatlisu_baliklari"
+      ]
     },
     {
       "id": "alabalik_somon",
@@ -3845,7 +4332,12 @@
         "Tuna alabalığı",
         "Kesikboğaz alabalığı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gol_baliklari",
+        "nehir_baliklari",
+        "tatlisu_baliklari",
+        "tuzlusu_baliklari"
+      ]
     },
     {
       "id": "deniz_atlari_igne_baliklari",
@@ -3875,7 +4367,10 @@
         "Uzun burunlu iğne balığı",
         "Yılan iğne balığı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tropik_resif_baliklari",
+        "tuzlusu_baliklari"
+      ]
     },
     {
       "id": "kaplumbaga_turleri_2",
@@ -3894,7 +4389,10 @@
         "Kutu kaplumbağa",
         "Timsah gagalı kaplumbağa"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "deniz_surungenleri",
+        "kaplumbaga_turleri"
+      ]
     },
     {
       "id": "derin_deniz_canlilari",
@@ -3924,7 +4422,10 @@
         "Deniz meleği",
         "Deniz kelebeği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kafadanbacaklilar",
+        "tuzlusu_baliklari"
+      ]
     },
     {
       "id": "gol_baliklari",
@@ -3954,7 +4455,11 @@
         "Tirsi balığı",
         "Göl sazanı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alabalik_somon",
+        "nehir_baliklari",
+        "tatlisu_baliklari"
+      ]
     },
     {
       "id": "nehir_baliklari",
@@ -3984,7 +4489,11 @@
         "Altın dorado",
         "Goliat balığı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alabalik_somon",
+        "gol_baliklari",
+        "tatlisu_baliklari"
+      ]
     },
     {
       "id": "sus_baliklari",
@@ -4014,7 +4523,13 @@
         "Kribensis",
         "Elektrik mavisi ciklit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tatlisu_baliklari",
+        "tropik_resif_baliklari"
+      ],
+      "hardConflicts": [
+        "akvaryum_baliklari"
+      ]
     },
     {
       "id": "kutup_deniz_canlilari",
@@ -4043,7 +4558,9 @@
         "Buz altı balığı",
         "Kutup deniz salyangozu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "foklar_deniz_aslanlari"
+      ]
     },
     {
       "id": "tropik_resif_baliklari",
@@ -4073,7 +4590,11 @@
         "Doktor balığı",
         "Kurbağa balığı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akvaryum_baliklari",
+        "deniz_atlari_igne_baliklari",
+        "sus_baliklari"
+      ]
     },
     {
       "id": "karides_kerevit",
@@ -4101,7 +4622,9 @@
         "Deniz maymunu",
         "Sinyal kerevit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kabuklu_deniz_canlilari"
+      ]
     },
     {
       "id": "sunger_anemonlar",
@@ -4131,7 +4654,10 @@
         "Zoantit",
         "Mantar anemonu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "denizanasi_turleri",
+        "mercan_turleri"
+      ]
     },
     {
       "id": "deniz_salyangozlari",
@@ -4161,7 +4687,10 @@
         "Zeytin salyangozu",
         "Miğfer salyangozu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "midye_istiridyeler",
+        "salyangoz_sumuklubocekler"
+      ]
     },
     {
       "id": "planktonlar",
@@ -4191,7 +4720,9 @@
         "Sifonofor",
         "Apandikülarya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mikroskobik_canlilar"
+      ]
     },
     {
       "id": "kikirdakli_baliklar",
@@ -4221,7 +4752,10 @@
         "Somon köpekbalığı",
         "Gece köpekbalığı"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "kopekbaligi_turleri",
+        "vatoz_turleri"
+      ]
     },
     {
       "id": "deniz_yildizi_turleri",
@@ -4251,7 +4785,10 @@
         "Mor deniz yıldızı",
         "Ayçiçeği deniz yıldızı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_canlilari",
+        "denizkestanesi_denizhiyari"
+      ]
     },
     {
       "id": "denizkestanesi_denizhiyari",
@@ -4281,7 +4818,9 @@
         "Beyaz denizhıyarı",
         "Japon denizhıyarı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_yildizi_turleri"
+      ]
     },
     {
       "id": "kelebek_turleri",
@@ -4311,7 +4850,10 @@
         "İnci kelebeği",
         "Çayır esmeri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bocekler",
+        "tirtil_guveler"
+      ]
     },
     {
       "id": "kinkanatlilar",
@@ -4339,7 +4881,13 @@
         "Kına böceği",
         "Kadife böceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "faydali_bocekler",
+        "isildayan_gece_bocekleri",
+        "toprak_bahce_bocekleri",
+        "tropik_bocekler",
+        "zararli_tarim_bocekleri"
+      ]
     },
     {
       "id": "ari_esekarisi_turleri",
@@ -4368,7 +4916,11 @@
         "İncir arısı",
         "Mazı arısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bocekler",
+        "faydali_bocekler",
+        "karinca_turleri"
+      ]
     },
     {
       "id": "karinca_turleri",
@@ -4398,7 +4950,10 @@
         "Kara karınca",
         "Şeker karıncası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ari_esekarisi_turleri",
+        "bocekler"
+      ]
     },
     {
       "id": "orumcek_turleri",
@@ -4428,7 +4983,10 @@
         "Mağara örümceği",
         "Goliat örümceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akrep_akrabalari",
+        "kene_akar_turleri"
+      ]
     },
     {
       "id": "yusufcuk_kizbocegi",
@@ -4458,7 +5016,9 @@
         "Çayır yusufçuğu",
         "Orman yusufçuğu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "su_bocekleri"
+      ]
     },
     {
       "id": "cekirge_circir_bocekleri",
@@ -4487,7 +5047,10 @@
         "Kır cırcırı",
         "Mağara cırcırı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bocekler",
+        "zararli_tarim_bocekleri"
+      ]
     },
     {
       "id": "sinek_turleri",
@@ -4516,7 +5079,10 @@
         "Gübre sineği",
         "Geyik sineği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "faydali_bocekler",
+        "parazit_bocekler"
+      ]
     },
     {
       "id": "tirtil_guveler",
@@ -4546,7 +5112,11 @@
         "Salkım güvesi",
         "Kestane güvesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "isildayan_gece_bocekleri",
+        "kelebek_turleri",
+        "zararli_tarim_bocekleri"
+      ]
     },
     {
       "id": "su_bocekleri",
@@ -4575,7 +5145,9 @@
         "Su güvesi",
         "Dere böceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "yusufcuk_kizbocegi"
+      ]
     },
     {
       "id": "toprak_bahce_bocekleri",
@@ -4604,7 +5176,12 @@
         "Bahçe zınnı",
         "Toprak güvesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "faydali_bocekler",
+        "kinkanatlilar",
+        "kirkayak_ciyanlar",
+        "zararli_tarim_bocekleri"
+      ]
     },
     {
       "id": "parazit_bocekler",
@@ -4632,7 +5209,10 @@
         "At biti",
         "Balık biti"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kene_akar_turleri",
+        "sinek_turleri"
+      ]
     },
     {
       "id": "isildayan_gece_bocekleri",
@@ -4661,7 +5241,10 @@
         "Alev böceği",
         "Kandil kurdu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kinkanatlilar",
+        "tirtil_guveler"
+      ]
     },
     {
       "id": "akrep_akrabalari",
@@ -4690,7 +5273,10 @@
         "Kum akrebi",
         "Orman akrebi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kene_akar_turleri",
+        "orumcek_turleri"
+      ]
     },
     {
       "id": "kene_akar_turleri",
@@ -4719,7 +5305,11 @@
         "Yumuşak kene",
         "Sert kene"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akrep_akrabalari",
+        "orumcek_turleri",
+        "parazit_bocekler"
+      ]
     },
     {
       "id": "salyangoz_sumuklubocekler",
@@ -4744,7 +5334,9 @@
         "Benekli salyangoz",
         "Dev salyangoz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_salyangozlari"
+      ]
     },
     {
       "id": "kirkayak_ciyanlar",
@@ -4773,7 +5365,9 @@
         "Boru kırkayağı",
         "Yassı kırkayak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "toprak_bahce_bocekleri"
+      ]
     },
     {
       "id": "zararli_tarim_bocekleri",
@@ -4803,7 +5397,13 @@
         "Bakla biti",
         "Ekin böceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cekirge_circir_bocekleri",
+        "faydali_bocekler",
+        "kinkanatlilar",
+        "tirtil_guveler",
+        "toprak_bahce_bocekleri"
+      ]
     },
     {
       "id": "faydali_bocekler",
@@ -4832,7 +5432,13 @@
         "Kompost böceği",
         "Deri böceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ari_esekarisi_turleri",
+        "kinkanatlilar",
+        "sinek_turleri",
+        "toprak_bahce_bocekleri",
+        "zararli_tarim_bocekleri"
+      ]
     },
     {
       "id": "tropik_bocekler",
@@ -4861,7 +5467,9 @@
         "Dev eşekarısı",
         "Yaprak mantisi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kinkanatlilar"
+      ]
     },
     {
       "id": "dinozor_turleri",
@@ -4891,7 +5499,12 @@
         "Deinonikus",
         "Oviraptor"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_tarih_oncesi_canlilari",
+        "etcil_dinozorlar",
+        "otcul_dinozorlar",
+        "ucan_tarih_oncesi_surungenler"
+      ]
     },
     {
       "id": "etcil_dinozorlar",
@@ -4921,7 +5534,10 @@
         "Ankiornis",
         "Guanlong"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dinozor_turleri",
+        "otcul_dinozorlar"
+      ]
     },
     {
       "id": "otcul_dinozorlar",
@@ -4951,7 +5567,10 @@
         "Sauropelta",
         "Gastonya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dinozor_turleri",
+        "etcil_dinozorlar"
+      ]
     },
     {
       "id": "ucan_tarih_oncesi_surungenler",
@@ -4981,7 +5600,10 @@
         "Pterodaustro",
         "Darwinopterus"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_tarih_oncesi_canlilari",
+        "dinozor_turleri"
+      ]
     },
     {
       "id": "deniz_tarih_oncesi_canlilari",
@@ -5002,7 +5624,11 @@
         "Arkelon",
         "Temnodontozor"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dinozor_turleri",
+        "fosil_canlilar",
+        "ucan_tarih_oncesi_surungenler"
+      ]
     },
     {
       "id": "soyu_tukenmis_memeliler_2",
@@ -5022,7 +5648,12 @@
         "Dire kurt",
         "Kolomb mamutu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "buzul_cagi_hayvanlari"
+      ],
+      "hardConflicts": [
+        "soyu_tukenmis_memeliler"
+      ]
     },
     {
       "id": "buzul_cagi_hayvanlari",
@@ -5047,7 +5678,10 @@
         "Ksenosmilus",
         "Bozkır mamutu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "soyu_tukenmis_memeliler",
+        "soyu_tukenmis_memeliler_2"
+      ]
     },
     {
       "id": "fosil_canlilar",
@@ -5075,7 +5709,13 @@
         "Eriyops",
         "Glossopteris"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_tarih_oncesi_canlilari",
+        "soyu_tukenmis_memeliler"
+      ],
+      "hardConflicts": [
+        "fosil_turleri"
+      ]
     },
     {
       "id": "mikroskobik_canlilar",
@@ -5094,7 +5734,11 @@
         "Kladoser",
         "Helyozoa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mikroplar_patojenler",
+        "planktonlar",
+        "tek_hucreliler"
+      ]
     },
     {
       "id": "tek_hucreliler",
@@ -5123,7 +5767,10 @@
         "Toksoplazma",
         "Layşmanya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mikroplar_patojenler",
+        "mikroskobik_canlilar"
+      ]
     },
     {
       "id": "elma_cesitleri",
@@ -5148,7 +5795,13 @@
         "Şeker",
         "Elstar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "armut_cesitleri",
+        "meyveler"
+      ],
+      "hardConflicts": [
+        "sehirler"
+      ]
     },
     {
       "id": "uzum_cesitleri",
@@ -5177,7 +5830,9 @@
         "Perlet",
         "Yapıncak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "uzumsu_meyveler"
+      ]
     },
     {
       "id": "zeytin_cesitleri",
@@ -5204,8 +5859,7 @@
         "Kalembezi",
         "Butko",
         "Marantelli"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "kayisi_cesitleri",
@@ -5234,7 +5888,9 @@
         "Bergeron",
         "Paviot"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "seftali_cesitleri"
+      ]
     },
     {
       "id": "fasulye_cesitleri",
@@ -5262,7 +5918,14 @@
         "Yakutiye",
         "Elkıt"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil_taneleri",
+        "baklagiller",
+        "nohut_cesitleri"
+      ],
+      "hardConflicts": [
+        "fasulye_cesitleri_2"
+      ]
     },
     {
       "id": "nohut_cesitleri",
@@ -5290,7 +5953,10 @@
         "Azkan",
         "Er"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fasulye_cesitleri",
+        "mercimek_cesitleri"
+      ]
     },
     {
       "id": "mercimek_cesitleri",
@@ -5315,7 +5981,10 @@
         "Çiçek",
         "Yeşilköy"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil_taneleri",
+        "nohut_cesitleri"
+      ]
     },
     {
       "id": "bugday_cesitleri",
@@ -5342,7 +6011,11 @@
         "Kaşifbey",
         "Sagittario"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "arpa_cesitleri",
+        "pirinc_cesitleri",
+        "tahil_turleri"
+      ]
     },
     {
       "id": "arpa_cesitleri",
@@ -5369,7 +6042,10 @@
         "İnce",
         "Kral"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bugday_cesitleri",
+        "tahil_turleri"
+      ]
     },
     {
       "id": "pirinc_cesitleri",
@@ -5397,7 +6073,10 @@
         "Trakya",
         "Luna"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bugday_cesitleri",
+        "tahil_turleri"
+      ]
     },
     {
       "id": "kiraz_cesitleri",
@@ -5426,7 +6105,9 @@
         "Sam",
         "Noir"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "erik_cesitleri"
+      ]
     },
     {
       "id": "seftali_cesitleri",
@@ -5456,7 +6137,9 @@
         "Dixired",
         "Vivian"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kayisi_cesitleri"
+      ]
     },
     {
       "id": "erik_cesitleri",
@@ -5486,7 +6169,10 @@
         "Rennklod",
         "Ontario"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kiraz_cesitleri",
+        "meyveler"
+      ]
     },
     {
       "id": "armut_cesitleri",
@@ -5515,7 +6201,10 @@
         "Butira",
         "Magness"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "elma_cesitleri",
+        "meyveler"
+      ]
     },
     {
       "id": "findik_cesitleri",
@@ -5545,7 +6234,10 @@
         "Okay",
         "Giresun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ceviz_cesitleri",
+        "kuruyemisler"
+      ]
     },
     {
       "id": "ceviz_cesitleri",
@@ -5574,7 +6266,14 @@
         "Payne",
         "Vina"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "badem_cesitleri",
+        "findik_cesitleri",
+        "kuruyemisler"
+      ],
+      "hardConflicts": [
+        "sehirler"
+      ]
     },
     {
       "id": "badem_cesitleri",
@@ -5604,7 +6303,10 @@
         "Supernova",
         "Tuono"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ceviz_cesitleri",
+        "kuruyemisler"
+      ]
     },
     {
       "id": "cilek_cesitleri",
@@ -5634,7 +6336,10 @@
         "Dorit",
         "Hanioy"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meyveler",
+        "uzumsu_meyveler"
+      ]
     },
     {
       "id": "incir_cesitleri",
@@ -5660,7 +6365,9 @@
         "Çorak",
         "Kuşinciri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hurma_cesitleri"
+      ]
     },
     {
       "id": "nar_cesitleri",
@@ -5689,8 +6396,7 @@
         "Tavdin",
         "Gülnar",
         "Feres"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "kavun_cesitleri",
@@ -5717,8 +6423,7 @@
         "Sarıkavun",
         "Hıdırbey",
         "Fıçı"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "hurma_cesitleri",
@@ -5748,7 +6453,10 @@
         "Migraf",
         "Sayer"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "incir_cesitleri",
+        "meyveler"
+      ]
     },
     {
       "id": "turuncgiller",
@@ -5775,7 +6483,9 @@
         "Meyer",
         "Nadorkot"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tropikal_meyveler"
+      ]
     },
     {
       "id": "tropikal_meyveler",
@@ -5801,7 +6511,10 @@
         "Sapote",
         "Longkong"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "egzotik_meyveler",
+        "turuncgiller"
+      ]
     },
     {
       "id": "egzotik_meyveler",
@@ -5831,7 +6544,10 @@
         "Rambai",
         "Langsat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meyveler",
+        "tropikal_meyveler"
+      ]
     },
     {
       "id": "uzumsu_meyveler",
@@ -5856,7 +6572,10 @@
         "Kocayemiş",
         "Karayemiş"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cilek_cesitleri",
+        "uzum_cesitleri"
+      ]
     },
     {
       "id": "kabakgiller",
@@ -5882,7 +6601,10 @@
         "Bostan",
         "Karakavun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kabak_cesitleri",
+        "salatalik_hiyar_cesitleri"
+      ]
     },
     {
       "id": "kuruyemisler",
@@ -5912,7 +6634,12 @@
         "Çedene",
         "Kavurga"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "badem_cesitleri",
+        "baklagiller",
+        "ceviz_cesitleri",
+        "findik_cesitleri"
+      ]
     },
     {
       "id": "baklagiller",
@@ -5939,7 +6666,14 @@
         "Keçiboynuzu",
         "Guar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil",
+        "baklagil_taneleri",
+        "fasulye_cesitleri",
+        "fasulye_cesitleri_2",
+        "filizlenmis_tohumlar",
+        "kuruyemisler"
+      ]
     },
     {
       "id": "tahil_turleri",
@@ -5967,7 +6701,11 @@
         "Firik",
         "Kavut"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "arpa_cesitleri",
+        "bugday_cesitleri",
+        "pirinc_cesitleri"
+      ]
     },
     {
       "id": "yaprakli_yesil_sebzeler",
@@ -5996,7 +6734,11 @@
         "Yaprakpancarı",
         "Beyazpazı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "lahanagiller",
+        "salata_marul_cesitleri",
+        "yabani_yenebilir_otlar"
+      ]
     },
     {
       "id": "kok_sebzeler",
@@ -6020,7 +6762,13 @@
         "Beyazhavuç",
         "Bebekhavuç"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "egzotik_sebzeler",
+        "enginar_kereviz_rezene",
+        "patates_ve_yumrular",
+        "sogangiller",
+        "turpgiller"
+      ]
     },
     {
       "id": "turpgiller",
@@ -6048,7 +6796,10 @@
         "Yuvarlakturp",
         "Aylıkturp"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kok_sebzeler",
+        "lahanagiller"
+      ]
     },
     {
       "id": "sogangiller",
@@ -6075,7 +6826,9 @@
         "Rokambol",
         "Loç"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kok_sebzeler"
+      ]
     },
     {
       "id": "kabak_cesitleri",
@@ -6098,7 +6851,10 @@
         "Kışkabağı",
         "Beybikabak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kabakgiller",
+        "salatalik_hiyar_cesitleri"
+      ]
     },
     {
       "id": "mantar_cesitleri",
@@ -6127,7 +6883,9 @@
         "Geyikmantarı",
         "Horozmantarı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "yabani_mantar_cesitleri"
+      ]
     },
     {
       "id": "baharatlik_taze_otlar",
@@ -6150,7 +6908,14 @@
         "Karakekik",
         "Taşkekiği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aromatik_otlar",
+        "baharatlar",
+        "feslegen_cesitleri",
+        "kekik_cesitleri",
+        "kuru_baharatlar",
+        "nane_cesitleri"
+      ]
     },
     {
       "id": "sifali_otlar",
@@ -6176,7 +6941,13 @@
         "Zufaotu",
         "Şerbetçiotu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alternatif_tip_terimleri",
+        "aromatik_otlar",
+        "baharatlar",
+        "bitki_caylari",
+        "cicekler"
+      ]
     },
     {
       "id": "salata_marul_cesitleri",
@@ -6204,7 +6975,9 @@
         "Buzmarulu",
         "Başmarul"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "yaprakli_yesil_sebzeler"
+      ]
     },
     {
       "id": "domates_cesitleri",
@@ -6231,7 +7004,11 @@
         "Salçalıkdomates",
         "Kurutmalıkdomates"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "biber_cesitleri",
+        "patlican_cesitleri",
+        "sebzeler"
+      ]
     },
     {
       "id": "biber_cesitleri",
@@ -6260,7 +7037,11 @@
         "Skoçbonet",
         "Rokoto"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlar",
+        "domates_cesitleri",
+        "sebzeler"
+      ]
     },
     {
       "id": "patlican_cesitleri",
@@ -6287,7 +7068,9 @@
         "Semizpatlıcan",
         "Közlükpatlıcan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "domates_cesitleri"
+      ]
     },
     {
       "id": "fasulye_cesitleri_2",
@@ -6313,7 +7096,13 @@
         "İspir",
         "Değirmenfasulyesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil_taneleri",
+        "baklagiller"
+      ],
+      "hardConflicts": [
+        "fasulye_cesitleri"
+      ]
     },
     {
       "id": "baklagil_taneleri",
@@ -6335,7 +7124,12 @@
         "Tanebakla",
         "Yembezelyesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagiller",
+        "fasulye_cesitleri",
+        "fasulye_cesitleri_2",
+        "mercimek_cesitleri"
+      ]
     },
     {
       "id": "deniz_sebzeleri_yosunlar",
@@ -6365,7 +7159,10 @@
         "Mercanyosunu",
         "Denizteresi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "japon_mutfagi",
+        "sebzeler"
+      ]
     },
     {
       "id": "filizlenmis_tohumlar",
@@ -6395,7 +7192,9 @@
         "Fasulyefilizi",
         "Yeşilbuğday"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagiller"
+      ]
     },
     {
       "id": "patates_ve_yumrular",
@@ -6424,7 +7223,9 @@
         "Provento",
         "Milva"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kok_sebzeler"
+      ]
     },
     {
       "id": "lahanagiller",
@@ -6452,7 +7253,10 @@
         "Başlahana",
         "Turşuluklahana"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "turpgiller",
+        "yaprakli_yesil_sebzeler"
+      ]
     },
     {
       "id": "kuru_baharatlar",
@@ -6470,7 +7274,12 @@
         "Ketentohumu",
         "Hardaltohumu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlik_taze_otlar"
+      ],
+      "hardConflicts": [
+        "baharatlar"
+      ]
     },
     {
       "id": "yabani_yenebilir_otlar",
@@ -6500,7 +7309,11 @@
         "Devedikeni",
         "Şahtere"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kir_ve_dag_otlari",
+        "yaprakli_yesil_sebzeler",
+        "yenilebilir_cicekler"
+      ]
     },
     {
       "id": "yenilebilir_cicekler",
@@ -6527,7 +7340,10 @@
         "Kirazçiçeği",
         "Elmaçiçeği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cicekler",
+        "yabani_yenebilir_otlar"
+      ]
     },
     {
       "id": "aromatik_otlar",
@@ -6550,7 +7366,11 @@
         "Lavantin",
         "Kokulukamış"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlar",
+        "baharatlik_taze_otlar",
+        "sifali_otlar"
+      ]
     },
     {
       "id": "enginar_kereviz_rezene",
@@ -6578,7 +7398,10 @@
         "Tatlırezene",
         "Acırezene"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kok_sebzeler",
+        "sebzeler"
+      ]
     },
     {
       "id": "egzotik_sebzeler",
@@ -6605,7 +7428,10 @@
         "Perilla",
         "Kolokas"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kok_sebzeler",
+        "sebzeler"
+      ]
     },
     {
       "id": "salatalik_hiyar_cesitleri",
@@ -6630,7 +7456,10 @@
         "Zeplinhıyar",
         "Minihıyar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kabak_cesitleri",
+        "kabakgiller"
+      ]
     },
     {
       "id": "kekik_cesitleri",
@@ -6660,7 +7489,11 @@
         "Yabankekik",
         "Tüylükekik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlik_taze_otlar",
+        "feslegen_cesitleri",
+        "nane_cesitleri"
+      ]
     },
     {
       "id": "feslegen_cesitleri",
@@ -6690,7 +7523,11 @@
         "Kıvırcıkfesleğen",
         "Kokulureyhan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlik_taze_otlar",
+        "kekik_cesitleri",
+        "nane_cesitleri"
+      ]
     },
     {
       "id": "nane_cesitleri",
@@ -6720,7 +7557,11 @@
         "İngiliznanesi",
         "Beyaznane"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baharatlik_taze_otlar",
+        "feslegen_cesitleri",
+        "kekik_cesitleri"
+      ]
     },
     {
       "id": "yabani_mantar_cesitleri",
@@ -6749,7 +7590,10 @@
         "Mürdümmantarı",
         "Çölmantarı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kir_ve_dag_otlari",
+        "mantar_cesitleri"
+      ]
     },
     {
       "id": "kir_ve_dag_otlari",
@@ -6779,7 +7623,10 @@
         "Şekerciboyası",
         "Gelinparmağı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "yabani_mantar_cesitleri",
+        "yabani_yenebilir_otlar"
+      ]
     },
     {
       "id": "corba_cesitleri",
@@ -6807,7 +7654,14 @@
         "Sebze çorbası",
         "Tavuk çorbası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sulu_yemekler",
+        "yemekler",
+        "yoresel"
+      ],
+      "hardConflicts": [
+        "dunya_corbalari"
+      ]
     },
     {
       "id": "kebap_cesitleri",
@@ -6834,7 +7688,12 @@
         "Simit kebabı",
         "Kıyma kebabı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "barbeku_izgara",
+        "izgara_cesitleri",
+        "tandir_ocak",
+        "yemekler"
+      ]
     },
     {
       "id": "dolma_sarma",
@@ -6864,7 +7723,11 @@
         "Zeytinyağlı dolma",
         "Etsiz dolma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "icli_dolma",
+        "sebze_yemekleri",
+        "zeytinyagli"
+      ]
     },
     {
       "id": "borek_cesitleri",
@@ -6894,7 +7757,11 @@
         "Mantarlı börek",
         "Kıvrım böreği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hamur_isleri",
+        "pide_lahmacun",
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "pilav_cesitleri",
@@ -6924,7 +7791,10 @@
         "Mısırlı pilav",
         "Kabuni pilavı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ev_yemekleri",
+        "yoresel"
+      ]
     },
     {
       "id": "kofte_cesitleri",
@@ -6954,7 +7824,14 @@
         "Sıkma köfte",
         "Salçalı köfte"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ev_yemekleri",
+        "izgara_cesitleri",
+        "yemekler"
+      ],
+      "hardConflicts": [
+        "icli_dolma"
+      ]
     },
     {
       "id": "meze_cesitleri",
@@ -6983,7 +7860,14 @@
         "Zeytin ezmesi",
         "Enginar mezesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aperatif",
+        "ordovr_baslangiclar",
+        "salata_cesitleri",
+        "salata_cesitleri_2",
+        "vejetaryen_yemekler",
+        "zeytinyagli"
+      ]
     },
     {
       "id": "zeytinyagli",
@@ -7012,7 +7896,12 @@
         "Zeytinyağlı börülce",
         "Zeytinyağlı kabak çiçeği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dolma_sarma",
+        "meze_cesitleri",
+        "sebze_yemekleri",
+        "vejetaryen_yemekler"
+      ]
     },
     {
       "id": "etli_ana_yemek",
@@ -7042,7 +7931,14 @@
         "Etli enginar",
         "Etli kereviz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil",
+        "barbeku_izgara",
+        "ev_yemekleri",
+        "guvec_firin",
+        "guvec_yemekleri",
+        "izgara_cesitleri"
+      ]
     },
     {
       "id": "sebze_yemekleri",
@@ -7069,7 +7965,13 @@
         "Domatesli patates",
         "Közlenmiş patlıcan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dolma_sarma",
+        "ev_yemekleri",
+        "sulu_yemekler",
+        "vejetaryen_yemekler",
+        "zeytinyagli"
+      ]
     },
     {
       "id": "baklagil",
@@ -7099,7 +8001,12 @@
         "Kuru börülce",
         "Etli barbunya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagiller",
+        "etli_ana_yemek",
+        "ev_yemekleri",
+        "sulu_yemekler"
+      ]
     },
     {
       "id": "hamur_isleri",
@@ -7126,7 +8033,12 @@
         "Zeytinli poğaça",
         "Mayalı çörek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "borek_cesitleri",
+        "ekmek_cesitleri",
+        "pide_lahmacun",
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "pide_lahmacun",
@@ -7155,7 +8067,11 @@
         "Fındık lahmacun",
         "Tahinli pide"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "borek_cesitleri",
+        "hamur_isleri",
+        "pizza_cesitleri"
+      ]
     },
     {
       "id": "kahvalti",
@@ -7179,7 +8095,14 @@
         "Serpme kahvaltı",
         "Kaşarlı tost"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kahvaltilik_gevrekler",
+        "kislik",
+        "yumurtali"
+      ],
+      "hardConflicts": [
+        "kahvalti_urunleri"
+      ]
     },
     {
       "id": "ev_yemekleri",
@@ -7209,7 +8132,14 @@
         "Kabak oturtma",
         "Kıymalı patlıcan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil",
+        "etli_ana_yemek",
+        "kofte_cesitleri",
+        "pilav_cesitleri",
+        "sebze_yemekleri",
+        "sulu_yemekler"
+      ]
     },
     {
       "id": "guvec_firin",
@@ -7239,7 +8169,13 @@
         "Patates güveç",
         "Türlü güveç"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "etli_ana_yemek",
+        "tandir_ocak"
+      ],
+      "hardConflicts": [
+        "guvec_yemekleri"
+      ]
     },
     {
       "id": "deniz_urunu",
@@ -7265,7 +8201,11 @@
         "Sübye ızgara",
         "Karidesli makarna"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "balik_yemekleri",
+        "izgara_cesitleri",
+        "sushi_deniz_mezeleri"
+      ]
     },
     {
       "id": "tandir_ocak",
@@ -7295,7 +8235,11 @@
         "Közde biber",
         "Közde soğan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "guvec_firin",
+        "izgara_cesitleri",
+        "kebap_cesitleri"
+      ]
     },
     {
       "id": "yoresel",
@@ -7325,7 +8269,10 @@
         "Firikli bulgur",
         "Katıklı ekmek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "corba_cesitleri",
+        "pilav_cesitleri"
+      ]
     },
     {
       "id": "bayram_yemekleri",
@@ -7344,7 +8291,11 @@
         "İncir tatlısı",
         "Ayva tatlısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_tatlilar",
+        "helva_cesitleri",
+        "serbetli_tatlilar"
+      ]
     },
     {
       "id": "kislik",
@@ -7374,7 +8325,10 @@
         "Sirke",
         "Konserve"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kahvalti",
+        "konserve_gidalar"
+      ]
     },
     {
       "id": "icli_dolma",
@@ -7404,7 +8358,12 @@
         "Sulu içli köfte",
         "Yoğurtlu içli köfte"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dolma_sarma"
+      ],
+      "hardConflicts": [
+        "kofte_cesitleri"
+      ]
     },
     {
       "id": "sokak_yemekleri",
@@ -7432,7 +8391,13 @@
         "Sucuk ekmek",
         "Patso"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fast_food_urunleri",
+        "hamburger_sandvic_turleri"
+      ],
+      "hardConflicts": [
+        "sokak_lezzetleri"
+      ]
     },
     {
       "id": "izgara_cesitleri",
@@ -7462,7 +8427,17 @@
         "Dana ızgara",
         "Karışık ızgara"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "balik_yemekleri",
+        "deniz_urunu",
+        "etli_ana_yemek",
+        "kebap_cesitleri",
+        "kofte_cesitleri",
+        "tandir_ocak"
+      ],
+      "hardConflicts": [
+        "barbeku_izgara"
+      ]
     },
     {
       "id": "sulu_yemekler",
@@ -7492,7 +8467,13 @@
         "Etli yahni",
         "Kereviz bastı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "baklagil",
+        "corba_cesitleri",
+        "ev_yemekleri",
+        "guvec_yemekleri",
+        "sebze_yemekleri"
+      ]
     },
     {
       "id": "tavuk_yemekleri",
@@ -7521,8 +8502,7 @@
         "Tavuklu sebze",
         "Yoğurtlu tavuk",
         "Tavuk kızartma"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "balik_yemekleri",
@@ -7546,7 +8526,11 @@
         "Balık pilakisi",
         "Fırın balık"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_urunu",
+        "izgara_cesitleri",
+        "tuzlusu_baliklari"
+      ]
     },
     {
       "id": "yumurtali",
@@ -7576,7 +8560,10 @@
         "Peynirli yumurta",
         "Biberli yumurta"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kahvalti",
+        "kahvalti_urunleri"
+      ]
     },
     {
       "id": "salata_cesitleri",
@@ -7605,7 +8592,12 @@
         "Karışık salata",
         "Kereviz salatası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meze_cesitleri"
+      ],
+      "hardConflicts": [
+        "salata_cesitleri_2"
+      ]
     },
     {
       "id": "aperatif",
@@ -7630,7 +8622,14 @@
         "Turşu tabağı",
         "Meze tabağı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kizartmalar",
+        "meze_cesitleri",
+        "ordovr_baslangiclar"
+      ],
+      "hardConflicts": [
+        "atistirmaliklar_cips"
+      ]
     },
     {
       "id": "italyan_yemekleri",
@@ -7660,7 +8659,10 @@
         "Semifreddo",
         "Bistecca"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "makarna_turleri",
+        "pizza_cesitleri"
+      ]
     },
     {
       "id": "makarna_turleri",
@@ -7690,7 +8692,9 @@
         "Agnolotti",
         "Paccheri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "italyan_yemekleri"
+      ]
     },
     {
       "id": "pizza_cesitleri",
@@ -7720,7 +8724,10 @@
         "Sfincione",
         "Contadina"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "italyan_yemekleri",
+        "pide_lahmacun"
+      ]
     },
     {
       "id": "uzak_dogu_yemekleri",
@@ -7750,7 +8757,11 @@
         "Lo mein",
         "Congee"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_corbalari",
+        "japon_mutfagi",
+        "sushi_deniz_mezeleri"
+      ]
     },
     {
       "id": "japon_mutfagi",
@@ -7779,7 +8790,12 @@
         "Dorayaki",
         "Chawanmushi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_sebzeleri_yosunlar",
+        "dunya_corbalari",
+        "sushi_deniz_mezeleri",
+        "uzak_dogu_yemekleri"
+      ]
     },
     {
       "id": "meksika_yemekleri",
@@ -7809,7 +8825,10 @@
         "Taquito",
         "Frijoles"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fast_food_urunleri",
+        "sokak_lezzetleri"
+      ]
     },
     {
       "id": "fast_food_urunleri",
@@ -7835,7 +8854,13 @@
         "Peynirli patates",
         "Elmalı pay"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hamburger_sandvic_turleri",
+        "kizartmalar",
+        "meksika_yemekleri",
+        "sokak_lezzetleri",
+        "sokak_yemekleri"
+      ]
     },
     {
       "id": "hamburger_sandvic_turleri",
@@ -7864,7 +8889,10 @@
         "Balıklı sandviç",
         "Tavuklu sandviç"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fast_food_urunleri",
+        "sokak_yemekleri"
+      ]
     },
     {
       "id": "dunya_corbalari",
@@ -7894,7 +8922,13 @@
         "Cioppino",
         "Ajiaco"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "japon_mutfagi",
+        "uzak_dogu_yemekleri"
+      ],
+      "hardConflicts": [
+        "corba_cesitleri"
+      ]
     },
     {
       "id": "salata_cesitleri_2",
@@ -7921,7 +8955,12 @@
         "Ispanak salata",
         "Fasulye salatası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meze_cesitleri"
+      ],
+      "hardConflicts": [
+        "salata_cesitleri"
+      ]
     },
     {
       "id": "sos_cesitleri",
@@ -7950,7 +8989,9 @@
         "Tzatziki",
         "Remulad"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "baharatli_soslar"
+      ]
     },
     {
       "id": "baharatli_soslar",
@@ -7978,7 +9019,9 @@
         "Enchilada sos",
         "Pico de gallo"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "sos_cesitleri"
+      ]
     },
     {
       "id": "kahvalti_urunleri",
@@ -7997,7 +9040,14 @@
         "Jambon",
         "Fıstık ezmesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kahvaltilik_gevrekler",
+        "peynir_cesitleri",
+        "yumurtali"
+      ],
+      "hardConflicts": [
+        "kahvalti"
+      ]
     },
     {
       "id": "peynirli_yiyecekler",
@@ -8024,7 +9074,9 @@
         "Paneer",
         "Saganaki"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "peynir_cesitleri"
+      ]
     },
     {
       "id": "ekmek_cesitleri",
@@ -8051,7 +9103,10 @@
         "Papadum",
         "Injera"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hamur_isleri",
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "unlu_mamuller",
@@ -8078,7 +9133,14 @@
         "Madlen",
         "Biscotti"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "borek_cesitleri",
+        "ekmek_cesitleri",
+        "hamur_isleri",
+        "kek_cesitleri",
+        "kurabiye_turleri",
+        "pasta_cesitleri"
+      ]
     },
     {
       "id": "atistirmaliklar_cips",
@@ -8102,7 +9164,12 @@
         "Şekerleme",
         "Çikolatalı bar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sekerlemeler"
+      ],
+      "hardConflicts": [
+        "aperatif"
+      ]
     },
     {
       "id": "konserve_gidalar",
@@ -8128,7 +9195,11 @@
         "Sosis konservesi",
         "Ciğer ezmesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dondurulmus_gidalar",
+        "hazir_yemekler",
+        "kislik"
+      ]
     },
     {
       "id": "dondurulmus_gidalar",
@@ -8158,7 +9229,11 @@
         "Dondurulmuş sufle",
         "Dondurulmuş çilek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dondurma_cesitleri",
+        "hazir_yemekler",
+        "konserve_gidalar"
+      ]
     },
     {
       "id": "vejetaryen_yemekler",
@@ -8181,7 +9256,11 @@
         "Caponata",
         "Sebzeli köri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meze_cesitleri",
+        "sebze_yemekleri",
+        "zeytinyagli"
+      ]
     },
     {
       "id": "sokak_lezzetleri",
@@ -8206,7 +9285,13 @@
         "Bratwurst",
         "Chaat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fast_food_urunleri",
+        "meksika_yemekleri"
+      ],
+      "hardConflicts": [
+        "sokak_yemekleri"
+      ]
     },
     {
       "id": "kizartmalar",
@@ -8236,7 +9321,10 @@
         "Sufganiyah",
         "Vetkoek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aperatif",
+        "fast_food_urunleri"
+      ]
     },
     {
       "id": "guvec_yemekleri",
@@ -8263,7 +9351,13 @@
         "Tikka masala",
         "Shepherd's pie"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "etli_ana_yemek",
+        "sulu_yemekler"
+      ],
+      "hardConflicts": [
+        "guvec_firin"
+      ]
     },
     {
       "id": "barbeku_izgara",
@@ -8288,7 +9382,13 @@
         "Galbi",
         "Tandır"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "etli_ana_yemek",
+        "kebap_cesitleri"
+      ],
+      "hardConflicts": [
+        "izgara_cesitleri"
+      ]
     },
     {
       "id": "sushi_deniz_mezeleri",
@@ -8318,7 +9418,11 @@
         "Hosomaki",
         "Tataki"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_urunu",
+        "japon_mutfagi",
+        "uzak_dogu_yemekleri"
+      ]
     },
     {
       "id": "kahvaltilik_gevrekler",
@@ -8347,7 +9451,10 @@
         "Muzlu gevrek",
         "Tarçınlı gevrek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kahvalti",
+        "kahvalti_urunleri"
+      ]
     },
     {
       "id": "hazir_yemekler",
@@ -8377,7 +9484,10 @@
         "Hazır güveç",
         "Hazır kumpir"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dondurulmus_gidalar",
+        "konserve_gidalar"
+      ]
     },
     {
       "id": "ordovr_baslangiclar",
@@ -8402,7 +9512,10 @@
         "Escargot",
         "Gougère"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aperatif",
+        "meze_cesitleri"
+      ]
     },
     {
       "id": "sutlu_tatlilar",
@@ -8422,7 +9535,10 @@
         "Vanilyalı puding",
         "Karamelli puding"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_tatlilar",
+        "soguk_tatlilar"
+      ]
     },
     {
       "id": "serbetli_tatlilar",
@@ -8440,7 +9556,10 @@
         "Dilber dudağı",
         "Peynir tatlısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bayram_yemekleri",
+        "geleneksel_tatlilar"
+      ]
     },
     {
       "id": "dondurma_cesitleri",
@@ -8470,7 +9589,11 @@
         "Portakallı dondurma",
         "Yaban mersinli dondurma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dondurulmus_gidalar",
+        "soguk_tatlilar",
+        "tatlilar"
+      ]
     },
     {
       "id": "cikolatali_tatlilar",
@@ -8499,7 +9622,11 @@
         "Çikolatalı rulo",
         "Çikolatalı bisküvi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kek_cesitleri",
+        "pasta_cesitleri",
+        "tatlilar"
+      ]
     },
     {
       "id": "pasta_cesitleri",
@@ -8527,7 +9654,12 @@
         "Karadutlu pasta",
         "Antep fıstıklı pasta"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cikolatali_tatlilar",
+        "kek_cesitleri",
+        "meyveli_tatlilar",
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "kek_cesitleri",
@@ -8556,7 +9688,12 @@
         "Kayısılı kek",
         "Balkabaklı kek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cikolatali_tatlilar",
+        "pasta_cesitleri",
+        "tatlilar",
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "kurabiye_turleri",
@@ -8586,7 +9723,9 @@
         "Kuru üzümlü kurabiye",
         "Tereyağlı kurabiye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "unlu_mamuller"
+      ]
     },
     {
       "id": "sekerlemeler",
@@ -8612,7 +9751,10 @@
         "Elma şekeri",
         "Pamuk şeker"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "atistirmaliklar_cips",
+        "lokum_cesitleri"
+      ]
     },
     {
       "id": "lokum_cesitleri",
@@ -8642,7 +9784,10 @@
         "Kahveli lokum",
         "Çifte kavrulmuş lokum"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_tatlilar",
+        "sekerlemeler"
+      ]
     },
     {
       "id": "meyveli_tatlilar",
@@ -8669,7 +9814,10 @@
         "Çilek tatlısı",
         "Karışık meyveli tart"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "pasta_cesitleri",
+        "soguk_tatlilar"
+      ]
     },
     {
       "id": "soguk_tatlilar",
@@ -8697,7 +9845,11 @@
         "Dondurmalı brownie",
         "Meyveli granita"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dondurma_cesitleri",
+        "meyveli_tatlilar",
+        "sutlu_tatlilar"
+      ]
     },
     {
       "id": "helva_cesitleri",
@@ -8724,7 +9876,11 @@
         "Keten helvası",
         "Nişasta helvası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bayram_yemekleri",
+        "geleneksel_tatlilar",
+        "tatlilar"
+      ]
     },
     {
       "id": "geleneksel_tatlilar",
@@ -8748,7 +9904,14 @@
         "Gülbeşeker",
         "İrmik tatlısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bayram_yemekleri",
+        "helva_cesitleri",
+        "lokum_cesitleri",
+        "serbetli_tatlilar",
+        "sutlu_tatlilar",
+        "tatlilar"
+      ]
     },
     {
       "id": "sicak_icecekler",
@@ -8774,7 +9937,12 @@
         "Sıcak elma",
         "Karamelli süt"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bitki_caylari",
+        "cay_cesitleri",
+        "kahve_cesitleri",
+        "sicak_cikolata_cesitleri"
+      ]
     },
     {
       "id": "soguk_icecekler",
@@ -8803,7 +9971,13 @@
         "Buzlu limonlu çay",
         "Buzlu sütlü kahve"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alkolsuz_kokteyller",
+        "cay_cesitleri",
+        "kahve_cesitleri",
+        "limonata_cesitleri",
+        "milkshake_cesitleri"
+      ]
     },
     {
       "id": "gazli_icecekler",
@@ -8830,7 +10004,11 @@
         "Ananaslı gazoz",
         "Kızılcık gazozu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "enerji_icecekleri",
+        "icecekler",
+        "maden_suyu_sodalar"
+      ]
     },
     {
       "id": "cay_cesitleri",
@@ -8860,7 +10038,12 @@
         "Demlik çayı",
         "Sencha çayı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bitki_caylari",
+        "icecekler",
+        "sicak_icecekler",
+        "soguk_icecekler"
+      ]
     },
     {
       "id": "kahve_cesitleri",
@@ -8889,7 +10072,11 @@
         "Fındıklı kahve",
         "Karamelli kahve"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "icecekler",
+        "sicak_icecekler",
+        "soguk_icecekler"
+      ]
     },
     {
       "id": "meyve_sulari",
@@ -8919,7 +10106,11 @@
         "Limon suyu",
         "Kızılcık suyu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alkolsuz_kokteyller",
+        "limonata_cesitleri",
+        "sira_serbet_turleri"
+      ]
     },
     {
       "id": "bitki_caylari",
@@ -8948,7 +10139,12 @@
         "Civanperçemi çayı",
         "Defne çayı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "agaclar",
+        "cay_cesitleri",
+        "sicak_icecekler",
+        "sifali_otlar"
+      ]
     },
     {
       "id": "alkolsuz_kokteyller",
@@ -8978,7 +10174,11 @@
         "Çarkıfelek kokteyli",
         "Portakal kokteyli"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "limonata_cesitleri",
+        "meyve_sulari",
+        "soguk_icecekler"
+      ]
     },
     {
       "id": "milkshake_cesitleri",
@@ -9008,7 +10208,9 @@
         "Kakaolu milkshake",
         "Karpuzlu milkshake"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "soguk_icecekler"
+      ]
     },
     {
       "id": "sira_serbet_turleri",
@@ -9038,7 +10240,10 @@
         "Nane şerbeti",
         "Karpuz şerbeti"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_icecekler",
+        "meyve_sulari"
+      ]
     },
     {
       "id": "enerji_icecekleri",
@@ -9067,7 +10272,10 @@
         "Karpuzlu izotonik",
         "Çilekli sporcu içeceği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gazli_icecekler",
+        "icecekler"
+      ]
     },
     {
       "id": "ayran_yogurt_icecekleri",
@@ -9096,7 +10304,10 @@
         "Probiyotik içecek",
         "Kımız"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_icecekler",
+        "icecekler"
+      ]
     },
     {
       "id": "limonata_cesitleri",
@@ -9126,7 +10337,11 @@
         "Baharatlı limonata",
         "Buzlu limonata"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alkolsuz_kokteyller",
+        "meyve_sulari",
+        "soguk_icecekler"
+      ]
     },
     {
       "id": "sicak_cikolata_cesitleri",
@@ -9156,7 +10371,9 @@
         "Hindistan cevizli sıcak çikolata",
         "Frambuazlı sıcak çikolata"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sicak_icecekler"
+      ]
     },
     {
       "id": "maden_suyu_sodalar",
@@ -9186,7 +10403,9 @@
         "Kola aromalı soda",
         "Portakallı soda"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gazli_icecekler"
+      ]
     },
     {
       "id": "geleneksel_icecekler",
@@ -9213,7 +10432,11 @@
         "Elma hoşafı",
         "Ayva hoşafı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ayran_yogurt_icecekleri",
+        "icecekler",
+        "sira_serbet_turleri"
+      ]
     },
     {
       "id": "akdeniz_sahil_ilceleri",
@@ -9241,7 +10464,11 @@
         "Payas",
         "Kaş"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akdeniz_turistik_beldeleri",
+        "ege_kiyi_kasabalari",
+        "sehirler"
+      ]
     },
     {
       "id": "ege_kiyi_kasabalari",
@@ -9268,7 +10495,12 @@
         "Özdere",
         "Altınoluk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akdeniz_sahil_ilceleri"
+      ],
+      "hardConflicts": [
+        "izmir_ilceleri"
+      ]
     },
     {
       "id": "karadeniz_sahil_ilceleri",
@@ -9297,7 +10529,10 @@
         "Amasra",
         "Akçakoca"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akdeniz_turistik_beldeleri",
+        "karadeniz_yaylalari"
+      ]
     },
     {
       "id": "istanbul_semtleri",
@@ -9325,7 +10560,12 @@
         "Arnavutköy",
         "Galata"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ankara_ilceleri",
+        "izmir_ilceleri",
+        "marmara_ilceleri",
+        "turkiye_adalari"
+      ]
     },
     {
       "id": "izmir_ilceleri",
@@ -9351,7 +10591,14 @@
         "Kınık",
         "Selçuk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ankara_ilceleri",
+        "ege_ic_kesim_ilceleri",
+        "istanbul_semtleri"
+      ],
+      "hardConflicts": [
+        "ege_kiyi_kasabalari"
+      ]
     },
     {
       "id": "ankara_ilceleri",
@@ -9379,7 +10626,13 @@
         "Güdül",
         "Akyurt"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ic_anadolu_ilceleri",
+        "istanbul_semtleri",
+        "izmir_ilceleri",
+        "konya_ilceleri",
+        "sehirler"
+      ]
     },
     {
       "id": "konya_ilceleri",
@@ -9408,7 +10661,10 @@
         "Taşkent",
         "Güneysınır"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ankara_ilceleri",
+        "ic_anadolu_ilceleri"
+      ]
     },
     {
       "id": "kayak_merkezleri",
@@ -9435,7 +10691,11 @@
         "Güzeltepe",
         "Yurduntepe"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kis_sporlari",
+        "milli_parklar",
+        "turkiye_daglari_zirveleri"
+      ]
     },
     {
       "id": "turkiye_golleri",
@@ -9463,7 +10723,14 @@
         "Erçek",
         "Işıklı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "barajlar",
+        "dunya_golleri",
+        "turkiye_nehirleri"
+      ],
+      "hardConflicts": [
+        "sehirler"
+      ]
     },
     {
       "id": "turkiye_nehirleri",
@@ -9483,7 +10750,14 @@
         "Murat",
         "Zap"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "barajlar",
+        "turkiye_golleri",
+        "unlu_nehirler"
+      ],
+      "hardConflicts": [
+        "dunya_nehirleri"
+      ]
     },
     {
       "id": "turkiye_daglari_zirveleri",
@@ -9506,7 +10780,16 @@
         "Nurhak",
         "Karadağ"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kayak_merkezleri",
+        "milli_parklar",
+        "siradaglar",
+        "unlu_daglar",
+        "volkanlar"
+      ],
+      "hardConflicts": [
+        "daglar"
+      ]
     },
     {
       "id": "ovalar",
@@ -9536,7 +10819,10 @@
         "Malatya Ovası",
         "Erbaa Ovası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "karadeniz_yaylalari",
+        "ovalar_platolar"
+      ]
     },
     {
       "id": "karadeniz_yaylalari",
@@ -9566,7 +10852,10 @@
         "Erikbeli",
         "Şenyuva"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "karadeniz_sahil_ilceleri",
+        "ovalar"
+      ]
     },
     {
       "id": "korfezler_bogazlar",
@@ -9596,7 +10885,12 @@
         "Sinop Körfezi",
         "Bozburun Körfezi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bogazlar_kanallar",
+        "denizler_okyanuslar",
+        "korfezler",
+        "turkiye_adalari"
+      ]
     },
     {
       "id": "turkiye_adalari",
@@ -9626,7 +10920,11 @@
         "Giresun Adası",
         "Kefken Adası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "adalar_takimadalar",
+        "istanbul_semtleri",
+        "korfezler_bogazlar"
+      ]
     },
     {
       "id": "milli_parklar",
@@ -9656,7 +10954,13 @@
         "Kızılırmak Deltası",
         "Nene Hatun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogal_olusumlar_kanyonlar",
+        "kapadokya_yerleri",
+        "kayak_merkezleri",
+        "selaleler",
+        "turkiye_daglari_zirveleri"
+      ]
     },
     {
       "id": "antik_kentler",
@@ -9685,7 +10989,13 @@
         "Assos",
         "Zeugma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_dunya_sehirleri",
+        "antik_sehir_devletler",
+        "kaplicalar_termal",
+        "tarihi_turistik_yerler",
+        "tarihi_yapilar_anitlar"
+      ]
     },
     {
       "id": "kaplicalar_termal",
@@ -9711,7 +11021,10 @@
         "Sıcak Çermik",
         "Çermik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_kentler",
+        "dogal_olusumlar_kanyonlar"
+      ]
     },
     {
       "id": "barajlar",
@@ -9741,7 +11054,10 @@
         "Seyhan Barajı",
         "Adıgüzel Barajı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "turkiye_golleri",
+        "turkiye_nehirleri"
+      ]
     },
     {
       "id": "selaleler",
@@ -9771,7 +11087,11 @@
         "Uçansu Şelalesi",
         "Harmankaya Şelalesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogal_olusumlar_kanyonlar",
+        "milli_parklar",
+        "selaleler_2"
+      ]
     },
     {
       "id": "magaralar",
@@ -9801,7 +11121,10 @@
         "Mencilis Mağarası",
         "Kaklık Mağarası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogal_olusumlar_kanyonlar",
+        "magara_olusumlari"
+      ]
     },
     {
       "id": "kapadokya_yerleri",
@@ -9831,7 +11154,11 @@
         "Güzelyurt",
         "Belisırma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogal_olusumlar_kanyonlar",
+        "ic_anadolu_ilceleri",
+        "milli_parklar"
+      ]
     },
     {
       "id": "dogu_anadolu_yerleri",
@@ -9858,7 +11185,11 @@
         "Yüksekova",
         "Şemdinli"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "guneydogu_yerleri",
+        "ic_anadolu_ilceleri",
+        "sehirler"
+      ]
     },
     {
       "id": "guneydogu_yerleri",
@@ -9884,7 +11215,10 @@
         "Kahta",
         "Batman"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogu_anadolu_yerleri",
+        "ic_anadolu_ilceleri"
+      ]
     },
     {
       "id": "ic_anadolu_ilceleri",
@@ -9910,7 +11244,13 @@
         "Bor",
         "Sivrihisar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ankara_ilceleri",
+        "dogu_anadolu_yerleri",
+        "guneydogu_yerleri",
+        "kapadokya_yerleri",
+        "konya_ilceleri"
+      ]
     },
     {
       "id": "marmara_ilceleri",
@@ -9934,7 +11274,10 @@
         "Lüleburgaz",
         "Bozüyük"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ege_ic_kesim_ilceleri",
+        "istanbul_semtleri"
+      ]
     },
     {
       "id": "akdeniz_turistik_beldeleri",
@@ -9963,7 +11306,11 @@
         "Çevlik",
         "Boğsak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akdeniz_sahil_ilceleri",
+        "karadeniz_sahil_ilceleri",
+        "sehirler"
+      ]
     },
     {
       "id": "ege_ic_kesim_ilceleri",
@@ -9989,7 +11336,10 @@
         "Simav",
         "Dinar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "izmir_ilceleri",
+        "marmara_ilceleri"
+      ]
     },
     {
       "id": "tarihi_turistik_yerler",
@@ -10018,7 +11368,11 @@
         "Divriği",
         "Selimiye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_kentler",
+        "dini_mekanlar",
+        "tarihi_yapilar_anitlar"
+      ]
     },
     {
       "id": "dogal_olusumlar_kanyonlar",
@@ -10048,7 +11402,13 @@
         "Sülüklügöl",
         "Borçka Karagöl"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kapadokya_yerleri",
+        "kaplicalar_termal",
+        "magaralar",
+        "milli_parklar",
+        "selaleler"
+      ]
     },
     {
       "id": "asya_ulkeleri",
@@ -10075,7 +11435,15 @@
         "Myanmar",
         "Kamboçya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ada_ulkeleri",
+        "afrika_ulkeleri",
+        "kuzey_amerika_karayip_ulkeleri",
+        "orta_dogu_sehirleri"
+      ],
+      "hardConflicts": [
+        "ulkeler"
+      ]
     },
     {
       "id": "afrika_ulkeleri",
@@ -10103,7 +11471,14 @@
         "Güney Afrika",
         "Fildişi Sahili"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_sehirleri",
+        "asya_ulkeleri",
+        "kuzey_amerika_karayip_ulkeleri"
+      ],
+      "hardConflicts": [
+        "ulkeler"
+      ]
     },
     {
       "id": "kuzey_amerika_karayip_ulkeleri",
@@ -10131,7 +11506,11 @@
         "Dominika",
         "Saint Kitts ve Nevis"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ada_ulkeleri",
+        "afrika_ulkeleri",
+        "asya_ulkeleri"
+      ]
     },
     {
       "id": "ada_ulkeleri",
@@ -10161,7 +11540,14 @@
         "Kiribati",
         "Komorlar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "asya_ulkeleri",
+        "kuzey_amerika_karayip_ulkeleri"
+      ],
+      "hardConflicts": [
+        "adalar_takimadalar",
+        "ulkeler"
+      ]
     },
     {
       "id": "dunya_baskentleri",
@@ -10189,7 +11575,14 @@
         "Oslo",
         "Helsinki"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_sehirleri",
+        "asya_metropolleri",
+        "avrupa_sehirleri",
+        "guney_amerika_sehirleri",
+        "kuzey_amerika_sehirleri",
+        "orta_dogu_sehirleri"
+      ]
     },
     {
       "id": "avrupa_sehirleri",
@@ -10217,7 +11610,12 @@
         "Krakov",
         "Bilbao"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_baskentleri",
+        "kuzey_amerika_sehirleri",
+        "rusya_sehirleri",
+        "sehirler"
+      ]
     },
     {
       "id": "asya_metropolleri",
@@ -10247,7 +11645,12 @@
         "Colombo",
         "Katmandu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "avustralya_okyanusya",
+        "dunya_baskentleri",
+        "orta_dogu_sehirleri",
+        "rusya_sehirleri"
+      ]
     },
     {
       "id": "kuzey_amerika_sehirleri",
@@ -10277,7 +11680,12 @@
         "San Diego",
         "New Orleans"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "avrupa_sehirleri",
+        "avustralya_okyanusya",
+        "dunya_baskentleri",
+        "guney_amerika_sehirleri"
+      ]
     },
     {
       "id": "guney_amerika_sehirleri",
@@ -10307,7 +11715,11 @@
         "Fortaleza",
         "Belo Horizonte"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_sehirleri",
+        "dunya_baskentleri",
+        "kuzey_amerika_sehirleri"
+      ]
     },
     {
       "id": "afrika_sehirleri",
@@ -10337,7 +11749,12 @@
         "Kampala",
         "Tanca"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_ulkeleri",
+        "dunya_baskentleri",
+        "guney_amerika_sehirleri",
+        "orta_dogu_sehirleri"
+      ]
     },
     {
       "id": "orta_dogu_sehirleri",
@@ -10367,7 +11784,12 @@
         "Manama",
         "Maskat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "afrika_sehirleri",
+        "asya_metropolleri",
+        "asya_ulkeleri",
+        "dunya_baskentleri"
+      ]
     },
     {
       "id": "rusya_sehirleri",
@@ -10397,7 +11819,10 @@
         "Voronej",
         "Tomsk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "asya_metropolleri",
+        "avrupa_sehirleri"
+      ]
     },
     {
       "id": "dunya_colleri",
@@ -10426,7 +11851,10 @@
         "Karoo",
         "Rub'ül Hali"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekosistem_biyomlar",
+        "ovalar_platolar"
+      ]
     },
     {
       "id": "dunya_golleri",
@@ -10454,7 +11882,13 @@
         "Victoria",
         "Eyre"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "denizler_okyanuslar",
+        "dunya_nehirleri",
+        "okyanuslar_denizler",
+        "turkiye_golleri",
+        "unlu_nehirler"
+      ]
     },
     {
       "id": "siradaglar",
@@ -10483,7 +11917,11 @@
         "Sierra Madre",
         "Sudetler"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "daglar",
+        "turkiye_daglari_zirveleri",
+        "unlu_daglar"
+      ]
     },
     {
       "id": "unlu_daglar",
@@ -10510,7 +11948,12 @@
         "Whitney",
         "Elbrus"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "daglar",
+        "siradaglar",
+        "turkiye_daglari_zirveleri",
+        "volkanlar"
+      ]
     },
     {
       "id": "okyanuslar_denizler",
@@ -10528,7 +11971,14 @@
         "Ohotsk Denizi",
         "Adriyatik Denizi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bogazlar_kanallar",
+        "dunya_golleri",
+        "korfezler"
+      ],
+      "hardConflicts": [
+        "denizler_okyanuslar"
+      ]
     },
     {
       "id": "adalar_takimadalar",
@@ -10556,7 +12006,14 @@
         "Galapagos",
         "Falkland Adaları"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kutup_bolgeleri",
+        "turkiye_adalari",
+        "yarimadalar"
+      ],
+      "hardConflicts": [
+        "ada_ulkeleri"
+      ]
     },
     {
       "id": "bogazlar_kanallar",
@@ -10586,7 +12043,11 @@
         "Davis Boğazı",
         "Skagerrak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "korfezler",
+        "korfezler_bogazlar",
+        "okyanuslar_denizler"
+      ]
     },
     {
       "id": "yarimadalar",
@@ -10615,7 +12076,10 @@
         "Taymır",
         "Nova Scotia"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "adalar_takimadalar",
+        "kitalar_bolgeler"
+      ]
     },
     {
       "id": "korfezler",
@@ -10645,7 +12109,12 @@
         "Paria Körfezi",
         "Martaban Körfezi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bogazlar_kanallar",
+        "denizler_okyanuslar",
+        "korfezler_bogazlar",
+        "okyanuslar_denizler"
+      ]
     },
     {
       "id": "volkanlar",
@@ -10674,7 +12143,11 @@
         "Rainier",
         "Saint Helens"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "daglar",
+        "turkiye_daglari_zirveleri",
+        "unlu_daglar"
+      ]
     },
     {
       "id": "selaleler_2",
@@ -10704,7 +12177,10 @@
         "Ban Gioc",
         "Shoshone"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "selaleler",
+        "unlu_nehirler"
+      ]
     },
     {
       "id": "unlu_nehirler",
@@ -10723,7 +12199,14 @@
         "Tems",
         "Elbe"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_golleri",
+        "selaleler_2",
+        "turkiye_nehirleri"
+      ],
+      "hardConflicts": [
+        "dunya_nehirleri"
+      ]
     },
     {
       "id": "kitalar_bolgeler",
@@ -10753,7 +12236,11 @@
         "Anadolu",
         "Avrasya"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kutup_bolgeleri",
+        "ovalar_platolar",
+        "yarimadalar"
+      ]
     },
     {
       "id": "kutup_bolgeleri",
@@ -10783,7 +12270,10 @@
         "Beaufort Denizi",
         "Laptev Denizi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "adalar_takimadalar",
+        "kitalar_bolgeler"
+      ]
     },
     {
       "id": "ovalar_platolar",
@@ -10813,7 +12303,11 @@
         "Brezilya Yaylası",
         "Ordos Platosu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_colleri",
+        "kitalar_bolgeler",
+        "ovalar"
+      ]
     },
     {
       "id": "antik_dunya_sehirleri",
@@ -10839,7 +12333,11 @@
         "Pompei",
         "Machu Picchu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_kentler",
+        "antik_sehir_devletler",
+        "mezopotamya_uygarliklari"
+      ]
     },
     {
       "id": "avustralya_okyanusya",
@@ -10869,7 +12367,10 @@
         "Alice Springs",
         "Rotorua"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "asya_metropolleri",
+        "kuzey_amerika_sehirleri"
+      ]
     },
     {
       "id": "takim_sporlari",
@@ -10894,8 +12395,7 @@
         "Hurling",
         "Ultimate",
         "Gaelik futbol"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "su_sporlari",
@@ -10921,7 +12421,10 @@
         "Dragon bot",
         "Tüplü dalış"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekstrem_sporlar",
+        "olimpiyat_dallari"
+      ]
     },
     {
       "id": "kis_sporlari",
@@ -10948,7 +12451,11 @@
         "Kuzey ikilisi",
         "Alp kayağı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kayak_merkezleri",
+        "olimpiyat_dallari",
+        "spor_dallari"
+      ]
     },
     {
       "id": "dovus_sanatlari",
@@ -10972,7 +12479,11 @@
         "Silat",
         "Wing Chun"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "boks_terimleri",
+        "olimpiyat_dallari",
+        "spor_dallari"
+      ]
     },
     {
       "id": "atletizm_dallari",
@@ -11001,7 +12512,10 @@
         "Manialı koşu",
         "Pentatlon"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "olimpiyat_dallari",
+        "spor_dallari"
+      ]
     },
     {
       "id": "motor_sporlari",
@@ -11031,7 +12545,10 @@
         "Flat track",
         "Sürat teknesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekstrem_sporlar",
+        "spor_dallari"
+      ]
     },
     {
       "id": "ekstrem_sporlar",
@@ -11061,7 +12578,14 @@
         "Kanyoning",
         "Downhill kaykay"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bisiklet_sporlari",
+        "doga_sporlari",
+        "motor_sporlari",
+        "spor_dallari",
+        "su_sporlari",
+        "tirmanis_dagcilik"
+      ]
     },
     {
       "id": "spor_ekipmanlari",
@@ -11088,7 +12612,11 @@
         "Koşu bandı",
         "Matara"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "futbol_terimleri",
+        "okculuk_aticilik",
+        "spor_mekanlari"
+      ]
     },
     {
       "id": "futbol_terimleri",
@@ -11117,7 +12645,11 @@
         "Baraj",
         "Uzatma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "basketbol_terimleri",
+        "spor_ekipmanlari",
+        "voleybol_terimleri"
+      ]
     },
     {
       "id": "basketbol_terimleri",
@@ -11146,7 +12678,11 @@
         "Mola",
         "Sayı tabelası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "futbol_terimleri",
+        "tenis_terimleri",
+        "voleybol_terimleri"
+      ]
     },
     {
       "id": "voleybol_terimleri",
@@ -11176,7 +12712,11 @@
         "File hatası",
         "Sayı almak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "basketbol_terimleri",
+        "futbol_terimleri",
+        "tenis_terimleri"
+      ]
     },
     {
       "id": "tenis_terimleri",
@@ -11206,7 +12746,11 @@
         "Çeyrek final",
         "Şampiyona"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "basketbol_terimleri",
+        "golf_terimleri",
+        "voleybol_terimleri"
+      ]
     },
     {
       "id": "boks_terimleri",
@@ -11236,7 +12780,9 @@
         "Boksör",
         "Şampiyon kemeri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dovus_sanatlari"
+      ]
     },
     {
       "id": "golf_terimleri",
@@ -11265,7 +12811,9 @@
         "Golf topu",
         "Delik bayrağı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tenis_terimleri"
+      ]
     },
     {
       "id": "olimpiyat_dallari",
@@ -11287,7 +12835,13 @@
         "Kano slalom",
         "Yelkencilik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "atletizm_dallari",
+        "binicilik_at_sporlari",
+        "dovus_sanatlari",
+        "kis_sporlari",
+        "su_sporlari"
+      ]
     },
     {
       "id": "spor_mekanlari",
@@ -11317,7 +12871,9 @@
         "Kayak merkezi",
         "Boks ringi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "spor_ekipmanlari"
+      ]
     },
     {
       "id": "masa_oyunlari",
@@ -11338,7 +12894,16 @@
         "Catan",
         "Jenga"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cocuk_oyunlari",
+        "kart_oyunlari",
+        "satranc_terimleri",
+        "video_oyun_turleri",
+        "zeka_oyunlari"
+      ],
+      "hardConflicts": [
+        "masa_kart_oyunlari"
+      ]
     },
     {
       "id": "kart_oyunlari",
@@ -11361,7 +12926,13 @@
         "Elli bir",
         "Altmış altı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cocuk_oyunlari",
+        "masa_oyunlari"
+      ],
+      "hardConflicts": [
+        "masa_kart_oyunlari"
+      ]
     },
     {
       "id": "video_oyun_turleri",
@@ -11388,7 +12959,10 @@
         "Metroidvania",
         "Roguelike"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "masa_oyunlari",
+        "zeka_oyunlari"
+      ]
     },
     {
       "id": "zeka_oyunlari",
@@ -11417,7 +12991,13 @@
         "Mastermind",
         "Bağlantı bulmacası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cocuk_oyunlari",
+        "masa_kart_oyunlari",
+        "masa_oyunlari",
+        "satranc_terimleri",
+        "video_oyun_turleri"
+      ]
     },
     {
       "id": "satranc_terimleri",
@@ -11442,7 +13022,10 @@
         "Orta oyun",
         "Zugzwang"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "masa_oyunlari",
+        "zeka_oyunlari"
+      ]
     },
     {
       "id": "hobiler_el_sanatlari",
@@ -11471,7 +13054,14 @@
         "Fotoğrafçılık",
         "Model uçak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "geleneksel_sanatlar",
+        "koleksiyon_hobileri",
+        "orgu_triko"
+      ],
+      "hardConflicts": [
+        "el_sanatlari"
+      ]
     },
     {
       "id": "koleksiyon_hobileri",
@@ -11499,7 +13089,10 @@
         "Peçete koleksiyonu",
         "Bilet koleksiyonu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hobiler_el_sanatlari",
+        "muze_sergi_terimleri"
+      ]
     },
     {
       "id": "doga_sporlari",
@@ -11529,7 +13122,11 @@
         "Yayla yürüyüşü",
         "Orman yürüyüşü"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bisiklet_sporlari",
+        "ekstrem_sporlar",
+        "tirmanis_dagcilik"
+      ]
     },
     {
       "id": "binicilik_at_sporlari",
@@ -11556,7 +13153,10 @@
         "Yele",
         "Ahır"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "at_irklari",
+        "olimpiyat_dallari"
+      ]
     },
     {
       "id": "okculuk_aticilik",
@@ -11585,7 +13185,10 @@
         "Klasik yay",
         "Arbalet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "spor_ekipmanlari",
+        "tarihi_silahlar"
+      ]
     },
     {
       "id": "bisiklet_sporlari",
@@ -11615,7 +13218,10 @@
         "Kadans",
         "Yokuş"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "doga_sporlari",
+        "ekstrem_sporlar"
+      ]
     },
     {
       "id": "tirmanis_dagcilik",
@@ -11641,7 +13247,10 @@
         "Buz kramponu",
         "Takoz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "doga_sporlari",
+        "ekstrem_sporlar"
+      ]
     },
     {
       "id": "telli_calgilar",
@@ -11666,7 +13275,16 @@
         "Çarango",
         "Teorbo"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "enstruman_parcalari",
+        "turk_halk_calgilari",
+        "tuslu_calgilar",
+        "uflemeli_calgilar",
+        "vurmali_calgilar"
+      ],
+      "hardConflicts": [
+        "muzik_aletleri"
+      ]
     },
     {
       "id": "uflemeli_calgilar",
@@ -11692,7 +13310,12 @@
         "Basklarnet",
         "Gayda"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "telli_calgilar",
+        "turk_halk_calgilari",
+        "tuslu_calgilar",
+        "vurmali_calgilar"
+      ]
     },
     {
       "id": "vurmali_calgilar",
@@ -11717,7 +13340,12 @@
         "Cembe",
         "Taiko"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "telli_calgilar",
+        "turk_halk_calgilari",
+        "tuslu_calgilar",
+        "uflemeli_calgilar"
+      ]
     },
     {
       "id": "tuslu_calgilar",
@@ -11743,7 +13371,14 @@
         "Bandoneon",
         "Konsertina"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "telli_calgilar",
+        "uflemeli_calgilar",
+        "vurmali_calgilar"
+      ],
+      "hardConflicts": [
+        "muzik_aletleri"
+      ]
     },
     {
       "id": "turk_halk_calgilari",
@@ -11764,7 +13399,14 @@
         "Kudüm",
         "Nakkare"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "telli_calgilar",
+        "uflemeli_calgilar",
+        "vurmali_calgilar"
+      ],
+      "hardConflicts": [
+        "muzik_aletleri"
+      ]
     },
     {
       "id": "muzik_turleri",
@@ -11794,7 +13436,9 @@
         "Türkü",
         "Ska"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dans_turleri"
+      ]
     },
     {
       "id": "muzik_terimleri",
@@ -11823,7 +13467,10 @@
         "Koma",
         "Tavır"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "nota_muzik_teorisi",
+        "opera_klasik_muzik"
+      ]
     },
     {
       "id": "nota_muzik_teorisi",
@@ -11852,7 +13499,9 @@
         "Legato",
         "Staccato"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "muzik_terimleri"
+      ]
     },
     {
       "id": "sinema_terimleri",
@@ -11881,7 +13530,11 @@
         "Stüdyo",
         "Yakın plan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "film_turleri",
+        "fotografcilik_terimleri",
+        "tiyatro_terimleri"
+      ]
     },
     {
       "id": "edebiyat_turleri",
@@ -11911,7 +13564,11 @@
         "Hiciv",
         "Manifesto"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "film_turleri",
+        "nazim_bicimleri",
+        "siir_nazim_turleri"
+      ]
     },
     {
       "id": "siir_nazim_turleri",
@@ -11940,7 +13597,13 @@
         "Ninni",
         "İlahi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "divan_edebiyati_terimleri",
+        "edebiyat_turleri"
+      ],
+      "hardConflicts": [
+        "nazim_bicimleri"
+      ]
     },
     {
       "id": "tiyatro_terimleri",
@@ -11970,7 +13633,11 @@
         "Rol",
         "Piyes"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "film_turleri",
+        "sahne_sanatlari",
+        "sinema_terimleri"
+      ]
     },
     {
       "id": "sahne_sanatlari",
@@ -11998,7 +13665,11 @@
         "Tuluat",
         "Kanto"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bale_sahne_dansi",
+        "opera_klasik_muzik",
+        "tiyatro_terimleri"
+      ]
     },
     {
       "id": "resim_terimleri",
@@ -12027,7 +13698,11 @@
         "Yağlıboya",
         "Fresk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cizim_araclari",
+        "heykel_plastik_sanatlar",
+        "resim_akimlari"
+      ]
     },
     {
       "id": "resim_akimlari",
@@ -12057,7 +13732,10 @@
         "Sembolizm",
         "Manyerizm"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mimari_usluplar",
+        "resim_terimleri"
+      ]
     },
     {
       "id": "heykel_plastik_sanatlar",
@@ -12083,7 +13761,9 @@
         "Enstalasyon",
         "Perdah"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "resim_terimleri"
+      ]
     },
     {
       "id": "halk_oyunlari",
@@ -12106,7 +13786,10 @@
         "Kılıç kalkan",
         "Sirto"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bale_sahne_dansi",
+        "dans_turleri"
+      ]
     },
     {
       "id": "bale_sahne_dansi",
@@ -12135,7 +13818,11 @@
         "Solist",
         "Varyasyon"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dans_turleri",
+        "halk_oyunlari",
+        "sahne_sanatlari"
+      ]
     },
     {
       "id": "mimari_yapi_ogeleri",
@@ -12163,7 +13850,9 @@
         "Şerefe",
         "Saçak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mimari_usluplar"
+      ]
     },
     {
       "id": "mimari_usluplar",
@@ -12190,7 +13879,10 @@
         "Palladyen",
         "Tudor"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mimari_yapi_ogeleri",
+        "resim_akimlari"
+      ]
     },
     {
       "id": "el_sanatlari",
@@ -12212,7 +13904,13 @@
         "Kanaviçe",
         "Batik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eski_meslekler",
+        "geleneksel_sanatlar"
+      ],
+      "hardConflicts": [
+        "hobiler_el_sanatlari"
+      ]
     },
     {
       "id": "geleneksel_sanatlar",
@@ -12240,7 +13938,10 @@
         "Malakâri",
         "Mine"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "el_sanatlari",
+        "hobiler_el_sanatlari"
+      ]
     },
     {
       "id": "fotografcilik_terimleri",
@@ -12269,7 +13970,9 @@
         "Negatif",
         "Teleobjektif"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sinema_terimleri"
+      ]
     },
     {
       "id": "cizim_araclari",
@@ -12292,7 +13995,13 @@
         "Çizim masası",
         "Aydınger"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "resim_terimleri",
+        "yazim_araclari_terimleri"
+      ],
+      "hardConflicts": [
+        "okul_esyalari"
+      ]
     },
     {
       "id": "muze_sergi_terimleri",
@@ -12320,7 +14029,9 @@
         "Röprodüksiyon",
         "Atölye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "koleksiyon_hobileri"
+      ]
     },
     {
       "id": "opera_klasik_muzik",
@@ -12350,7 +14061,10 @@
         "Nokturn",
         "Prelüd"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "muzik_terimleri",
+        "sahne_sanatlari"
+      ]
     },
     {
       "id": "enstruman_parcalari",
@@ -12373,7 +14087,10 @@
         "Membran",
         "Çenelik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "muzik_aletleri",
+        "telli_calgilar"
+      ]
     },
     {
       "id": "ust_giyim",
@@ -12399,7 +14116,11 @@
         "Kapüşonlu sweatshirt",
         "Boğazlı bluz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alt_giyim",
+        "dis_giyim_paltolar",
+        "orgu_triko"
+      ]
     },
     {
       "id": "alt_giyim",
@@ -12426,7 +14147,13 @@
         "Kot etek",
         "Tenis eteği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "spor_giyim",
+        "ust_giyim"
+      ],
+      "hardConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "dis_giyim_paltolar",
@@ -12452,7 +14179,13 @@
         "Kapüşonlu mont",
         "Redingot"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "orgu_triko",
+        "ust_giyim"
+      ],
+      "hardConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "ic_giyim",
@@ -12480,7 +14213,10 @@
         "Uzun don",
         "Vücut şekillendirici"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "giysiler",
+        "spor_giyim"
+      ]
     },
     {
       "id": "ayakkabi_turleri",
@@ -12507,7 +14243,9 @@
         "Plaj terliği",
         "Parmak arası terlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ayakkabi_parcalari"
+      ]
     },
     {
       "id": "sapka_basliklar",
@@ -12534,7 +14272,9 @@
         "Başörtüsü",
         "Eşarp"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eldiven_atki_bere"
+      ]
     },
     {
       "id": "canta_turleri",
@@ -12563,7 +14303,10 @@
         "Zincirli çanta",
         "Gece çantası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kemer_aksesuar",
+        "takilar_aksesuarlar"
+      ]
     },
     {
       "id": "kemer_aksesuar",
@@ -12588,7 +14331,11 @@
         "Kol bandı",
         "Süs kemeri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "canta_turleri",
+        "dugme_toka",
+        "takilar_aksesuarlar"
+      ]
     },
     {
       "id": "orgu_triko",
@@ -12616,7 +14363,16 @@
         "Triko takım",
         "Kapüşonlu kazak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dis_giyim_paltolar",
+        "eldiven_atki_bere",
+        "hobiler_el_sanatlari",
+        "kumaslar",
+        "ust_giyim"
+      ],
+      "hardConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "gelinlik_abiye",
@@ -12646,7 +14402,9 @@
         "Askılı abiye",
         "Volanlı abiye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "spor_giyim",
@@ -12672,7 +14430,11 @@
         "Sporcu şortu",
         "Yüzme şortu"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alt_giyim",
+        "giysiler",
+        "ic_giyim"
+      ]
     },
     {
       "id": "bebek_cocuk_giyim",
@@ -12700,7 +14462,9 @@
         "Bebek takımı",
         "Zıbın takımı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "geleneksel_kiyafet",
@@ -12730,7 +14494,9 @@
         "Aba",
         "Potur"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "giysiler"
+      ]
     },
     {
       "id": "kozmetik_urunleri",
@@ -12760,7 +14526,11 @@
         "Kaş jeli",
         "Fikser sprey"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cilt_bakim",
+        "makyaj_malzemeleri",
+        "parfum_koku"
+      ]
     },
     {
       "id": "makyaj_malzemeleri",
@@ -12790,7 +14560,10 @@
         "Kontür fırçası",
         "Kabuki fırça"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kisisel_bakim_aletleri",
+        "kozmetik_urunleri"
+      ]
     },
     {
       "id": "cilt_bakim",
@@ -12819,7 +14592,10 @@
         "Yüz yağı",
         "Dudak balsamı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kozmetik_urunleri",
+        "sac_bakim"
+      ]
     },
     {
       "id": "sac_bakim",
@@ -12848,7 +14624,11 @@
         "Saç açıcı",
         "Saç şekillendirici"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "banyo_hijyen",
+        "cilt_bakim",
+        "kisisel_bakim_aletleri"
+      ]
     },
     {
       "id": "parfum_koku",
@@ -12877,7 +14657,10 @@
         "Saç parfümü",
         "Kadın parfümü"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "banyo_hijyen",
+        "kozmetik_urunleri"
+      ]
     },
     {
       "id": "gozluk_turleri",
@@ -12906,8 +14689,7 @@
         "Şeffaf çerçeve",
         "3D gözlük",
         "Lens"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "saat_turleri",
@@ -12935,7 +14717,9 @@
         "Kuvars saat",
         "Güneş saati"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "takilar_aksesuarlar"
+      ]
     },
     {
       "id": "terzi_dikis",
@@ -12963,7 +14747,10 @@
         "Ponpon",
         "Nakış ipliği"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dugme_toka",
+        "kumaslar"
+      ]
     },
     {
       "id": "dugme_toka",
@@ -12992,7 +14779,10 @@
         "Boynuz düğme",
         "Perçin"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kemer_aksesuar",
+        "terzi_dikis"
+      ]
     },
     {
       "id": "eldiven_atki_bere",
@@ -13018,7 +14808,10 @@
         "Fırın eldiveni",
         "Lastik eldiven"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "orgu_triko",
+        "sapka_basliklar"
+      ]
     },
     {
       "id": "ayakkabi_parcalari",
@@ -13046,7 +14839,9 @@
         "Lastik topuk",
         "Deri taban"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ayakkabi_turleri"
+      ]
     },
     {
       "id": "kiyafet_desenleri",
@@ -13075,7 +14870,9 @@
         "Grafik desen",
         "Soyut desen"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kumaslar"
+      ]
     },
     {
       "id": "moda_terimleri",
@@ -13102,8 +14899,7 @@
         "Zarafet",
         "Marka",
         "Stilist"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "kisisel_bakim_aletleri",
@@ -13132,7 +14928,10 @@
         "Pedikür seti",
         "Ayna"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "makyaj_malzemeleri",
+        "sac_bakim"
+      ]
     },
     {
       "id": "banyo_hijyen",
@@ -13161,7 +14960,11 @@
         "Vücut fırçası",
         "Duş bonesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "banyo_esyalari",
+        "parfum_koku",
+        "sac_bakim"
+      ]
     },
     {
       "id": "yatak_odasi_esyalari",
@@ -13182,7 +14985,9 @@
         "Askılık",
         "Yastık kılıfı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mobilyalar"
+      ]
     },
     {
       "id": "banyo_esyalari",
@@ -13201,7 +15006,9 @@
         "Tıraş bıçağı",
         "Pomza taşı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "banyo_hijyen"
+      ]
     },
     {
       "id": "mutfak_gerecleri",
@@ -13223,7 +15030,12 @@
         "Kesme tahtası",
         "Mutfak terazisi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ev_aletleri",
+        "mutfak_esyalari",
+        "pisirme_kaplari",
+        "yeme_icme_takimlari"
+      ]
     },
     {
       "id": "pisirme_kaplari",
@@ -13244,7 +15056,10 @@
         "Sac",
         "Izgara tava"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mutfak_esyalari",
+        "mutfak_gerecleri"
+      ]
     },
     {
       "id": "yeme_icme_takimlari",
@@ -13268,7 +15083,12 @@
         "Tereyağlık",
         "Reçellik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mutfak_gerecleri"
+      ],
+      "hardConflicts": [
+        "mutfak_esyalari"
+      ]
     },
     {
       "id": "temizlik_gerecleri",
@@ -13294,8 +15114,7 @@
         "Yağ çözücü",
         "Kireç sökücü",
         "Halı temizleyici"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "aydinlatma_araclari",
@@ -13322,7 +15141,9 @@
         "Şamdan",
         "Halojen"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ev_aletleri"
+      ]
     },
     {
       "id": "bahce_aletleri",
@@ -13347,7 +15168,9 @@
         "Dirgen",
         "Fıskiye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aletler"
+      ]
     },
     {
       "id": "bilgisayar_donanimi",
@@ -13365,7 +15188,11 @@
         "Isı emici",
         "Katı hal sürücüsü"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilisim_teknoloji",
+        "elektronik_cihazlar",
+        "yazilim_terimleri"
+      ]
     },
     {
       "id": "yazilim_terimleri",
@@ -13393,7 +15220,11 @@
         "Komut",
         "Çekirdek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilgisayar_donanimi",
+        "bilisim_teknoloji",
+        "matematik_terimleri"
+      ]
     },
     {
       "id": "internet_sosyal_medya",
@@ -13418,7 +15249,10 @@
         "Abone",
         "Çevrim içi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilisim_teknoloji",
+        "telefon_mobil_terimler"
+      ]
     },
     {
       "id": "telefon_mobil_terimler",
@@ -13445,7 +15279,11 @@
         "Tuş takımı",
         "Ekran"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilisim_teknoloji",
+        "elektronik_cihazlar",
+        "internet_sosyal_medya"
+      ]
     },
     {
       "id": "elektronik_cihazlar",
@@ -13469,7 +15307,12 @@
         "Barkod okuyucu",
         "Amplifikatör"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bilgisayar_donanimi",
+        "bilisim_teknoloji",
+        "ev_aletleri",
+        "telefon_mobil_terimler"
+      ]
     },
     {
       "id": "kara_tasitlari",
@@ -13490,7 +15333,15 @@
         "Midibüs",
         "Panelvan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_tasitlari",
+        "hava_tasitlari",
+        "is_makineleri",
+        "rayli_tasitlar"
+      ],
+      "hardConflicts": [
+        "tasitlar"
+      ]
     },
     {
       "id": "hava_tasitlari",
@@ -13514,7 +15365,13 @@
         "Ambulans uçağı",
         "Tarım uçağı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deniz_tasitlari",
+        "kara_tasitlari"
+      ],
+      "hardConflicts": [
+        "tasitlar"
+      ]
     },
     {
       "id": "deniz_tasitlari",
@@ -13534,7 +15391,13 @@
         "Filika",
         "Balıkçı teknesi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hava_tasitlari",
+        "kara_tasitlari"
+      ],
+      "hardConflicts": [
+        "tasitlar"
+      ]
     },
     {
       "id": "rayli_tasitlar",
@@ -13561,7 +15424,9 @@
         "Yataklı vagon",
         "Yemekli vagon"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kara_tasitlari"
+      ]
     },
     {
       "id": "is_makineleri",
@@ -13591,7 +15456,11 @@
         "Kompresör",
         "Jeneratör"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "aletler",
+        "kara_tasitlari",
+        "tasitlar"
+      ]
     },
     {
       "id": "kimyasal_elementler",
@@ -13610,7 +15479,12 @@
         "Argon",
         "İyot"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "mineraller"
+      ],
+      "hardConflicts": [
+        "metaller"
+      ]
     },
     {
       "id": "astronomi_terimleri",
@@ -13637,7 +15511,10 @@
         "Manyetosfer",
         "Yıldız haritası"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fizik_terimleri",
+        "gok_cisimleri"
+      ]
     },
     {
       "id": "fizik_terimleri",
@@ -13665,7 +15542,11 @@
         "Nötron",
         "Foton"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "astronomi_terimleri",
+        "matematik_terimleri",
+        "olcu_birimleri"
+      ]
     },
     {
       "id": "matematik_terimleri",
@@ -13694,7 +15575,12 @@
         "Türev",
         "İntegral"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fizik_terimleri",
+        "olcu_birimleri",
+        "sekiller_geometri",
+        "yazilim_terimleri"
+      ]
     },
     {
       "id": "olcu_birimleri",
@@ -13720,7 +15606,12 @@
         "Derece",
         "Mol"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eski_olcu_para_birimleri",
+        "fizik_terimleri",
+        "matematik_terimleri",
+        "zaman_birimleri"
+      ]
     },
     {
       "id": "kisilik_ozellikleri",
@@ -13750,7 +15641,12 @@
         "Alçakgönüllü",
         "Vicdanlı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "duygular",
+        "erdemler",
+        "karakter_erdemleri"
+      ]
     },
     {
       "id": "zaman_kavramlari",
@@ -13770,7 +15666,10 @@
         "Süre",
         "Sonsuzluk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kozmoloji_varolus",
+        "zaman_birimleri"
+      ]
     },
     {
       "id": "doga_olaylari_afetler",
@@ -13790,7 +15689,13 @@
         "Kum fırtınası",
         "Çamur akıntısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deprem_sismoloji_terimleri",
+        "hava_olaylari"
+      ],
+      "hardConflicts": [
+        "dogal_afet_turleri"
+      ]
     },
     {
       "id": "antik_medeniyetler",
@@ -13818,7 +15723,12 @@
         "Sasani",
         "Part"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_sehir_devletler",
+        "eski_misir_terimleri",
+        "mezopotamya_uygarliklari",
+        "unlu_imparatorluklar"
+      ]
     },
     {
       "id": "eski_misir_terimleri",
@@ -13847,7 +15757,11 @@
         "Aton",
         "Sistrum"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_medeniyetler",
+        "arkeoloji_terimleri",
+        "hukumdar_unvanlari"
+      ]
     },
     {
       "id": "antik_yunan_mitolojisi",
@@ -13878,7 +15792,17 @@
         "Selene",
         "Eros"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "efsanevi_kahramanlar",
+        "efsanevi_yaratiklar",
+        "mezopotamya_uygarliklari",
+        "mitolojik_yaratiklar",
+        "nordik_mitolojisi",
+        "turk_altay_mitolojisi"
+      ],
+      "hardConflicts": [
+        "roma_mitolojisi"
+      ]
     },
     {
       "id": "roma_mitolojisi",
@@ -13903,7 +15827,15 @@
         "Pomona",
         "Feronia"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "efsanevi_kahramanlar",
+        "mezopotamya_uygarliklari",
+        "nordik_mitolojisi"
+      ],
+      "hardConflicts": [
+        "antik_yunan_mitolojisi",
+        "gok_cisimleri"
+      ]
     },
     {
       "id": "nordik_mitolojisi",
@@ -13935,7 +15867,12 @@
         "Valkyrie",
         "Bifrost"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_yunan_mitolojisi",
+        "mezopotamya_uygarliklari",
+        "roma_mitolojisi",
+        "turk_altay_mitolojisi"
+      ]
     },
     {
       "id": "turk_altay_mitolojisi",
@@ -13966,7 +15903,12 @@
         "Kuyaş",
         "Karakura"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_yunan_mitolojisi",
+        "efsanevi_yaratiklar",
+        "mezopotamya_uygarliklari",
+        "nordik_mitolojisi"
+      ]
     },
     {
       "id": "mezopotamya_uygarliklari",
@@ -13996,7 +15938,14 @@
         "Eridu",
         "Hammurabi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_dunya_sehirleri",
+        "antik_medeniyetler",
+        "antik_yunan_mitolojisi",
+        "nordik_mitolojisi",
+        "roma_mitolojisi",
+        "turk_altay_mitolojisi"
+      ]
     },
     {
       "id": "osmanli_saray_terimleri",
@@ -14028,7 +15977,9 @@
         "Lala",
         "Peyk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "osmanli_unvanlari"
+      ]
     },
     {
       "id": "osmanli_unvanlari",
@@ -14057,7 +16008,10 @@
         "Müsteşar",
         "Müşir"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hukumdar_unvanlari",
+        "osmanli_saray_terimleri"
+      ]
     },
     {
       "id": "tarih_oncesi_caglar",
@@ -14086,7 +16040,12 @@
         "Tunç",
         "Primat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "arkeoloji_terimleri"
+      ],
+      "hardConflicts": [
+        "jeoloji_donemleri"
+      ]
     },
     {
       "id": "unlu_imparatorluklar",
@@ -14113,7 +16072,10 @@
         "Kuşan",
         "Aksum"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_medeniyetler",
+        "antik_sehir_devletler"
+      ]
     },
     {
       "id": "ortacag_terimleri",
@@ -14145,7 +16107,9 @@
         "Angarya",
         "Malikane"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sovalyelik_kale_terimleri"
+      ]
     },
     {
       "id": "sovalyelik_kale_terimleri",
@@ -14174,7 +16138,10 @@
         "Zindan",
         "Kuşatma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ortacag_terimleri",
+        "tarihi_silahlar"
+      ]
     },
     {
       "id": "antik_savaslar",
@@ -14204,8 +16171,7 @@
         "Zela",
         "Munda",
         "Alesia"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "tarihi_silahlar",
@@ -14235,7 +16201,10 @@
         "Gladius",
         "Falçata"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "okculuk_aticilik",
+        "sovalyelik_kale_terimleri"
+      ]
     },
     {
       "id": "eski_meslekler",
@@ -14266,7 +16235,10 @@
         "Nakkaş",
         "Simkeş"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "el_sanatlari",
+        "meslekler"
+      ]
     },
     {
       "id": "tarihi_yapilar_anitlar",
@@ -14295,7 +16267,11 @@
         "Stupa",
         "Külliye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_kentler",
+        "dini_mekanlar",
+        "tarihi_turistik_yerler"
+      ]
     },
     {
       "id": "arkeoloji_terimleri",
@@ -14323,7 +16299,10 @@
         "Kontekst",
         "Numizmatik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eski_misir_terimleri",
+        "tarih_oncesi_caglar"
+      ]
     },
     {
       "id": "efsanevi_kahramanlar",
@@ -14353,7 +16332,12 @@
         "Orfeus",
         "Atalanta"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_yunan_mitolojisi",
+        "efsanevi_yaratiklar",
+        "mitolojik_yaratiklar",
+        "roma_mitolojisi"
+      ]
     },
     {
       "id": "mitolojik_yaratiklar",
@@ -14375,7 +16359,13 @@
         "Hipogrif",
         "Şahmeran"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_yunan_mitolojisi",
+        "efsanevi_kahramanlar"
+      ],
+      "hardConflicts": [
+        "efsanevi_yaratiklar"
+      ]
     },
     {
       "id": "antik_sehir_devletler",
@@ -14398,7 +16388,12 @@
         "Tegea",
         "Korkyra"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "antik_dunya_sehirleri",
+        "antik_kentler",
+        "antik_medeniyetler",
+        "unlu_imparatorluklar"
+      ]
     },
     {
       "id": "hukumdar_unvanlari",
@@ -14424,7 +16419,10 @@
         "Nizam",
         "Hıdiv"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "eski_misir_terimleri",
+        "osmanli_unvanlari"
+      ]
     },
     {
       "id": "tarihi_belgeler_yazitlar",
@@ -14454,8 +16452,7 @@
         "Temessük",
         "Layiha",
         "Buyruldu"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "eski_olcu_para_birimleri",
@@ -14485,7 +16482,10 @@
         "Kantar",
         "Çeki"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bankacilik_para",
+        "olcu_birimleri"
+      ]
     },
     {
       "id": "dini_tarihi_kavramlar",
@@ -14516,7 +16516,12 @@
         "Riyazet",
         "Kefaret"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dini_mekanlar",
+        "ibadet_rituel",
+        "mitolojik_dini_semboller",
+        "ruhsal_kavramlar"
+      ]
     },
     {
       "id": "kesifler_kasifler_donemi",
@@ -14547,8 +16552,7 @@
         "Sefer",
         "Ekvator",
         "Konkistador"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "felsefe_akimlari",
@@ -14579,7 +16583,13 @@
         "Monizm",
         "Sensüalizm"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "din_felsefesi",
+        "epistemoloji_terimleri",
+        "felsefe_kavramlari",
+        "inanc_sistemleri",
+        "siyaset_felsefesi"
+      ]
     },
     {
       "id": "felsefe_kavramlari",
@@ -14611,7 +16621,14 @@
         "Refleksiyon",
         "Öz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "epistemoloji_terimleri",
+        "estetik_kavramlar",
+        "etik_kavramlari",
+        "felsefe_akimlari",
+        "mantik_terimleri",
+        "metafizik_kavramlar"
+      ]
     },
     {
       "id": "mantik_terimleri",
@@ -14643,7 +16660,11 @@
         "Sav",
         "Genelleme"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akil_yurutme",
+        "epistemoloji_terimleri",
+        "felsefe_kavramlari"
+      ]
     },
     {
       "id": "etik_kavramlari",
@@ -14675,7 +16696,11 @@
         "Hakkaniyet",
         "İnsaf"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "erdemler",
+        "felsefe_kavramlari"
+      ]
     },
     {
       "id": "erdemler",
@@ -14706,7 +16731,14 @@
         "Yardımseverlik",
         "Asalet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "etik_kavramlari",
+        "kisilik_ozellikleri"
+      ],
+      "hardConflicts": [
+        "karakter_erdemleri"
+      ]
     },
     {
       "id": "din_felsefesi",
@@ -14737,7 +16769,13 @@
         "İnayet",
         "Uluhiyet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_dinleri",
+        "felsefe_akimlari",
+        "inanc_sistemleri",
+        "metafizik_kavramlar",
+        "ruhsal_kavramlar"
+      ]
     },
     {
       "id": "dunya_dinleri",
@@ -14769,7 +16807,12 @@
         "Yezidilik",
         "Vahhabilik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "din_felsefesi",
+        "dini_mekanlar",
+        "ibadet_rituel",
+        "inanc_sistemleri"
+      ]
     },
     {
       "id": "ibadet_rituel",
@@ -14796,7 +16839,12 @@
         "Niyaz",
         "Ezan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dini_mekanlar",
+        "dini_tarihi_kavramlar",
+        "dunya_dinleri",
+        "tasavvuf_kavramlari"
+      ]
     },
     {
       "id": "dini_mekanlar",
@@ -14822,7 +16870,13 @@
         "Mabet",
         "Şapel"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dini_tarihi_kavramlar",
+        "dunya_dinleri",
+        "ibadet_rituel",
+        "tarihi_turistik_yerler",
+        "tarihi_yapilar_anitlar"
+      ]
     },
     {
       "id": "tasavvuf_kavramlari",
@@ -14852,7 +16906,10 @@
         "Sekr",
         "Sahv"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ibadet_rituel",
+        "metafizik_kavramlar"
+      ]
     },
     {
       "id": "metafizik_kavramlar",
@@ -14883,7 +16940,14 @@
         "Başkalık",
         "Değişmezlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "din_felsefesi",
+        "felsefe_kavramlari",
+        "kozmoloji_varolus",
+        "ruhsal_kavramlar",
+        "soyut_isimler",
+        "tasavvuf_kavramlari"
+      ]
     },
     {
       "id": "estetik_kavramlar",
@@ -14912,7 +16976,10 @@
         "Duyusallık",
         "Çirkinlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "felsefe_kavramlari",
+        "soyut_isimler"
+      ]
     },
     {
       "id": "psikoloji_kavramlari",
@@ -14944,7 +17011,11 @@
         "Kişilik",
         "Arketip"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "duygular",
+        "ruh_sagligi_terimleri",
+        "zihinsel_surecler"
+      ]
     },
     {
       "id": "karakter_erdemleri",
@@ -14976,7 +17047,13 @@
         "Efendilik",
         "Olgunluk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "kisilik_ozellikleri"
+      ],
+      "hardConflicts": [
+        "erdemler"
+      ]
     },
     {
       "id": "duygu_durumlari",
@@ -15001,7 +17078,13 @@
         "Gıpta",
         "Tasa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ruhsal_kavramlar",
+        "soyut_isimler"
+      ],
+      "hardConflicts": [
+        "duygular"
+      ]
     },
     {
       "id": "zihinsel_surecler",
@@ -15032,7 +17115,11 @@
         "Çözümleme",
         "Bireşim"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akil_yurutme",
+        "epistemoloji_terimleri",
+        "psikoloji_kavramlari"
+      ]
     },
     {
       "id": "epistemoloji_terimleri",
@@ -15064,7 +17151,13 @@
         "İrfan",
         "Vukuf"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akil_yurutme",
+        "felsefe_akimlari",
+        "felsefe_kavramlari",
+        "mantik_terimleri",
+        "zihinsel_surecler"
+      ]
     },
     {
       "id": "toplumsal_kavramlar",
@@ -15094,7 +17187,9 @@
         "Bütünleşme",
         "Ayrışma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "siyaset_felsefesi"
+      ]
     },
     {
       "id": "siyaset_felsefesi",
@@ -15126,7 +17221,10 @@
         "İdeoloji",
         "Muhalefet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "felsefe_akimlari",
+        "toplumsal_kavramlar"
+      ]
     },
     {
       "id": "mitolojik_dini_semboller",
@@ -15147,7 +17245,10 @@
         "Serafim",
         "Asa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dini_tarihi_kavramlar",
+        "inanc_sistemleri"
+      ]
     },
     {
       "id": "ruhsal_kavramlar",
@@ -15176,7 +17277,14 @@
         "Kutsallık",
         "Uhrevilik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "din_felsefesi",
+        "dini_tarihi_kavramlar",
+        "duygu_durumlari",
+        "inanc_sistemleri",
+        "kozmoloji_varolus",
+        "metafizik_kavramlar"
+      ]
     },
     {
       "id": "degerler",
@@ -15205,7 +17313,14 @@
         "Centilmenlik",
         "Hürmet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "duygular",
+        "erdemler",
+        "etik_kavramlari",
+        "karakter_erdemleri",
+        "kisilik_ozellikleri",
+        "soyut_isimler"
+      ]
     },
     {
       "id": "soyut_isimler",
@@ -15235,7 +17350,13 @@
         "Berraklık",
         "Bulanıklık"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerler",
+        "duygu_durumlari",
+        "duygular",
+        "estetik_kavramlar",
+        "metafizik_kavramlar"
+      ]
     },
     {
       "id": "akil_yurutme",
@@ -15266,7 +17387,11 @@
         "Düşünüm",
         "Hüküm"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "epistemoloji_terimleri",
+        "mantik_terimleri",
+        "zihinsel_surecler"
+      ]
     },
     {
       "id": "inanc_sistemleri",
@@ -15297,7 +17422,13 @@
         "Fetişizm",
         "Kadercilik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "din_felsefesi",
+        "dunya_dinleri",
+        "felsefe_akimlari",
+        "mitolojik_dini_semboller",
+        "ruhsal_kavramlar"
+      ]
     },
     {
       "id": "kozmoloji_varolus",
@@ -15325,7 +17456,11 @@
         "Nur",
         "Zulmet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "metafizik_kavramlar",
+        "ruhsal_kavramlar",
+        "zaman_kavramlari"
+      ]
     },
     {
       "id": "tip_dallari_uzmanliklar",
@@ -15357,7 +17492,13 @@
         "Androloji",
         "Toksikoloji"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cerrahi_terimler",
+        "dis_sagligi_terimleri",
+        "goz_sagligi_terimleri",
+        "hastane_bolumleri",
+        "saglik_meslekleri"
+      ]
     },
     {
       "id": "hastalik_turleri",
@@ -15389,7 +17530,12 @@
         "Granülomatöz",
         "Prekanseröz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "belirtiler_semptomlar",
+        "bulasici_hastaliklar",
+        "ic_organ_hastaliklari",
+        "ruh_sagligi_terimleri"
+      ]
     },
     {
       "id": "bulasici_hastaliklar",
@@ -15421,7 +17567,12 @@
         "Leptospiroz",
         "Kızıl"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bagisiklik_terimleri",
+        "hastalik_turleri",
+        "ic_organ_hastaliklari",
+        "mikroplar_patojenler"
+      ]
     },
     {
       "id": "ic_organ_hastaliklari",
@@ -15453,7 +17604,11 @@
         "Özofajit",
         "Steatoz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "belirtiler_semptomlar",
+        "bulasici_hastaliklar",
+        "hastalik_turleri"
+      ]
     },
     {
       "id": "belirtiler_semptomlar",
@@ -15485,7 +17640,10 @@
         "Nöbet",
         "Bayılma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hastalik_turleri",
+        "ic_organ_hastaliklari"
+      ]
     },
     {
       "id": "ilac_turleri",
@@ -15516,8 +17674,7 @@
         "Statin",
         "Laksatif",
         "Ekspektoran"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "tibbi_aletler_cihazlar",
@@ -15548,7 +17705,12 @@
         "Küret",
         "Trokar"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cerrahi_terimler",
+        "ilk_yardim_terimleri",
+        "laboratuvar_terimleri",
+        "tibbi_tahliller"
+      ]
     },
     {
       "id": "cerrahi_terimler",
@@ -15580,7 +17742,12 @@
         "Drenaj",
         "Laparoskopi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dogum_kadin_sagligi",
+        "tibbi_aletler_cihazlar",
+        "tibbi_tahliller",
+        "tip_dallari_uzmanliklar"
+      ]
     },
     {
       "id": "anatomi_kemikler",
@@ -15611,7 +17778,11 @@
         "Zigomatik",
         "Sfenoid"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "anatomi_damarlar_sinirler",
+        "anatomi_kaslar",
+        "vucut_organlari"
+      ]
     },
     {
       "id": "anatomi_kaslar",
@@ -15642,7 +17813,12 @@
         "Psoas",
         "Adduktor"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "anatomi_damarlar_sinirler",
+        "anatomi_kemikler",
+        "vucut_organlari",
+        "vucut_sistemleri"
+      ]
     },
     {
       "id": "anatomi_damarlar_sinirler",
@@ -15673,7 +17849,12 @@
         "Ganglion",
         "Pleksus"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "anatomi_kaslar",
+        "anatomi_kemikler",
+        "vucut_organlari",
+        "vucut_sistemleri"
+      ]
     },
     {
       "id": "dis_sagligi_terimleri",
@@ -15704,7 +17885,10 @@
         "Malokluzyon",
         "Damak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "goz_sagligi_terimleri",
+        "tip_dallari_uzmanliklar"
+      ]
     },
     {
       "id": "goz_sagligi_terimleri",
@@ -15735,7 +17919,10 @@
         "Üveit",
         "Ptozis"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dis_sagligi_terimleri",
+        "tip_dallari_uzmanliklar"
+      ]
     },
     {
       "id": "laboratuvar_terimleri",
@@ -15765,7 +17952,10 @@
         "Dilüsyon",
         "Sedimantasyon"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tibbi_aletler_cihazlar",
+        "tibbi_tahliller"
+      ]
     },
     {
       "id": "vitaminler_mineraller",
@@ -15787,7 +17977,9 @@
         "Manganez",
         "Molibden"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "beslenme_diyet_terimleri"
+      ]
     },
     {
       "id": "saglik_meslekleri",
@@ -15817,7 +18009,11 @@
         "Radyolog",
         "Patolog"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hastane_bolumleri",
+        "meslekler",
+        "tip_dallari_uzmanliklar"
+      ]
     },
     {
       "id": "hastane_bolumleri",
@@ -15846,7 +18042,10 @@
         "Bakımevi",
         "Başhekimlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "saglik_meslekleri",
+        "tip_dallari_uzmanliklar"
+      ]
     },
     {
       "id": "ilk_yardim_terimleri",
@@ -15877,7 +18076,9 @@
         "Elevasyon",
         "Flaster"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tibbi_aletler_cihazlar"
+      ]
     },
     {
       "id": "ruh_sagligi_terimleri",
@@ -15908,7 +18109,10 @@
         "Melankoli",
         "Bağımlılık"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hastalik_turleri",
+        "psikoloji_kavramlari"
+      ]
     },
     {
       "id": "beslenme_diyet_terimleri",
@@ -15939,7 +18143,9 @@
         "Emilim",
         "Glisemik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "vitaminler_mineraller"
+      ]
     },
     {
       "id": "mikroplar_patojenler",
@@ -15966,7 +18172,12 @@
         "Lejyonella",
         "Prion"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bagisiklik_terimleri",
+        "bulasici_hastaliklar",
+        "mikroskobik_canlilar",
+        "tek_hucreliler"
+      ]
     },
     {
       "id": "bagisiklik_terimleri",
@@ -15998,7 +18209,10 @@
         "İmmünizasyon",
         "Adjuvan"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bulasici_hastaliklar",
+        "mikroplar_patojenler"
+      ]
     },
     {
       "id": "tibbi_tahliller",
@@ -16030,7 +18244,11 @@
         "Densitometri",
         "Spirometri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cerrahi_terimler",
+        "laboratuvar_terimleri",
+        "tibbi_aletler_cihazlar"
+      ]
     },
     {
       "id": "fizik_tedavi_terimleri",
@@ -16062,7 +18280,9 @@
         "Elektrostimülasyon",
         "Yürüteç"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alternatif_tip_terimleri"
+      ]
     },
     {
       "id": "dogum_kadin_sagligi",
@@ -16094,7 +18314,9 @@
         "Preeklampsi",
         "Lohusa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cerrahi_terimler"
+      ]
     },
     {
       "id": "alternatif_tip_terimleri",
@@ -16123,7 +18345,10 @@
         "Moksa",
         "Müzikterapi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fizik_tedavi_terimleri",
+        "sifali_otlar"
+      ]
     },
     {
       "id": "ekonomi_terimleri",
@@ -16155,7 +18380,14 @@
         "Durgunluk",
         "Marjinalizm"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bankacilik_para",
+        "bankacilik_terimleri",
+        "borsa_yatirim_terimleri",
+        "muhasebe_terimleri",
+        "ticaret_terimleri",
+        "vergi_terimleri"
+      ]
     },
     {
       "id": "borsa_yatirim_terimleri",
@@ -16182,7 +18414,12 @@
         "Varant",
         "Menkul"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bankacilik_para",
+        "bankacilik_terimleri",
+        "ekonomi_terimleri",
+        "kripto_dijital_finans_terimleri"
+      ]
     },
     {
       "id": "bankacilik_terimleri",
@@ -16206,7 +18443,14 @@
         "Provizyon",
         "Faktoring"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "borsa_yatirim_terimleri",
+        "ekonomi_terimleri",
+        "muhasebe_terimleri"
+      ],
+      "hardConflicts": [
+        "bankacilik_para"
+      ]
     },
     {
       "id": "muhasebe_terimleri",
@@ -16236,7 +18480,12 @@
         "Konsolidasyon",
         "İtfa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bankacilik_para",
+        "bankacilik_terimleri",
+        "ekonomi_terimleri",
+        "vergi_terimleri"
+      ]
     },
     {
       "id": "vergi_terimleri",
@@ -16268,7 +18517,10 @@
         "Yoklama",
         "Nispi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekonomi_terimleri",
+        "muhasebe_terimleri"
+      ]
     },
     {
       "id": "ticaret_terimleri",
@@ -16298,7 +18550,11 @@
         "Cari",
         "Peşinat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekonomi_terimleri",
+        "lojistik_tedarik_terimleri",
+        "uluslararasi_ticaret_terimleri"
+      ]
     },
     {
       "id": "pazarlama_terimleri",
@@ -16325,7 +18581,9 @@
         "Deneyim",
         "Görünürlük"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "reklam_medya_is_terimleri"
+      ]
     },
     {
       "id": "insan_kaynaklari_terimleri",
@@ -16353,7 +18611,10 @@
         "Koçluk",
         "Mentorluk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "sendika_calisma_terimleri",
+        "yonetim_terimleri"
+      ]
     },
     {
       "id": "yonetim_terimleri",
@@ -16382,7 +18643,10 @@
         "Departmanlaşma",
         "Yönlendirme"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "girisimcilik_terimleri",
+        "insan_kaynaklari_terimleri"
+      ]
     },
     {
       "id": "sirket_turleri",
@@ -16412,8 +18676,7 @@
         "İmalathane",
         "Federasyon",
         "Konfederasyon"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "hukuk_dallari",
@@ -16439,7 +18702,11 @@
         "Maden",
         "Askeri"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ceza_hukuku_terimleri",
+        "mahkeme_dava_terimleri",
+        "sozlesme_ticaret_hukuku_terimleri"
+      ]
     },
     {
       "id": "mahkeme_dava_terimleri",
@@ -16466,7 +18733,11 @@
         "İtiraz",
         "Haciz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ceza_hukuku_terimleri",
+        "hukuk_dallari",
+        "sozlesme_ticaret_hukuku_terimleri"
+      ]
     },
     {
       "id": "ceza_hukuku_terimleri",
@@ -16497,7 +18768,10 @@
         "İçtima",
         "Mahkumiyet"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hukuk_dallari",
+        "mahkeme_dava_terimleri"
+      ]
     },
     {
       "id": "sozlesme_ticaret_hukuku_terimleri",
@@ -16529,7 +18803,10 @@
         "Protokol",
         "Müeyyide"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hukuk_dallari",
+        "mahkeme_dava_terimleri"
+      ]
     },
     {
       "id": "sigorta_terimleri",
@@ -16560,8 +18837,7 @@
         "Anüite",
         "Koasürans",
         "Dispeç"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "gayrimenkul_terimleri",
@@ -16591,7 +18867,9 @@
         "Dubleks",
         "Gabari"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "emlak_tapu_terimleri"
+      ]
     },
     {
       "id": "lojistik_tedarik_terimleri",
@@ -16621,7 +18899,10 @@
         "Lojistik",
         "Rampa"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ticaret_terimleri",
+        "uluslararasi_ticaret_terimleri"
+      ]
     },
     {
       "id": "is_yeri_unvanlari",
@@ -16651,7 +18932,10 @@
         "Formen",
         "Çırak"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "meslekler",
+        "ofis_rolleri"
+      ]
     },
     {
       "id": "ofis_rolleri",
@@ -16682,7 +18966,10 @@
         "Müfettiş",
         "Mübayaacı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "is_yeri_unvanlari",
+        "meslekler"
+      ]
     },
     {
       "id": "girisimcilik_terimleri",
@@ -16711,7 +18998,9 @@
         "Sermayedar",
         "Çıkış"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "yonetim_terimleri"
+      ]
     },
     {
       "id": "kripto_dijital_finans_terimleri",
@@ -16740,7 +19029,10 @@
         "Anonimlik",
         "Merkeziyetsizlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bankacilik_para",
+        "borsa_yatirim_terimleri"
+      ]
     },
     {
       "id": "uluslararasi_ticaret_terimleri",
@@ -16771,7 +19063,10 @@
         "İhracatçı",
         "İthalatçı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "lojistik_tedarik_terimleri",
+        "ticaret_terimleri"
+      ]
     },
     {
       "id": "emlak_tapu_terimleri",
@@ -16802,7 +19097,9 @@
         "Kamulaştırma",
         "Ecrimisil"
       ],
-      "softConflicts": []
+      "hardConflicts": [
+        "gayrimenkul_terimleri"
+      ]
     },
     {
       "id": "sendika_calisma_terimleri",
@@ -16833,7 +19130,9 @@
         "Analık",
         "Emek"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "insan_kaynaklari_terimleri"
+      ]
     },
     {
       "id": "ihale_kamu_terimleri",
@@ -16863,8 +19162,7 @@
         "Vize",
         "İta",
         "Sarfiyat"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "reklam_medya_is_terimleri",
@@ -16891,7 +19189,10 @@
         "Amblem",
         "Redaksiyon"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gazetecilik_terimleri",
+        "pazarlama_terimleri"
+      ]
     },
     {
       "id": "dunya_dilleri",
@@ -16923,7 +19224,9 @@
         "Bulgarca",
         "Romence"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "alfabe_yazi_sistemleri"
+      ]
     },
     {
       "id": "dilbilgisi_terimleri",
@@ -16946,7 +19249,12 @@
         "Sürerlik",
         "Tezlik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cumle_ogeleri",
+        "dilbilim_terimleri",
+        "ses_bilgisi_terimleri",
+        "sozcuk_turleri"
+      ]
     },
     {
       "id": "sozcuk_turleri",
@@ -16977,7 +19285,10 @@
         "Basit",
         "Fiilimsi"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cumle_ogeleri",
+        "dilbilgisi_terimleri"
+      ]
     },
     {
       "id": "noktalama_isaretleri",
@@ -17007,8 +19318,7 @@
         "Düzeltme işareti",
         "Sıra noktası",
         "Bölü işareti"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "cumle_ogeleri",
@@ -17038,7 +19348,10 @@
         "İsim cümlesi",
         "Ortak öge"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dilbilgisi_terimleri",
+        "sozcuk_turleri"
+      ]
     },
     {
       "id": "edebi_sanatlar",
@@ -17067,7 +19380,12 @@
         "Kat",
         "Leffüneşr"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "retorik_terimleri"
+      ],
+      "hardConflicts": [
+        "soz_sanatlari"
+      ]
     },
     {
       "id": "soz_sanatlari",
@@ -17099,7 +19417,12 @@
         "Tıbak",
         "Tenafür"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "retorik_terimleri"
+      ],
+      "hardConflicts": [
+        "edebi_sanatlar"
+      ]
     },
     {
       "id": "nazim_bicimleri",
@@ -17117,7 +19440,14 @@
         "Terzarima",
         "Triyole"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "divan_edebiyati_terimleri",
+        "edebiyat_turleri",
+        "siir_olcusu_vezin_terimleri"
+      ],
+      "hardConflicts": [
+        "siir_nazim_turleri"
+      ]
     },
     {
       "id": "divan_edebiyati_terimleri",
@@ -17147,7 +19477,12 @@
         "Münacat",
         "Naat"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "halk_edebiyati_terimleri",
+        "nazim_bicimleri",
+        "siir_nazim_turleri",
+        "siir_olcusu_vezin_terimleri"
+      ]
     },
     {
       "id": "halk_edebiyati_terimleri",
@@ -17172,7 +19507,10 @@
         "Kargış",
         "Deme"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "divan_edebiyati_terimleri",
+        "siir_olcusu_vezin_terimleri"
+      ]
     },
     {
       "id": "retorik_terimleri",
@@ -17196,7 +19534,11 @@
         "Antitez",
         "Sentez"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "edebi_sanatlar",
+        "hitabet_terimleri",
+        "soz_sanatlari"
+      ]
     },
     {
       "id": "gazetecilik_terimleri",
@@ -17219,7 +19561,10 @@
         "Deşifre",
         "Nüsha"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kitap_yayin_terimleri",
+        "reklam_medya_is_terimleri"
+      ]
     },
     {
       "id": "kitap_yayin_terimleri",
@@ -17245,7 +19590,10 @@
         "Vinyet",
         "İthaf"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "gazetecilik_terimleri",
+        "kutuphane_terimleri"
+      ]
     },
     {
       "id": "alfabe_yazi_sistemleri",
@@ -17275,7 +19623,9 @@
         "Rika",
         "Talik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_dilleri"
+      ]
     },
     {
       "id": "dilbilim_terimleri",
@@ -17306,7 +19656,11 @@
         "Sözlükbirim",
         "Bükün"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "anlam_bilimi_terimleri",
+        "dilbilgisi_terimleri",
+        "ses_bilgisi_terimleri"
+      ]
     },
     {
       "id": "ceviri_terimleri",
@@ -17330,8 +19684,7 @@
         "Terimce",
         "Çeviribilim",
         "Meal"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "hitabet_terimleri",
@@ -17357,7 +19710,9 @@
         "Panel",
         "Sunum"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "retorik_terimleri"
+      ]
     },
     {
       "id": "deyimler",
@@ -17389,7 +19744,9 @@
         "Gözden düşmek",
         "Ağzı var dili yok"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "atasozleri"
+      ]
     },
     {
       "id": "atasozleri",
@@ -17421,7 +19778,9 @@
         "Gülü seven dikenine katlanır",
         "Boş çuval ayakta durmaz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deyimler"
+      ]
     },
     {
       "id": "iletisim_terimleri",
@@ -17446,8 +19805,7 @@
         "Hedef kitle",
         "Filtreleme",
         "İkna"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "ses_bilgisi_terimleri",
@@ -17477,7 +19835,10 @@
         "Ötümlü",
         "Ötümsüz"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dilbilgisi_terimleri",
+        "dilbilim_terimleri"
+      ]
     },
     {
       "id": "anlam_bilimi_terimleri",
@@ -17508,7 +19869,9 @@
         "Deyimleşme",
         "Adlandırma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dilbilim_terimleri"
+      ]
     },
     {
       "id": "yazim_araclari_terimleri",
@@ -17527,7 +19890,10 @@
         "Kalem ucu",
         "Zamk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "cizim_araclari",
+        "okul_esyalari"
+      ]
     },
     {
       "id": "kutuphane_terimleri",
@@ -17553,7 +19919,9 @@
         "Ciltleme",
         "Abonelik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kitap_yayin_terimleri"
+      ]
     },
     {
       "id": "siir_olcusu_vezin_terimleri",
@@ -17585,7 +19953,11 @@
         "Zengin kafiye",
         "Cinaslı kafiye"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "divan_edebiyati_terimleri",
+        "halk_edebiyati_terimleri",
+        "nazim_bicimleri"
+      ]
     },
     {
       "id": "mineraller",
@@ -17616,7 +19988,13 @@
         "Epidot",
         "Aragonit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "degerli_taslar",
+        "kaya_turleri",
+        "kimyasal_elementler",
+        "maden_cevher_turleri",
+        "metaller"
+      ]
     },
     {
       "id": "kaya_turleri",
@@ -17647,7 +20025,15 @@
         "Websterit",
         "Essexit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "maden_cevher_turleri",
+        "mineraller"
+      ],
+      "hardConflicts": [
+        "metamorfik_kayaclar",
+        "tortul_kayaclar",
+        "volkanik_kayaclar"
+      ]
     },
     {
       "id": "volkanik_kayaclar",
@@ -17678,7 +20064,13 @@
         "Lapilli",
         "Tefra"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "metamorfik_kayaclar",
+        "tortul_kayaclar"
+      ],
+      "hardConflicts": [
+        "kaya_turleri"
+      ]
     },
     {
       "id": "metamorfik_kayaclar",
@@ -17709,7 +20101,13 @@
         "Metakonglomera",
         "Leptinit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "tortul_kayaclar",
+        "volkanik_kayaclar"
+      ],
+      "hardConflicts": [
+        "kaya_turleri"
+      ]
     },
     {
       "id": "tortul_kayaclar",
@@ -17740,7 +20138,13 @@
         "Linyit",
         "Kalkirudit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "metamorfik_kayaclar",
+        "volkanik_kayaclar"
+      ],
+      "hardConflicts": [
+        "kaya_turleri"
+      ]
     },
     {
       "id": "fosil_turleri",
@@ -17766,7 +20170,12 @@
         "Arkeosiyat",
         "Nautiloit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "jeoloji_donemleri"
+      ],
+      "hardConflicts": [
+        "fosil_canlilar"
+      ]
     },
     {
       "id": "toprak_turleri",
@@ -17797,8 +20206,7 @@
         "Nitisol",
         "Luvisol",
         "Kastanozem"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "bulut_turleri",
@@ -17830,7 +20238,10 @@
         "Fibratus",
         "İnkus"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hava_olaylari",
+        "yagis_turleri"
+      ]
     },
     {
       "id": "ruzgar_turleri",
@@ -17861,7 +20272,9 @@
         "Habub",
         "Buran"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "hava_olaylari"
+      ]
     },
     {
       "id": "yagis_turleri",
@@ -17882,7 +20295,9 @@
         "Saçakbuzu",
         "Karörtüsü"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "bulut_turleri"
+      ]
     },
     {
       "id": "atmosfer_katmanlari",
@@ -17912,8 +20327,7 @@
         "Plazmapoz",
         "İyonopoz",
         "Egzobaz"
-      ],
-      "softConflicts": []
+      ]
     },
     {
       "id": "iklim_tipleri",
@@ -17944,7 +20358,9 @@
         "Kserik",
         "Subhumid"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "ekosistem_biyomlar"
+      ]
     },
     {
       "id": "ekosistem_biyomlar",
@@ -17972,7 +20388,10 @@
         "Pelajik",
         "Bentik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "dunya_colleri",
+        "iklim_tipleri"
+      ]
     },
     {
       "id": "yer_sekilleri",
@@ -18001,7 +20420,15 @@
         "Dayk",
         "Sil"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "buzul_terimleri",
+        "col_olusumlari",
+        "kiyi_olusumlari",
+        "magara_olusumlari"
+      ],
+      "hardConflicts": [
+        "cografi_sekiller"
+      ]
     },
     {
       "id": "magara_olusumlari",
@@ -18028,7 +20455,10 @@
         "Aven",
         "Speleotem"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "magaralar",
+        "yer_sekilleri"
+      ]
     },
     {
       "id": "su_dongusu_terimleri",
@@ -18057,7 +20487,10 @@
         "Bazakış",
         "Doygunluk"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akarsu_terimleri",
+        "yeralti_sulari_terimleri"
+      ]
     },
     {
       "id": "deprem_sismoloji_terimleri",
@@ -18088,7 +20521,10 @@
         "Deformasyon",
         "Gerilme"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "doga_olaylari_afetler",
+        "dogal_afet_turleri"
+      ]
     },
     {
       "id": "buzul_terimleri",
@@ -18118,7 +20554,10 @@
         "Buzuldili",
         "Karsınırı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kiyi_olusumlari",
+        "yer_sekilleri"
+      ]
     },
     {
       "id": "col_olusumlari",
@@ -18149,7 +20588,10 @@
         "Nebka",
         "Bolson"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kiyi_olusumlari",
+        "yer_sekilleri"
+      ]
     },
     {
       "id": "kiyi_olusumlari",
@@ -18179,7 +20621,12 @@
         "Aşınmadüzlüğü",
         "Berm"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "buzul_terimleri",
+        "cografi_sekiller",
+        "col_olusumlari",
+        "yer_sekilleri"
+      ]
     },
     {
       "id": "akarsu_terimleri",
@@ -18208,7 +20655,10 @@
         "Yukarıçığır",
         "Ortaçığır"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "su_dongusu_terimleri",
+        "yeralti_sulari_terimleri"
+      ]
     },
     {
       "id": "jeoloji_donemleri",
@@ -18236,7 +20686,12 @@
         "Hadeyan",
         "Paleozoik"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "fosil_turleri"
+      ],
+      "hardConflicts": [
+        "tarih_oncesi_caglar"
+      ]
     },
     {
       "id": "maden_cevher_turleri",
@@ -18267,7 +20722,11 @@
         "Nikelin",
         "Garniyerit"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "kaya_turleri",
+        "metaller",
+        "mineraller"
+      ]
     },
     {
       "id": "dogal_afet_turleri",
@@ -18289,7 +20748,13 @@
         "Kayadüşmesi",
         "Çamurakıntısı"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "deprem_sismoloji_terimleri",
+        "hava_olaylari"
+      ],
+      "hardConflicts": [
+        "doga_olaylari_afetler"
+      ]
     },
     {
       "id": "yeralti_sulari_terimleri",
@@ -18321,7 +20786,10 @@
         "Karstiksu",
         "Tuzlanma"
       ],
-      "softConflicts": []
+      "softConflicts": [
+        "akarsu_terimleri",
+        "su_dongusu_terimleri"
+      ]
     }
   ]
 }

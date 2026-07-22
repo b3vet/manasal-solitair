@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:manasal_solitaire/content/levels_repository.dart';
 import 'package:manasal_solitaire/content/loader.dart';
 import 'package:manasal_solitaire/content/validator.dart';
+import 'package:manasal_solitaire/generator/curve.dart';
 import 'package:manasal_solitaire/generator/solver.dart';
 
 void main() {
@@ -42,5 +43,78 @@ void main() {
         reason: 'Bölüm ${levels[i].id}: çözüm limiti aşıyor',
       );
     }
+  });
+
+  group('belirsizlik koruması (iki katman)', () {
+    final pool = Loader.parse(
+      File('assets/content/categories.json').readAsStringSync(),
+    );
+    final levels = LevelsRepository.parse(
+      File('assets/levels/levels.json').readAsStringSync(),
+    );
+    final hardMap = ContentValidator.symmetricHardConflicts(pool);
+    final softMap = ContentValidator.symmetricSoftConflicts(pool);
+
+    test('hiçbir bölümde HARD çakışan kategori çifti yok', () {
+      final bad = <String>[];
+      for (final lvl in levels) {
+        final ids = lvl.categories.map((c) => c.categoryId).toList();
+        for (var i = 0; i < ids.length; i++) {
+          for (var j = i + 1; j < ids.length; j++) {
+            if ((hardMap[ids[i]] ?? const {}).contains(ids[j])) {
+              bad.add('Bölüm ${lvl.id}: ${ids[i]} ↔ ${ids[j]}');
+            }
+          }
+        }
+      }
+      expect(bad, isEmpty, reason: bad.join('\n'));
+    });
+
+    test(
+      'adil aralık bölümlerinde (allowSoftConflict=false) SOFT çakışma yok',
+      () {
+        final bad = <String>[];
+        for (final lvl in levels) {
+          // Yüksek seviye (allowSoftConflict) soft çakışmaya serbest.
+          if (curveFor(lvl.id).allowSoftConflict) continue;
+          final ids = lvl.categories.map((c) => c.categoryId).toList();
+          for (var i = 0; i < ids.length; i++) {
+            for (var j = i + 1; j < ids.length; j++) {
+              if ((softMap[ids[i]] ?? const {}).contains(ids[j])) {
+                bad.add('Bölüm ${lvl.id}: ${ids[i]} ↔ ${ids[j]}');
+              }
+            }
+          }
+        }
+        expect(bad, isEmpty, reason: bad.join('\n'));
+      },
+    );
+
+    test('bir çift hem hard hem soft değil (hard baskın)', () {
+      final bad = <String>[];
+      for (final c in pool.categories) {
+        final both = c.softConflicts.toSet().intersection(
+          c.hardConflicts.toSet(),
+        );
+        for (final b in both) {
+          bad.add('${c.id} ↔ $b');
+        }
+      }
+      expect(bad, isEmpty, reason: bad.join('\n'));
+    });
+
+    test('çakışma kapsamı anlamlı (denetim sonrası)', () {
+      final withEdge = pool.categories
+          .where(
+            (c) => c.softConflicts.isNotEmpty || c.hardConflicts.isNotEmpty,
+          )
+          .length;
+      // Denetim öncesi 32/640 idi; sonrası belirgin biçimde yüksek olmalı.
+      expect(
+        withEdge,
+        greaterThanOrEqualTo(80),
+        reason: 'yalnızca $withEdge kategoride çakışma kenarı var',
+      );
+    });
   });
 }

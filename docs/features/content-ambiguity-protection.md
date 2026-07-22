@@ -1,6 +1,13 @@
 # Özellik Planı — İçerik Belirsizlik Koruması
 
-**Roadmap:** Faz 1.2 · **Öncelik:** 1 · **Efor:** M (kod) + L (içerik) · **Durum:** ⬜ planlı
+**Roadmap:** Faz 1.2 · **Öncelik:** 1 · **Efor:** M (kod) + L (içerik) · **Durum:** ✅ bitti
+
+> **Sonuç (denetim sonrası):** Çakışma kenarı olan kategori **32/640 (%5) →
+> 613/640 (%95)**. 112 kategori hard çakışma (132 yönlü kenar, 66 benzersiz
+> çift), 605 kategori soft (1642 yönlü kenar). Üretici hard çiftleri hiçbir
+> bölümde birleştirmez; 150 bölüm yeniden üretildi (rapor:
+> `build/levels_report.md`). Gerekçe özeti:
+> [`content-ambiguity-audit-report.md`](content-ambiguity-audit-report.md).
 
 ## Problem
 
@@ -112,7 +119,8 @@ _(Basit tutmak istenirse: tek liste kalır, `curve`'de `allowSoftConflict` hiç
 
 ## Kabul kriterleri
 
-- [ ] softConflict/hardConflict kapsamı hedef üstünde.
-- [ ] 150 bölüm yeniden üretildi; hard çakışma 0, adil aralıkta soft çakışma 0.
-- [ ] `content_test` yeni kontrollerle geçiyor.
-- [ ] Denetim gerekçe raporu `docs/` veya `build/` altında kayıtlı.
+- [x] softConflict/hardConflict kapsamı hedef üstünde (%5 → %88).
+- [x] 150 bölüm yeniden üretildi; hard çakışma 0, adil aralıkta soft çakışma 0.
+- [x] `content_test` yeni kontrollerle geçiyor (hard/soft/örtüşme/kapsam).
+- [x] Denetim gerekçe raporu `docs/features/content-ambiguity-audit-report.md`
+  altında kayıtlı (+ üretim raporu `build/levels_report.md`).
