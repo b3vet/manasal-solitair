@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manasal Solitaire — Anlamı benzer kelimeleri topla</title>
+<meta name="description" content="Klondike solitaire'in Türkçe kelime hâli. Kartlar renkle değil, anlamla eşleşir — okur, düşünür, toplarsın. 150 bölüm, 640+ kategori.">
+<!--
+  Statik tanıtım sayfası. Ayrı bir boş repoda gh-pages köküne konur.
+  Kendine yeter (gömülü CSS, harici bağımlılık yok). Kilim teması.
+  BURAYA_* yer tutucularını yayından önce doldur.
+-->
+<style>
+  :root{
+    --bg:#F4E9D7; --surface:#FFFCF3; --ink:#342519; --ink-soft:#93806A;
+    --accent:#B14E24; --accent-deep:#8F3E1B; --accent-soft:#F2DCC9;
+    --indigo:#2E3854; --gold:#C79A3D; --line:#E0D0B2; --on-accent:#FFF8EC;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1A120D; --surface:#2C211A; --ink:#F0E9D8; --ink-soft:#A8917A;
+      --accent:#DD7E4B; --accent-deep:#B14E24; --accent-soft:#3B2314;
+      --indigo:#39466B; --gold:#C79A3D; --line:#433C2E; --on-accent:#241206;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{font-family:Georgia,"Times New Roman",serif}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  /* Kilim bordür bandı */
+  .kilim-band{height:12px;width:100%;
+    background:
+      repeating-linear-gradient(90deg,
+        var(--accent) 0 16px, transparent 16px 22px,
+        var(--indigo) 22px 38px, transparent 38px 44px);
+  }
+  header.hero{text-align:center;padding:64px 0 40px}
+  .logo{width:96px;height:132px;margin:0 auto 26px;position:relative;filter:drop-shadow(0 6px 14px rgba(42,27,14,.25))}
+  h1{font-size:clamp(2.4rem,7vw,3.6rem);line-height:1.02;letter-spacing:-.5px;font-weight:700}
+  .tagline{color:var(--ink-soft);font-size:1.15rem;margin-top:12px}
+  .cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:30px}
+  .btn{display:inline-block;padding:15px 30px;border-radius:999px;font-weight:800;
+    font-size:1.05rem;text-decoration:none;transition:transform .1s ease}
+  .btn:active{transform:translateY(1px)}
+  .btn.primary{background:var(--accent);color:var(--on-accent)}
+  .btn.ghost{background:var(--surface);color:var(--ink);border:2px solid var(--line)}
+  .badges{margin-top:18px;color:var(--ink-soft);font-size:.9rem}
+  section{padding:44px 0}
+  h2{font-size:1.6rem;margin-bottom:8px;text-align:center}
+  .lead{text-align:center;color:var(--ink-soft);max-width:620px;margin:0 auto 28px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px}
+  .card h3{font-size:1.15rem;margin-bottom:6px}
+  .card p{color:var(--ink-soft);font-size:.98rem}
+  .diamond{display:inline-block;width:26px;height:26px;background:var(--gold);
+    transform:rotate(45deg);border-radius:5px;margin-bottom:14px}
+  .rule{background:var(--indigo);color:#F0E9D8;border-radius:24px;padding:34px 28px;text-align:center}
+  .rule .serif{font-size:1.5rem}
+  .rule p{color:rgba(240,233,216,.82);margin-top:10px}
+  footer{padding:40px 0 60px;text-align:center;color:var(--ink-soft);font-size:.92rem}
+  footer a{color:var(--accent);text-decoration:none;font-weight:600}
+  footer a:hover{text-decoration:underline}
+  .shot-note{background:var(--accent-soft);border:1px dashed var(--accent);border-radius:16px;
+    padding:20px;text-align:center;color:var(--accent-deep);font-size:.95rem}
+</style>
+</head>
+<body>
+<div class="kilim-band"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <!-- Kilim marka logosu (inline SVG: indigo kart + terrakotta crosshatch + altın elmas) -->
+    <svg class="logo" viewBox="0 0 120 165" xmlns="http://www.w3.org/2000/svg" aria-label="Manasal Solitaire">
+      <rect x="34" y="20" width="70" height="120" rx="12" fill="var(--indigo)" stroke="var(--on-accent)" stroke-width="4" transform="rotate(8 69 80)"/>
+      <g transform="rotate(-6 46 78)">
+        <rect x="12" y="18" width="70" height="120" rx="12" fill="var(--accent-deep)" stroke="var(--on-accent)" stroke-width="4"/>
+        <clipPath id="c"><rect x="12" y="18" width="70" height="120" rx="12"/></clipPath>
+        <g clip-path="url(#c)" fill="var(--accent)">
+          <rect x="12" y="18" width="70" height="120" opacity="0"/>
+          <path d="M12 40 L34 18 L56 40 L34 62 Z M56 40 L78 18 L100 40 L78 62 Z M34 62 L56 84 L34 106 L12 84 Z M78 62 L100 84 L78 106 L56 84 Z M56 84 L78 106 L56 128 L34 106 Z"/>
+        </g>
+        <path d="M47 78 L47 78 L47 78 Z" />
+        <g transform="translate(47 78)">
+          <rect x="-14" y="-14" width="28" height="28" fill="#F7ECD8" transform="rotate(45)"/>
+          <rect x="-10" y="-10" width="20" height="20" fill="var(--gold)" transform="rotate(45)"/>
+        </g>
+      </g>
+    </svg>
+    <h1 class="serif">Manasal Solitaire</h1>
+    <p class="tagline">Anlamı benzer kelimeleri topla</p>
+    <div class="cta">
+      <!-- Oynanabilir web sürümü (ana repo gh-pages). Mağaza linklerini yayınlayınca ekle. -->
+      <a class="btn primary" href="https://b3vet.github.io/manasal-solitair/">Tarayıcıda Oyna</a>
+      <a class="btn ghost" href="#nasil">Nasıl oynanır?</a>
+    </div>
+    <div class="badges">App Store &amp; Google Play — yakında</div>
+  </header>
+</div>
+
+<section id="nasil">
+  <div class="wrap">
+    <div class="rule">
+      <div class="serif">Kartlar renkle değil, anlamla eşleşir.</div>
+      <p>Kartlarda kategori yazmaz. Hangi kelimenin nereye ait olduğunu okur,
+      düşünür ve toplarsın. Oyunun çekirdeği budur.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="serif">Neden Manasal?</h2>
+    <p class="lead">Sakin ama zihinsel olarak tatmin edici bir kelime-solitaire.</p>
+    <div class="grid">
+      <div class="card"><span class="diamond"></span><h3>150 bölüm</h3><p>Elle dengelenmiş, gitgide artan zorluk. İlk bölümler öğretir, sonrası düşündürür.</p></div>
+      <div class="card"><span class="diamond"></span><h3>640+ kategori</h3><p>13.000'den fazla Türkçe kelime; ardışık bölümlerde tekrar neredeyse yok.</p></div>
+      <div class="card"><span class="diamond"></span><h3>Çevrimdışı & müzik dostu</h3><p>İnternetsiz oynanır; oyunun sesi Spotify'ını kesmez, arkada müziğin çalmaya devam eder.</p></div>
+      <div class="card"><span class="diamond"></span><h3>Kilim tasarımı</h3><p>Çağdaş Anadolu esintisi: sıcak, okunur, zarif. Açık ve koyu tema.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shot-note">
+      📸 Ekran görüntüleri buraya — ana ekran, oyun tahtası, bölümler patikası.
+      <br>(Yayından önce <code>&lt;img&gt;</code> ile ekle.)
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Manasal Solitaire</strong> — Türkçe kelime solitaire'i.</p>
+    <p style="margin-top:8px">
+      <a href="privacy.html">Gizlilik Politikası</a> ·
+      <a href="mailto:BURAYA_ILETISIM_EPOSTASI">İletişim</a>
+    </p>
+    <p style="margin-top:12px;opacity:.7">© 2026 BURAYA_SAHIP_ADI</p>
+  </div>
+</footer>
+<div class="kilim-band"></div>
+</body>
+</html>
