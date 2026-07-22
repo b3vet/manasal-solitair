@@ -32,6 +32,10 @@ class MetaService extends ChangeNotifier {
     required this.tutorialCompleted,
     required int? resumeLevelId,
     required List<Move> resumeMoves,
+    required int dailyStreak,
+    required int dailyBestStreak,
+    required int? lastDailyDayIndex,
+    required Map<int, int> dailyStars,
   }) : _store = store,
        _highestCompleted = highestCompleted,
        _completed = completed,
@@ -42,7 +46,11 @@ class MetaService extends ChangeNotifier {
        _achievements = achievements,
        _streak = streakFirstTry,
        _resumeLevelId = resumeLevelId,
-       _resumeMoves = resumeMoves;
+       _resumeMoves = resumeMoves,
+       _dailyStreak = dailyStreak,
+       _dailyBestStreak = dailyBestStreak,
+       _lastDailyDayIndex = lastDailyDayIndex,
+       _dailyStars = dailyStars;
 
   final Store _store;
 
@@ -65,6 +73,12 @@ class MetaService extends ChangeNotifier {
 
   int? _resumeLevelId;
   List<Move> _resumeMoves;
+
+  // Günlük bulmaca (kampanyadan bağımsız).
+  int _dailyStreak;
+  int _dailyBestStreak;
+  int? _lastDailyDayIndex;
+  final Map<int, int> _dailyStars; // günIndex → yıldız
 
   // --- Getter'lar ---
   int get highestCompleted => _highestCompleted;
@@ -192,6 +206,48 @@ class MetaService extends ChangeNotifier {
     _store.remove('resume');
   }
 
+  // --- Günlük bulmaca ---
+
+  int get dailyStreak => _dailyStreak;
+  int get dailyBestStreak => _dailyBestStreak;
+  int? get lastDailyDayIndex => _lastDailyDayIndex;
+
+  /// O günün kazanılan yıldızı (0 = oynanmadı).
+  int dailyStars(int dayIndex) => _dailyStars[dayIndex] ?? 0;
+  bool isDailyPlayed(int dayIndex) => _dailyStars.containsKey(dayIndex);
+
+  /// Bir günlük bulmaca kazanıldığında çağrılır. Seri (streak) mantığı: art arda
+  /// günlerde oynamak seriyi artırır; bir gün atlamak sıfırlar; aynı günü tekrar
+  /// oynamak seriyi DEĞİŞTİRMEZ (yalnız daha iyi yıldızı saklar).
+  void recordDaily(int dayIndex, int stars) {
+    final firstToday = !_dailyStars.containsKey(dayIndex);
+    // Daha iyi sonucu sakla (ilk oyunda her hâlükârda yaz).
+    final prev = _dailyStars[dayIndex] ?? 0;
+    if (firstToday || stars > prev) _dailyStars[dayIndex] = stars;
+
+    if (firstToday) {
+      if (_lastDailyDayIndex != null && _lastDailyDayIndex == dayIndex - 1) {
+        _dailyStreak += 1;
+      } else if (_lastDailyDayIndex != dayIndex) {
+        _dailyStreak = 1;
+      }
+      _lastDailyDayIndex = dayIndex;
+      if (_dailyStreak > _dailyBestStreak) _dailyBestStreak = _dailyStreak;
+    }
+    _saveDaily();
+    notifyListeners();
+  }
+
+  void _saveDaily() {
+    _store.writeDoc('daily', {
+      'schemaVersion': 1,
+      'streak': _dailyStreak,
+      'bestStreak': _dailyBestStreak,
+      'lastDayIndex': _lastDailyDayIndex,
+      'stars': _dailyStars.map((k, v) => MapEntry('$k', v)),
+    });
+  }
+
   // --- Ayarlar ---
 
   void updateSettings({
@@ -256,6 +312,7 @@ class MetaService extends ChangeNotifier {
     final ach = store.readDoc('achievements');
     final settings = store.readDoc('settings');
     final resume = store.readDoc('resume');
+    final daily = store.readDoc('daily');
 
     // İlk açılış: cüzdan yoksa "Hoş geldin" 3 kredi.
     final firstLaunch = wallet == null;
@@ -297,6 +354,13 @@ class MetaService extends ChangeNotifier {
       tutorialCompleted: (settings?['tutorialCompleted'] as bool?) ?? false,
       resumeLevelId: resumeLevelId,
       resumeMoves: resumeMoves,
+      dailyStreak: (daily?['streak'] as int?) ?? 0,
+      dailyBestStreak: (daily?['bestStreak'] as int?) ?? 0,
+      lastDailyDayIndex: daily?['lastDayIndex'] as int?,
+      dailyStars: {
+        for (final e in (daily?['stars'] as Map? ?? const {}).entries)
+          int.parse(e.key as String): e.value as int,
+      },
     );
 
     if (firstLaunch) {
