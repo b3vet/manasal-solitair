@@ -3,10 +3,13 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../engine/engine.dart';
 import '../analytics/analytics_service.dart';
 import '../audio/sound_service.dart';
+import '../daily/daily_share.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
 import '../theme/app_theme.dart';
@@ -25,7 +28,25 @@ class GameScreen extends StatefulWidget {
     required this.startIndex,
     this.resumeMoves,
     this.tutorial = false,
-  });
+  }) : daily = false,
+       dailyLevel = null,
+       dailyDayIndex = 0,
+       dailyDate = null;
+
+  /// Günlük bulmaca modu: tek, güne özel bölüm (kampanya kredi/ilerlemesinden
+  /// bağımsız; kazanınca seri + paylaşım).
+  const GameScreen.daily({
+    super.key,
+    required LevelDef level,
+    required this.dailyDayIndex,
+    required DateTime date,
+  }) : levels = const [],
+       startIndex = 0,
+       resumeMoves = null,
+       tutorial = false,
+       daily = true,
+       dailyLevel = level,
+       dailyDate = date;
 
   final List<LevelDef> levels;
   final int startIndex;
@@ -33,6 +54,12 @@ class GameScreen extends StatefulWidget {
 
   /// İlk kez oynayana etkileşimli öğreticiyle başla (gerçek bölümden önce).
   final bool tutorial;
+
+  /// Günlük bulmaca modu ve verisi.
+  final bool daily;
+  final LevelDef? dailyLevel;
+  final int dailyDayIndex;
+  final DateTime? dailyDate;
 
   @override
   State<GameScreen> createState() => _GameScreenState();
@@ -51,6 +78,12 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     super.initState();
     _index = widget.startIndex;
+    if (widget.daily) {
+      // Günlük: tek bölüm, resume/öğretici yok. Kredi/ilerleme baypas edilir.
+      _controller = GameController(widget.dailyLevel!);
+      _controller.addListener(_onChange);
+      return;
+    }
     if (widget.tutorial) {
       // Öğretici bölümü (id 0) — gerçek ilerlemeye sayılmaz, analitik yok.
       _controller = GameController(tutorialLevel());
@@ -114,7 +147,8 @@ class _GameScreenState extends State<GameScreen> {
       if (mounted) setState(() {});
       return;
     }
-    if (s.isPlaying) {
+    // Günlükte devam-etme kaydı yok (kampanyadan bağımsız, tek oturum).
+    if (!widget.daily && s.isPlaying) {
       // Devam etme: her hamlede durumu (replay) kaydet.
       _meta.saveResume(s.level.id, _controller.moves);
     }
@@ -128,6 +162,10 @@ class _GameScreenState extends State<GameScreen> {
   Future<void> _showEnd() async {
     final s = _controller.state;
     SoundService.instance.play(s.isWon ? Sfx.win : Sfx.lose);
+    if (widget.daily) {
+      await _showDailyEnd(s);
+      return;
+    }
     GameDialogAction? action;
     if (s.isWon) {
       final awarded = _meta.recordWin(
@@ -189,6 +227,61 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
+  Future<void> _showDailyEnd(GameState s) async {
+    final ml = s.level.moveLimit;
+    GameDialogAction? action;
+    if (s.isWon) {
+      _meta.recordDaily(widget.dailyDayIndex, starRating(s.movesLeft, ml));
+      action = await showDailyWinDialog(
+        context,
+        movesLeft: s.movesLeft,
+        moveLimit: ml,
+        movesUsed: ml - s.movesLeft,
+        dateLabel: dailyDateLabel(widget.dailyDate!),
+        streak: _meta.dailyStreak,
+        onShare: _shareDaily,
+      );
+    } else {
+      action = await showLoseDialog(
+        context,
+        status: s.status,
+        canUndoContinue: false, // günlükte kredi/undo yok
+        movesLeft: s.movesLeft,
+      );
+    }
+    if (!mounted) return;
+    _handlingEnd = false;
+    switch (action) {
+      case GameDialogAction.retry:
+        setState(_controller.restart);
+      case GameDialogAction.levels:
+      case null:
+        if (mounted) Navigator.of(context).pop();
+      case GameDialogAction.next:
+      case GameDialogAction.undoContinue:
+      case GameDialogAction.resume:
+        if (mounted) Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _shareDaily() async {
+    final s = _controller.state;
+    final ml = s.level.moveLimit;
+    final text = dailyShareText(
+      date: widget.dailyDate!,
+      stars: starRating(s.movesLeft, ml),
+      movesUsed: ml - s.movesLeft,
+      streak: _meta.dailyStreak,
+    );
+    try {
+      await Share.share(text);
+    } catch (_) {
+      // Web Share yoksa panoya kopyala.
+      await Clipboard.setData(ClipboardData(text: text));
+      if (mounted) _snack('Sonuç panoya kopyalandı');
+    }
+  }
+
   void _loadIndex(int i, {required bool freshAttempt}) {
     if (i < 0 || i >= widget.levels.length) return;
     setState(() {
@@ -237,7 +330,7 @@ class _GameScreenState extends State<GameScreen> {
     final s = _controller.state;
     final action = await showPauseDialog(
       context,
-      levelId: s.level.id,
+      levelId: widget.daily ? 0 : s.level.id,
       movesLeft: s.movesLeft,
       completed: s.completedCount,
       totalCategories: s.totalCategories,
@@ -284,6 +377,13 @@ class _GameScreenState extends State<GameScreen> {
             ),
             if (_tutorial != null)
               _TutorialBar(onSkip: () => _tutorial!.skip(), colors: colors)
+            else if (widget.daily)
+              // Günlük: undo/ipucu yok (adil, güç-artırıcısız); yalnız menü.
+              _DailyBar(
+                dateLabel: dailyDateLabel(widget.dailyDate!),
+                onMenu: _pause,
+                colors: colors,
+              )
             else
               BottomBar(
                 levelId: _controller.state.level.id,
@@ -338,6 +438,46 @@ class _TutorialBar extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Günlük bulmaca alt çubuğu: tarih + menü (undo/ipucu yok — adil, tek oturum).
+class _DailyBar extends StatelessWidget {
+  const _DailyBar({
+    required this.dateLabel,
+    required this.onMenu,
+    required this.colors,
+  });
+  final String dateLabel;
+  final VoidCallback onMenu;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+      child: Row(
+        children: [
+          Icon(Icons.today_rounded, size: 20, color: colors.accent),
+          const SizedBox(width: 8),
+          Text(
+            'Günlük Bulmaca · $dateLabel',
+            style: TextStyle(
+              color: colors.inkSoft,
+              fontFamily: Fonts.sans,
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: onMenu,
+            icon: Icon(Icons.menu_rounded, color: colors.ink),
+            tooltip: 'Menü',
           ),
         ],
       ),

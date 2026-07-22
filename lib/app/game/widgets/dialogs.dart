@@ -189,6 +189,108 @@ Future<GameDialogAction?> showLoseDialog(
   );
 }
 
+/// Günlük bulmaca kazanma diyaloğu: yıldız + hamle + seri + "Paylaş".
+/// [onShare] diyaloğu KAPATMAZ (paylaşım sayfasını açar); "Kapat" ile çıkılır.
+Future<GameDialogAction?> showDailyWinDialog(
+  BuildContext context, {
+  required int movesLeft,
+  required int moveLimit,
+  required int movesUsed,
+  required String dateLabel,
+  required int streak,
+  required VoidCallback onShare,
+}) {
+  return _sheet<GameDialogAction>(
+    context,
+    child: DailyWinContent(
+      movesLeft: movesLeft,
+      moveLimit: moveLimit,
+      movesUsed: movesUsed,
+      dateLabel: dateLabel,
+      streak: streak,
+      onShare: onShare,
+      onClose: () => Navigator.pop(context, GameDialogAction.levels),
+    ),
+  );
+}
+
+/// Günlük kazanma gövdesi — modal'dan ayrık (görsel test edilebilir).
+class DailyWinContent extends StatelessWidget {
+  const DailyWinContent({
+    super.key,
+    required this.movesLeft,
+    required this.moveLimit,
+    required this.movesUsed,
+    required this.dateLabel,
+    required this.streak,
+    this.onShare,
+    this.onClose,
+  });
+
+  final int movesLeft;
+  final int moveLimit;
+  final int movesUsed;
+  final String dateLabel;
+  final int streak;
+  final VoidCallback? onShare;
+  final VoidCallback? onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    final stars = starRating(movesLeft, moveLimit);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _Stars(earned: stars, colors: colors),
+        const SizedBox(height: 14),
+        _Title('Tebrikler!', colors),
+        const SizedBox(height: 4),
+        _Subtitle('Günlük Bulmaca · $dateLabel', colors),
+        if (streak >= 1) ...[
+          const SizedBox(height: 10),
+          _StreakChip(streak, colors),
+        ],
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            Expanded(
+              child: _StatTile(
+                value: '$movesUsed',
+                label: 'HAMLE',
+                bg: colors.surfaceAlt,
+                valueColor: colors.ink,
+                colors: colors,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _StatTile(
+                value: '$stars/3',
+                label: 'YILDIZ',
+                bg: colors.accentSoft,
+                valueColor: colors.accent,
+                colors: colors,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        _PrimaryButton(
+          label: 'Paylaş',
+          colors: colors,
+          onTap: () => onShare?.call(),
+        ),
+        _SecondaryButton(
+          label: 'Kapat',
+          colors: colors,
+          onTap: () => onClose?.call(),
+        ),
+      ],
+    );
+  }
+}
+
 Future<GameDialogAction?> showPauseDialog(
   BuildContext context, {
   int levelId = 0,
@@ -358,6 +460,44 @@ class _Nudge extends StatelessWidget {
           fontSize: 12.5,
           fontWeight: FontWeight.w700,
         ),
+      ),
+    );
+  }
+}
+
+/// Günlük seri rozeti ("🔥 N günlük seri").
+class _StreakChip extends StatelessWidget {
+  const _StreakChip(this.streak, this.colors);
+  final int streak;
+  final GameColors colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+      decoration: BoxDecoration(
+        color: colors.gold.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(Dim.pill),
+        border: Border.all(color: colors.gold.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.local_fire_department_rounded,
+            size: 18,
+            color: colors.gold,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            '$streak günlük seri',
+            style: TextStyle(
+              color: colors.ink,
+              fontSize: 13.5,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
       ),
     );
   }

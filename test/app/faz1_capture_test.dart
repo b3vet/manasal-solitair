@@ -154,6 +154,32 @@ void main() {
       await _capture(tester, _rootKey, e.key);
     }
 
+    // --- Günlük kazanma diyaloğu (yıldız + seri + paylaş) ---
+    await tester.pumpWidget(
+      _wrap(
+        Builder(
+          builder: (context) => Scaffold(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            body: const Align(
+              alignment: Alignment.bottomCenter,
+              child: KilimSheet(
+                child: DailyWinContent(
+                  movesLeft: 11,
+                  moveLimit: 24,
+                  movesUsed: 13,
+                  dateLabel: '22 Tem',
+                  streak: 7,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 900));
+    await _capture(tester, _rootKey, 'daily_win');
+
     // --- Etkileşimli öğretici bindirmesi (ilk adım) ---
     final tutGame = GameController(tutorialLevel());
     final tut = TutorialController(game: tutGame, onComplete: () {});

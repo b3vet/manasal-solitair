@@ -33,6 +33,10 @@ class DailyService {
     return DateTime.utc(u.year, u.month, u.day).difference(_epoch).inDays;
   }
 
+  /// Gün indeksinin UTC tarihi (paylaşım etiketi için).
+  static DateTime dateForDayIndex(int dayIndex) =>
+      _epoch.add(Duration(days: dayIndex));
+
   /// Gün indeksinden bölüm tohumu (kampanya tohum uzayından ayrık).
   static int dailySeed(int dayIndex) => 0x0DA1 * 1000003 + dayIndex * 97;
 

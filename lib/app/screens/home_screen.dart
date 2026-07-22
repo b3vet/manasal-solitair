@@ -2,10 +2,14 @@
 /// kredi cüzdanı, ilerleme.
 library;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
+import '../../content/category_pool.dart';
 import '../../engine/level.dart';
 import '../../engine/scoring.dart';
+import '../daily/daily_service.dart';
 import '../data/asset_data.dart';
 import '../game/game_screen.dart';
 import '../meta/meta_scope.dart';
@@ -27,6 +31,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final Future<List<LevelDef>> _levelsFuture = AssetData.loadLevels();
+  late final Future<CategoryPool> _poolFuture = AssetData.loadPool();
+  DailyService? _daily;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     levels.length,
                     totalStars,
                   ),
+                  const SizedBox(height: 16),
+                  _dailyCard(context, colors, meta),
                   const Spacer(flex: 4),
                   if (hasResume)
                     _primaryButton(
@@ -242,6 +250,147 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  Widget _dailyCard(BuildContext context, GameColors colors, MetaService meta) {
+    final today = DailyService.dayIndexUtc(DateTime.now());
+    final played = meta.isDailyPlayed(today);
+    final stars = meta.dailyStars(today);
+    final streak = meta.dailyStreak;
+    return Material(
+      color: colors.categoryFace,
+      borderRadius: BorderRadius.circular(Dim.panelRadius),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(Dim.panelRadius),
+        onTap: () => _openDaily(context, today),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Icon(Icons.today_rounded, color: colors.categoryText, size: 26),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Günlük Bulmaca',
+                      style: TextStyle(
+                        color: colors.categoryText,
+                        fontFamily: Fonts.serif,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      played ? 'Bugün tamamlandı' : 'Bugünün bulmacasını çöz',
+                      style: TextStyle(
+                        color: colors.categoryText.withValues(alpha: 0.75),
+                        fontSize: 12.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (played)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    for (var i = 0; i < 3; i++)
+                      Icon(
+                        i < stars
+                            ? Icons.star_rounded
+                            : Icons.star_outline_rounded,
+                        size: 16,
+                        color: colors.gold,
+                      ),
+                  ],
+                )
+              else if (streak > 0)
+                _streakBadge(colors, streak)
+              else
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: colors.categoryText.withValues(alpha: 0.7),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _streakBadge(GameColors colors, int streak) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: colors.gold.withValues(alpha: 0.22),
+        borderRadius: BorderRadius.circular(Dim.pill),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.local_fire_department_rounded,
+            size: 15,
+            color: colors.gold,
+          ),
+          const SizedBox(width: 3),
+          Text(
+            '$streak',
+            style: TextStyle(
+              color: colors.categoryText,
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _openDaily(BuildContext context, int dayIndex) async {
+    final colors = context.colors;
+    // Bilinçli olarak await edilmez: spinner üretim sırasında görünür, sonra
+    // elle pop edilir.
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) =>
+            Center(child: CircularProgressIndicator(color: colors.accent)),
+      ),
+    );
+    try {
+      final pool = await _poolFuture;
+      _daily ??= DailyService(pool);
+      // Üretim (çözücü doğrulamalı) kısa sürer; spinner bu sırada görünür.
+      final level = _daily!.forDayIndex(dayIndex);
+      if (!context.mounted) return;
+      Navigator.of(context).pop(); // spinner'ı kapat
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => GameScreen.daily(
+            level: level,
+            dailyDayIndex: dayIndex,
+            date: DailyService.dateForDayIndex(dayIndex),
+          ),
+        ),
+      );
+    } catch (e) {
+      if (context.mounted) {
+        Navigator.of(context).pop(); // spinner
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text('Günlük bulmaca yüklenemedi'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+      }
+    }
   }
 
   void _openGame(BuildContext context, List<LevelDef> levels, int index) {
