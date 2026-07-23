@@ -150,14 +150,20 @@ Faz 1 ile paralel — devreye alınması önerilir.)_
 - **Yaklaşım:** FlutterFire; `analytics_service.dart` sarmalayıcı; ayarlarda
   opt-out; gizlilik politikasında ifşa. **Firebase hesabı/anahtarı senden.**
 
-### 3.2 Gizlilik politikası + tanıtım sitesi ⬜ · efor: S
-📄 `docs/site/privacy.html`, `docs/site/index.html`
+### 3.2 Gizlilik politikası + tanıtım sitesi 🔨 · efor: S
+📄 `docs/site/privacy.html`, `docs/site/index.html`, `docs/site/README.md`
 
 - **Ne:** App Store'un istediği gizlilik politikası URL'si + basit tanıtım
   sayfası.
 - **Neden:** Politika olmadan App Store reddeder; tanıtım sayfası "arkadaşına
   link at" için en düşük sürtünme.
-- **Yaklaşım:** Statik HTML (bu repoda `docs/site/`), ayrı boş repoda gh-pages.
+- **Yapıldı (içerik):** İki statik, kendine yeten HTML (Kilim, açık/koyu) hazır
+  ve güncel — tanıtımda günlük bulmaca + adil eşleştirme kartları; gizlilik
+  politikası GERÇEK duruma göre (web'de veri yok, mobilde anonim analitik +
+  opt-out). Sahip/iletişim/tarih dolduruldu. `README.md` yayın adımlarını anlatır.
+- **Bekleyen (kullanıcı):** Ayrı bir repoya alıp gh-pages'e yayınla; çıkan
+  gizlilik URL'sini mağaza + `app-store-metadata.md`'ye yaz. Ekran görüntülerini
+  ekle. **(Kullanıcı kendi yapacak — bu depodan deploy edilmez.)**
 
 ### 3.3 Lisans ✅ — FSL-1.1-MIT seçildi ve eklendi
 📄 [`docs/licensing.md`](licensing.md)

@@ -5,10 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gizlilik Politikası — Manasal Solitaire</title>
 <!--
-  EDİTÖR NOTU: Bu politika bugünkü duruma (analitik YOK, tüm veri cihazda yerel)
-  göre yazıldı. Analitik/Crashlytics (Faz 3.1) yayınlanan sürüme girerse
-  "Analitik ve çökme raporu" bölümünü aktif hâle getir ve App Store/Play
-  gizlilik etiketlerini buna göre doldur. BURAYA_* yer tutucularını doldur.
+  Bu politika güncel duruma göredir: WEB sürümü hiçbir veri toplamaz; MOBİL
+  (iOS/Android) uygulama opsiyonel, ANONİM kullanım/çökme istatistikleri
+  toplar (Firebase Analytics + Crashlytics), Ayarlar'dan kapatılabilir.
 -->
 <style>
   :root{
@@ -40,54 +39,59 @@
 <main>
 <header>
   <h1>Gizlilik Politikası</h1>
-  <div class="updated">Manasal Solitaire · Son güncelleme: BURAYA_TARİH</div>
+  <div class="updated">Manasal Solitaire · Son güncelleme: 23 Temmuz 2026</div>
 </header>
 
-<p>Bu politika, <strong>Manasal Solitaire</strong> uygulamasının kişisel
-verilerinizle ilişkisini açıklar. Kısacası: <strong>uygulama sizinle ilgili
-kişisel veri toplamaz ve bir sunucuya göndermez.</strong></p>
+<p>Bu politika, <strong>Manasal Solitaire</strong> uygulamasının verilerinizle
+ilişkisini açıklar. Kısacası: <strong>kişisel kimlik veriniz (ad, e-posta,
+konum) toplanmaz.</strong> Tarayıcı (web) sürümü hiçbir veri toplamaz; mobil
+uygulama yalnızca <strong>opsiyonel, anonim</strong> kullanım/çökme
+istatistikleri toplar ve bunu <strong>kapatabilirsiniz</strong>.</p>
 
-<h2>1. Topladığımız veriler</h2>
+<h2>1. Cihazınızda yerel kalan veriler</h2>
 <div class="box">
-  <p><strong>Şu an hiçbir kişisel veri toplanmaz.</strong> Oyun ilerlemeniz
-  (tamamlanan bölümler, krediler, başarımlar), ayarlarınız (ses, titreşim, tema)
-  ve devam kaydınız <strong>yalnızca cihazınızda yerel olarak</strong> saklanır
-  (cihaz depolaması / SharedPreferences). Bu veriler bize veya üçüncü taraflara
-  iletilmez.</p>
+  <p>Oyun ilerlemeniz (tamamlanan bölümler, yıldızlar, krediler, başarımlar),
+  günlük bulmaca seriniz, ayarlarınız (ses, titreşim, tema) ve devam kaydınız
+  <strong>yalnızca cihazınızda yerel olarak</strong> saklanır (cihaz depolaması
+  / SharedPreferences). Bu veriler bir sunucuya gönderilmez, hesabınız yoktur.</p>
 </div>
 
-<h2>2. Analitik ve çökme raporu <span class="soft">(yalnızca ileride
-eklenirse)</span></h2>
-<p class="soft">Uygulamanın gelecekteki bir sürümü, oyunu iyileştirmek için
-<em>anonim</em> kullanım istatistikleri ve çökme raporları toplayabilir
-(Google Firebase Analytics &amp; Crashlytics). Bu devreye girerse:</p>
-<ul class="soft">
-  <li>Toplanan veri anonimdir; adınız, e-postanız veya konumunuz toplanmaz.</li>
-  <li>Örnek olaylar: hangi bölümün oynandığı/tamamlandığı, uygulama çökmesi.</li>
-  <li>Ayarlar'dan <strong>analitiği kapatabilirsiniz</strong>.</li>
-  <li>Bu bölüm ancak ilgili sürüm yayınlandığında geçerli olur; o sürümde bu
-  politika ve mağaza gizlilik etiketleri güncellenecektir.</li>
+<h2>2. Anonim analitik ve çökme raporu <span class="soft">(mobil, opsiyonel)</span></h2>
+<p>Mobil uygulama (iOS/Android), oyunu iyileştirmek için <em>anonim</em> kullanım
+istatistikleri ve çökme raporları toplar (Google Firebase Analytics &amp;
+Crashlytics):</p>
+<ul>
+  <li>Toplanan veri anonimdir; <strong>adınız, e-postanız veya konumunuz
+  toplanmaz</strong>.</li>
+  <li>Örnek olaylar: hangi bölümün başlatıldığı/tamamlandığı, ipucu/geri-al
+  kullanımı, uygulama çökmesi ve teknik tanılama.</li>
+  <li>Ayarlar → <strong>"Kullanım verisi"</strong> anahtarıyla bunu istediğiniz
+  zaman <strong>kapatabilirsiniz</strong> (opt-out).</li>
+  <li><strong>Tarayıcı (web) sürümünde analitik yoktur</strong> — hiçbir olay
+  toplanmaz veya gönderilmez.</li>
 </ul>
 
 <h2>3. Üçüncü taraflar</h2>
-<p>Şu anki sürüm hiçbir üçüncü taraf servisiyle veri paylaşmaz. (Analitik
-eklenirse: Google Firebase — kendi
-<a href="https://firebase.google.com/support/privacy">gizlilik koşulları</a>
-geçerlidir.)</p>
+<p>Mobil analitik/çökme raporu için <strong>Google Firebase</strong> kullanılır;
+kendi
+<a href="https://firebase.google.com/support/privacy">gizlilik koşulları</a> ve
+<a href="https://policies.google.com/privacy">Google Gizlilik Politikası</a>
+geçerlidir. Bunun dışında hiçbir üçüncü tarafla veri paylaşılmaz. Reklam yoktur.</p>
 
 <h2>4. Yerel veriler ve silme</h2>
 <p>Cihazınızdaki tüm oyun verisi uygulamayla birlikte kalır. Uygulamayı
 sildiğinizde bu veriler de silinir. Ayrı bir hesap veya bulut yedeği yoktur.</p>
 
 <h2>5. Çocuklar</h2>
-<p>Uygulama her yaşa uygundur (4+) ve bilerek çocuklardan kişisel veri
-toplamaz. Kişisel veri toplanmadığından çocuklar için ek bir risk oluşmaz.</p>
+<p>Uygulama her yaşa uygundur (4+) ve bilerek çocuklardan kişisel veri toplamaz.
+Kişisel kimlik verisi toplanmaz; yalnızca anonim ve kapatılabilir teknik
+istatistikler söz konusudur.</p>
 
 <h2>6. Haklarınız</h2>
-<p>Kişisel veri işlemediğimiz için tarafımızda erişilecek, düzeltilecek veya
-silinecek bir veriniz bulunmaz. Cihazınızdaki yerel veriyi dilediğinizde
-uygulamayı silerek temizleyebilirsiniz. (KVKK / GDPR kapsamındaki haklarınız
-saklıdır.)</p>
+<p>Kişisel kimlik veriniz işlenmediğinden tarafımızda size ait erişilecek,
+düzeltilecek veya silinecek bir veri bulunmaz. Anonim analitiği Ayarlar'dan
+kapatabilir, cihazınızdaki yerel veriyi uygulamayı silerek temizleyebilirsiniz.
+(KVKK / GDPR kapsamındaki haklarınız saklıdır.)</p>
 
 <h2>7. Değişiklikler</h2>
 <p>Bu politika güncellenebilir; önemli değişikliklerde yukarıdaki "Son
@@ -95,9 +99,9 @@ güncelleme" tarihi değişir ve gerekiyorsa uygulama içinde bilgilendirilirsin
 
 <h2>8. İletişim</h2>
 <p>Sorularınız için:
-<a href="mailto:BURAYA_ILETISIM_EPOSTASI">BURAYA_ILETISIM_EPOSTASI</a></p>
+<a href="mailto:berkeucvet@gmail.com">berkeucvet@gmail.com</a></p>
 
-<footer>© 2026 BURAYA_SAHIP_ADI · <a href="index.html">Ana sayfa</a></footer>
+<footer>© 2026 Berke Üçvet · <a href="index.html">Ana sayfa</a></footer>
 </main>
 </body>
 </html>

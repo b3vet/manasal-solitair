@@ -47,10 +47,10 @@
 **URL'ler:**
 | Alan | Değer |
 |---|---|
-| Destek URL | _(gh-pages site)_ |
-| Pazarlama URL | _(gh-pages `index.html`)_ |
-| Gizlilik politikası URL | _(gh-pages `privacy.html`)_ · **App Store zorunlu** |
-| Telif | © 2026 _(sahip adı)_ |
+| Destek URL | `docs/site/index.html` hazır — kullanıcı ayrı repoya alıp yayınlayacak |
+| Pazarlama URL | `docs/site/index.html` (aynı) |
+| Gizlilik politikası URL | `docs/site/privacy.html` hazır — yayınlanınca URL buraya · **App Store zorunlu** |
+| Telif | © 2026 Berke Üçvet |
 
 ## 3. Görsel varlıklar (checklist)
 
