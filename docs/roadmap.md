@@ -109,12 +109,16 @@ Oyuncuyu geri getiren ve kendiliğinden yayan özellikler.
   günlük kazanma diyaloğunda "Paylaş" butonu. (Analitik `share` olayı: Faz 3.1
   sonrası.)
 
-### 2.3 İstatistik ekranı ⬜ · efor: S–M
-- **Ne:** Kazanma oranı, ortalama hamle, en uzun seri, tamamlanan kategori,
-  toplam yıldız.
+### 2.3 İstatistik ekranı ✅ · efor: S–M
+📄 [`docs/features/stats-screen.md`](features/stats-screen.md)
+
+- **Ne:** Tamamlanan bölüm, toplam yıldız, kategori, verimli bölüm; günlük seri/
+  en iyi seri/oynanan gün/3-yıldız; kredi.
 - **Neden:** İlerleme hissi + oyuncunun kendini ölçmesi.
-- **Yaklaşım:** Meta'da zaten var olan verilerden türet; gerekirse birkaç sayaç
-  ekle (oynanan/kazanılan bölüm). Yeni `StatsScreen` (Kilim stili).
+- **Yapıldı:** `StatsScreen` (Kilim, bölümlü ızgara) mevcut meta verisinden
+  türetir (yeni kalıcı durum yok; yalnız 2 getter). Ana ekran "İstatistik"
+  bağlantısı. Test: `stats_test` + görsel `stats`.
+- **Not:** Kazanma oranı için oynanan/kazanılan sayacı ileride eklenebilir.
 
 ### 2.4 Oyun modları ⬜ · efor: M
 - **Ne:** Rahat/sonsuz mod (hamle limitsiz, öğrenmek/dinlenmek için), zorlu mod.

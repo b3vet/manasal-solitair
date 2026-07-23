@@ -216,6 +216,10 @@ class MetaService extends ChangeNotifier {
   int dailyStars(int dayIndex) => _dailyStars[dayIndex] ?? 0;
   bool isDailyPlayed(int dayIndex) => _dailyStars.containsKey(dayIndex);
 
+  /// İstatistik türetmeleri (yeni durum tutmaz).
+  int get dailyPlayedCount => _dailyStars.length;
+  int get dailyThreeStarCount => _dailyStars.values.where((s) => s == 3).length;
+
   /// Bir günlük bulmaca kazanıldığında çağrılır. Seri (streak) mantığı: art arda
   /// günlerde oynamak seriyi artırır; bir gün atlamak sıfırlar; aynı günü tekrar
   /// oynamak seriyi DEĞİŞTİRMEZ (yalnız daha iyi yıldızı saklar).

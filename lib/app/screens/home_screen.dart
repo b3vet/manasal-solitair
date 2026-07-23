@@ -21,6 +21,7 @@ import 'achievements_screen.dart';
 import 'how_to_play_screen.dart';
 import 'levels_screen.dart';
 import 'settings_screen.dart';
+import 'stats_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -158,8 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 14),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       _link(context, 'Nasıl Oynanır', () {
                         Navigator.of(context).push(
@@ -173,6 +175,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
                             builder: (_) => const AchievementsScreen(),
+                          ),
+                        );
+                      }),
+                      _dot(colors),
+                      _link(context, 'İstatistik', () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<void>(
+                            builder: (_) => StatsScreen(levels: levels),
                           ),
                         );
                       }),

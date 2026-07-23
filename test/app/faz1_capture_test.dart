@@ -17,8 +17,13 @@ import 'package:manasal_solitaire/app/game/game_controller.dart';
 import 'package:manasal_solitaire/app/game/tutorial.dart';
 import 'package:manasal_solitaire/app/game/tutorial_level.dart';
 import 'package:manasal_solitaire/app/game/widgets/dialogs.dart';
+import 'package:manasal_solitaire/app/meta/meta_scope.dart';
+import 'package:manasal_solitaire/app/meta/meta_service.dart';
+import 'package:manasal_solitaire/app/screens/stats_screen.dart';
 import 'package:manasal_solitaire/app/theme/app_theme.dart';
 import 'package:manasal_solitaire/engine/engine.dart';
+import 'package:manasal_solitaire/persistence/store.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> _loadFonts() async {
   Future<ByteData> read(String p) async =>
@@ -211,5 +216,50 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
     await _capture(tester, _rootKey, 'hud_star_goal');
+
+    // --- İstatistik ekranı (örnek ilerlemeyle) ---
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final meta = MetaService.load(Store(prefs));
+    final statLevels = <LevelDef>[
+      for (var i = 1; i <= 40; i++)
+        LevelDef(
+          id: i,
+          seed: 0,
+          columns: const [],
+          stock: const [],
+          categories: const [
+            LevelCategory(categoryId: 'c', name: 'C', totalWords: 4),
+          ],
+          moveLimit: 20,
+        ),
+    ];
+    for (var i = 1; i <= 37; i++) {
+      meta.recordWin(
+        levelId: i,
+        movesLeft: i % 3 == 0 ? 12 : 6,
+        moveLimit: 20,
+        categoriesInLevel: 4,
+        firstTry: true,
+      );
+    }
+    for (final d in [10, 11, 12, 13, 14, 16, 17]) {
+      meta.recordDaily(d, d.isEven ? 3 : 2);
+    }
+    await tester.pumpWidget(
+      RepaintBoundary(
+        key: _rootKey,
+        child: MetaScope(
+          service: meta,
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light(),
+            home: StatsScreen(levels: statLevels),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await _capture(tester, _rootKey, 'stats');
   });
 }
