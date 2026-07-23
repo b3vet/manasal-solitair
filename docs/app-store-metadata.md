@@ -82,10 +82,11 @@ Analitik (Faz 3.1) eklendiğinde doldur:
 | 1.1.0 | 5 | 2026-07 | ✅ web | Yeni: adım adım öğretici, yıldız hedefleri ve kazanma kutlaması, daha adil kategori eşleştirme. | yok |
 | 1.2.0 | 6 | 2026-07 | ✅ web | Yeni: Günlük Bulmaca — her gün yeni bir bölüm, günlük seri (🔥) ve spoiler'sız sonuç paylaşımı. | yok |
 | 1.3.0 | 7 | 2026-07 | ✅ web | Yeni: İstatistik ekranı — ilerleme, yıldız, günlük seri ve daha fazlası tek bakışta. | yok |
+| 1.3.1 | 8 | 2026-07 | ✅ web | İçerik cilası: yinelenen kategoriler birleştirildi, bölümler yeniden dengelendi. | yok |
 
 <!--
 Sonraki sürümler için şablon satırı:
-| 1.4.0 | 8 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
+| 1.4.0 | 9 | YYYY-AA-GG | ⬜ | <kullanıcıya görünen değişiklik özeti> | <değişen metadata alanları veya "yok"> |
 -->
 
 ### Sürüm notları (dahili ayrıntı)
@@ -116,6 +117,11 @@ Sonraki sürümler için şablon satırı:
 - Kampanya (bölüm/yıldız/kategori/verimli), günlük (seri/en iyi/oynanan/3-yıldız)
   ve cüzdan özetleri; mevcut meta verisinden türetilir (yeni durum yok).
 - Ana ekran "İstatistik" bağlantısı.
+
+**1.3.1 (build 8) — İçerik cilası: dedup**
+- Denetimin bulduğu 10 yinelenen kategori çifti birleştirildi (categories.json
+  v4, havuz 640 → 630); kelimeler tek kategoride toplandı, çakışma kenarları
+  yönlendirildi. 150 bölüm yeniden üretildi (0 hard / adil aralıkta 0 soft).
 
 ---
 

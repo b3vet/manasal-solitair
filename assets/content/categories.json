@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "categories": [
     {
       "id": "meyveler",
@@ -643,16 +643,31 @@
         "Sevinç",
         "Tiksinti",
         "Şükran",
-        "Cesaret"
+        "Cesaret",
+        "Efkar",
+        "Keder",
+        "Istırap",
+        "Burukluk",
+        "Hasret",
+        "Nostalji",
+        "Mahcubiyet",
+        "Hicap",
+        "Kıvanç",
+        "Coşku",
+        "Galeyan",
+        "Hınç",
+        "Kin",
+        "Garez",
+        "Haset",
+        "Gıpta",
+        "Tasa"
       ],
       "softConflicts": [
         "degerler",
         "kisilik_ozellikleri",
         "psikoloji_kavramlari",
+        "ruhsal_kavramlar",
         "soyut_isimler"
-      ],
-      "hardConflicts": [
-        "duygu_durumlari"
       ]
     },
     {
@@ -980,7 +995,6 @@
       ],
       "softConflicts": [
         "bulut_turleri",
-        "cografi_sekiller",
         "doga_olaylari_afetler",
         "dogal_afet_turleri",
         "gok_cisimleri",
@@ -1046,18 +1060,36 @@
         "Koy",
         "Akarsu",
         "Kıta",
-        "Zirve"
+        "Zirve",
+        "Peribacası",
+        "Kırgıbayır",
+        "Mesa",
+        "Büt",
+        "İnselberg",
+        "Kuesta",
+        "Horst",
+        "Graben",
+        "Obruk",
+        "Dolin",
+        "Uvala",
+        "Polye",
+        "Lapya",
+        "Düden",
+        "Maar",
+        "Kaldera",
+        "Krater",
+        "Lakolit",
+        "Batolit",
+        "Dayk",
+        "Sil"
       ],
       "softConflicts": [
+        "buzul_terimleri",
+        "col_olusumlari",
         "daglar",
         "deniz_canlilari",
         "denizler_okyanuslar",
-        "dunya_nehirleri",
-        "hava_olaylari",
-        "kiyi_olusumlari"
-      ],
-      "hardConflicts": [
-        "yer_sekilleri"
+        "dunya_nehirleri"
       ]
     },
     {
@@ -1268,18 +1300,25 @@
         "Bering denizi",
         "Tasman denizi",
         "Norveç denizi",
-        "Sarı deniz"
+        "Sarı deniz",
+        "Pasifik Okyanusu",
+        "Atlas Okyanusu",
+        "Kuzey Buz Denizi",
+        "Güney Okyanusu",
+        "Arap Denizi",
+        "Mercan Denizi",
+        "Doğu Çin Denizi",
+        "Güney Çin Denizi",
+        "Ohotsk Denizi",
+        "Adriyatik Denizi"
       ],
       "softConflicts": [
+        "bogazlar_kanallar",
         "cografi_sekiller",
         "deniz_canlilari",
         "dunya_golleri",
         "dunya_nehirleri",
-        "korfezler",
-        "korfezler_bogazlar"
-      ],
-      "hardConflicts": [
-        "okyanuslar_denizler"
+        "korfezler"
       ]
     },
     {
@@ -1346,15 +1385,26 @@
         "Gulyabani",
         "Şahmaran",
         "Kraken",
-        "Yeti"
+        "Yeti",
+        "Satir",
+        "Siren",
+        "Harpi",
+        "Kerberos",
+        "Pegasus",
+        "Basilisk",
+        "Kiklop",
+        "Gorgon",
+        "İfrit",
+        "Golem",
+        "Lamia",
+        "Mantikor",
+        "Hipogrif",
+        "Şahmeran"
       ],
       "softConflicts": [
         "antik_yunan_mitolojisi",
         "efsanevi_kahramanlar",
         "turk_altay_mitolojisi"
-      ],
-      "hardConflicts": [
-        "mitolojik_yaratiklar"
       ]
     },
     {
@@ -1585,7 +1635,23 @@
         "Kasa",
         "Bütçe",
         "Maaş",
-        "Vergi"
+        "Vergi",
+        "Havale",
+        "Reeskont",
+        "Munzam",
+        "Kefil",
+        "Kefalet",
+        "Vadesiz",
+        "Anapara",
+        "Taksit",
+        "Gecikme",
+        "Kredibilite",
+        "Kambiyo",
+        "Dekont",
+        "Virman",
+        "Disponibilite",
+        "Provizyon",
+        "Faktoring"
       ],
       "softConflicts": [
         "borsa_yatirim_terimleri",
@@ -1593,9 +1659,6 @@
         "eski_olcu_para_birimleri",
         "kripto_dijital_finans_terimleri",
         "muhasebe_terimleri"
-      ],
-      "hardConflicts": [
-        "bankacilik_terimleri"
       ]
     },
     {
@@ -2796,14 +2859,23 @@
         "Entelodon",
         "Hyaenodon",
         "Diprotodon",
-        "Kısa yüzlü ayı"
+        "Kısa yüzlü ayı",
+        "Smilodon",
+        "Megateryum",
+        "Elasmoteryum",
+        "Doedikurus",
+        "Andrevsarkus",
+        "Paraseratoryum",
+        "Bazilozor",
+        "Uintateryum",
+        "Megaloseros",
+        "Amerika aslanı",
+        "Dire kurt",
+        "Kolomb mamutu"
       ],
       "softConflicts": [
         "buzul_cagi_hayvanlari",
         "fosil_canlilar"
-      ],
-      "hardConflicts": [
-        "soyu_tukenmis_memeliler_2"
       ]
     },
     {
@@ -3630,14 +3702,24 @@
         "Bataklık kaplumbağası",
         "Çöl kaplumbağası",
         "Fil kaplumbağası",
-        "Leopar kaplumbağası"
+        "Leopar kaplumbağası",
+        "İribaş deniz kaplumbağası",
+        "Kemp kaplumbağası",
+        "Yassı kaplumbağa",
+        "Kızılyanaklı su kaplumbağası",
+        "Sarıyanaklı su kaplumbağası",
+        "Yılanboyunlu kaplumbağa",
+        "Boyalı kaplumbağa",
+        "Nehir kaplumbağası",
+        "Elmas sırtlı kaplumbağa",
+        "Kutu kaplumbağa",
+        "Timsah gagalı kaplumbağa"
       ],
       "softConflicts": [
         "timsahgiller"
       ],
       "hardConflicts": [
-        "deniz_surungenleri",
-        "kaplumbaga_turleri_2"
+        "deniz_surungenleri"
       ]
     },
     {
@@ -3705,8 +3787,7 @@
         "timsahgiller"
       ],
       "hardConflicts": [
-        "kaplumbaga_turleri",
-        "kaplumbaga_turleri_2"
+        "kaplumbaga_turleri"
       ]
     },
     {
@@ -4370,28 +4451,6 @@
       "softConflicts": [
         "tropik_resif_baliklari",
         "tuzlusu_baliklari"
-      ]
-    },
-    {
-      "id": "kaplumbaga_turleri_2",
-      "name": "Kaplumbağa türleri",
-      "difficulty": 2,
-      "words": [
-        "İribaş deniz kaplumbağası",
-        "Kemp kaplumbağası",
-        "Yassı kaplumbağa",
-        "Kızılyanaklı su kaplumbağası",
-        "Sarıyanaklı su kaplumbağası",
-        "Yılanboyunlu kaplumbağa",
-        "Boyalı kaplumbağa",
-        "Nehir kaplumbağası",
-        "Elmas sırtlı kaplumbağa",
-        "Kutu kaplumbağa",
-        "Timsah gagalı kaplumbağa"
-      ],
-      "hardConflicts": [
-        "deniz_surungenleri",
-        "kaplumbaga_turleri"
       ]
     },
     {
@@ -5631,31 +5690,6 @@
       ]
     },
     {
-      "id": "soyu_tukenmis_memeliler_2",
-      "name": "Soyu tükenmiş memeliler",
-      "difficulty": 2,
-      "words": [
-        "Smilodon",
-        "Megateryum",
-        "Elasmoteryum",
-        "Doedikurus",
-        "Andrevsarkus",
-        "Paraseratoryum",
-        "Bazilozor",
-        "Uintateryum",
-        "Megaloseros",
-        "Amerika aslanı",
-        "Dire kurt",
-        "Kolomb mamutu"
-      ],
-      "softConflicts": [
-        "buzul_cagi_hayvanlari"
-      ],
-      "hardConflicts": [
-        "soyu_tukenmis_memeliler"
-      ]
-    },
-    {
       "id": "buzul_cagi_hayvanlari",
       "name": "Buzul çağı hayvanları",
       "difficulty": 2,
@@ -5679,8 +5713,7 @@
         "Bozkır mamutu"
       ],
       "softConflicts": [
-        "soyu_tukenmis_memeliler",
-        "soyu_tukenmis_memeliler_2"
+        "soyu_tukenmis_memeliler"
       ]
     },
     {
@@ -5916,15 +5949,30 @@
         "Karnıkara",
         "Çalı",
         "Yakutiye",
-        "Elkıt"
+        "Elkıt",
+        "Çalıfasulyesi",
+        "Sırıkfasulyesi",
+        "Horozfasulyesi",
+        "Şekerfasulye",
+        "Boncukfasulye",
+        "Battalfasulye",
+        "Oturakfasulye",
+        "Maraşfasulyesi",
+        "Yeşilfasulye",
+        "Sarıfasulye",
+        "Morfasulye",
+        "Bodurfasulye",
+        "Kınalıfasulye",
+        "Sıçandişi",
+        "Kalifasulye",
+        "Yaprakfasulye",
+        "İspir",
+        "Değirmenfasulyesi"
       ],
       "softConflicts": [
         "baklagil_taneleri",
         "baklagiller",
         "nohut_cesitleri"
-      ],
-      "hardConflicts": [
-        "fasulye_cesitleri_2"
       ]
     },
     {
@@ -6670,7 +6718,6 @@
         "baklagil",
         "baklagil_taneleri",
         "fasulye_cesitleri",
-        "fasulye_cesitleri_2",
         "filizlenmis_tohumlar",
         "kuruyemisler"
       ]
@@ -7073,38 +7120,6 @@
       ]
     },
     {
-      "id": "fasulye_cesitleri_2",
-      "name": "Fasulye çeşitleri",
-      "difficulty": 2,
-      "words": [
-        "Çalıfasulyesi",
-        "Sırıkfasulyesi",
-        "Horozfasulyesi",
-        "Şekerfasulye",
-        "Boncukfasulye",
-        "Battalfasulye",
-        "Oturakfasulye",
-        "Maraşfasulyesi",
-        "Yeşilfasulye",
-        "Sarıfasulye",
-        "Morfasulye",
-        "Bodurfasulye",
-        "Kınalıfasulye",
-        "Sıçandişi",
-        "Kalifasulye",
-        "Yaprakfasulye",
-        "İspir",
-        "Değirmenfasulyesi"
-      ],
-      "softConflicts": [
-        "baklagil_taneleri",
-        "baklagiller"
-      ],
-      "hardConflicts": [
-        "fasulye_cesitleri"
-      ]
-    },
-    {
       "id": "baklagil_taneleri",
       "name": "Baklagil taneleri",
       "difficulty": 2,
@@ -7127,7 +7142,6 @@
       "softConflicts": [
         "baklagiller",
         "fasulye_cesitleri",
-        "fasulye_cesitleri_2",
         "mercimek_cesitleri"
       ]
     },
@@ -7864,7 +7878,6 @@
         "aperatif",
         "ordovr_baslangiclar",
         "salata_cesitleri",
-        "salata_cesitleri_2",
         "vejetaryen_yemekler",
         "zeytinyagli"
       ]
@@ -8590,13 +8603,29 @@
         "Nohut salatası",
         "Domates salatası",
         "Karışık salata",
-        "Kereviz salatası"
+        "Kereviz salatası",
+        "Sezar salata",
+        "Cobb salata",
+        "Yunan salata",
+        "Coleslaw",
+        "Tabule",
+        "Waldorf salata",
+        "Niçoise",
+        "Panzanella",
+        "Fattuş",
+        "Poke bowl",
+        "Som tam",
+        "Rus salata",
+        "Makarna salatası",
+        "Kinoa salata",
+        "Gado gado",
+        "Larb",
+        "Rukola salata",
+        "Ispanak salata",
+        "Fasulye salatası"
       ],
       "softConflicts": [
         "meze_cesitleri"
-      ],
-      "hardConflicts": [
-        "salata_cesitleri_2"
       ]
     },
     {
@@ -8928,38 +8957,6 @@
       ],
       "hardConflicts": [
         "corba_cesitleri"
-      ]
-    },
-    {
-      "id": "salata_cesitleri_2",
-      "name": "Salata çeşitleri",
-      "difficulty": 2,
-      "words": [
-        "Sezar salata",
-        "Cobb salata",
-        "Yunan salata",
-        "Coleslaw",
-        "Tabule",
-        "Waldorf salata",
-        "Niçoise",
-        "Panzanella",
-        "Fattuş",
-        "Poke bowl",
-        "Som tam",
-        "Rus salata",
-        "Makarna salatası",
-        "Kinoa salata",
-        "Gado gado",
-        "Larb",
-        "Rukola salata",
-        "Ispanak salata",
-        "Fasulye salatası"
-      ],
-      "softConflicts": [
-        "meze_cesitleri"
-      ],
-      "hardConflicts": [
-        "salata_cesitleri"
       ]
     },
     {
@@ -10887,7 +10884,6 @@
       ],
       "softConflicts": [
         "bogazlar_kanallar",
-        "denizler_okyanuslar",
         "korfezler",
         "turkiye_adalari"
       ]
@@ -11885,7 +11881,6 @@
       "softConflicts": [
         "denizler_okyanuslar",
         "dunya_nehirleri",
-        "okyanuslar_denizler",
         "turkiye_golleri",
         "unlu_nehirler"
       ]
@@ -11956,31 +11951,6 @@
       ]
     },
     {
-      "id": "okyanuslar_denizler",
-      "name": "Okyanuslar ve denizler",
-      "difficulty": 1,
-      "words": [
-        "Pasifik Okyanusu",
-        "Atlas Okyanusu",
-        "Kuzey Buz Denizi",
-        "Güney Okyanusu",
-        "Arap Denizi",
-        "Mercan Denizi",
-        "Doğu Çin Denizi",
-        "Güney Çin Denizi",
-        "Ohotsk Denizi",
-        "Adriyatik Denizi"
-      ],
-      "softConflicts": [
-        "bogazlar_kanallar",
-        "dunya_golleri",
-        "korfezler"
-      ],
-      "hardConflicts": [
-        "denizler_okyanuslar"
-      ]
-    },
-    {
       "id": "adalar_takimadalar",
       "name": "Adalar ve takımadalar",
       "difficulty": 2,
@@ -12044,9 +12014,9 @@
         "Skagerrak"
       ],
       "softConflicts": [
+        "denizler_okyanuslar",
         "korfezler",
-        "korfezler_bogazlar",
-        "okyanuslar_denizler"
+        "korfezler_bogazlar"
       ]
     },
     {
@@ -12112,8 +12082,7 @@
       "softConflicts": [
         "bogazlar_kanallar",
         "denizler_okyanuslar",
-        "korfezler_bogazlar",
-        "okyanuslar_denizler"
+        "korfezler_bogazlar"
       ]
     },
     {
@@ -15644,8 +15613,7 @@
       "softConflicts": [
         "degerler",
         "duygular",
-        "erdemler",
-        "karakter_erdemleri"
+        "erdemler"
       ]
     },
     {
@@ -15796,7 +15764,6 @@
         "efsanevi_kahramanlar",
         "efsanevi_yaratiklar",
         "mezopotamya_uygarliklari",
-        "mitolojik_yaratiklar",
         "nordik_mitolojisi",
         "turk_altay_mitolojisi"
       ],
@@ -16335,36 +16302,7 @@
       "softConflicts": [
         "antik_yunan_mitolojisi",
         "efsanevi_yaratiklar",
-        "mitolojik_yaratiklar",
         "roma_mitolojisi"
-      ]
-    },
-    {
-      "id": "mitolojik_yaratiklar",
-      "name": "Mitolojik Yaratıklar",
-      "difficulty": 1,
-      "words": [
-        "Satir",
-        "Siren",
-        "Harpi",
-        "Kerberos",
-        "Pegasus",
-        "Basilisk",
-        "Kiklop",
-        "Gorgon",
-        "İfrit",
-        "Golem",
-        "Lamia",
-        "Mantikor",
-        "Hipogrif",
-        "Şahmeran"
-      ],
-      "softConflicts": [
-        "antik_yunan_mitolojisi",
-        "efsanevi_kahramanlar"
-      ],
-      "hardConflicts": [
-        "efsanevi_yaratiklar"
       ]
     },
     {
@@ -16729,15 +16667,36 @@
         "Vakar",
         "Mürüvvet",
         "Yardımseverlik",
-        "Asalet"
+        "Asalet",
+        "Azim",
+        "Sebat",
+        "Kararlılık",
+        "Disiplin",
+        "Çalışkanlık",
+        "Dakiklik",
+        "Güvenilirlik",
+        "Titizlik",
+        "Özdenetim",
+        "Girişkenlik",
+        "Samimiyet",
+        "Sadelik",
+        "Soğukkanlılık",
+        "İyimserlik",
+        "Vicdanlılık",
+        "Doğruluk",
+        "Atılganlık",
+        "Sağduyu",
+        "Basiret",
+        "Feraset",
+        "İrade",
+        "Dirayet",
+        "Efendilik",
+        "Olgunluk"
       ],
       "softConflicts": [
         "degerler",
         "etik_kavramlari",
         "kisilik_ozellikleri"
-      ],
-      "hardConflicts": [
-        "karakter_erdemleri"
       ]
     },
     {
@@ -17018,75 +16977,6 @@
       ]
     },
     {
-      "id": "karakter_erdemleri",
-      "name": "Karakter Erdemleri",
-      "difficulty": 2,
-      "words": [
-        "Azim",
-        "Sebat",
-        "Kararlılık",
-        "Disiplin",
-        "Çalışkanlık",
-        "Dakiklik",
-        "Güvenilirlik",
-        "Titizlik",
-        "Özdenetim",
-        "Girişkenlik",
-        "Samimiyet",
-        "Sadelik",
-        "Soğukkanlılık",
-        "İyimserlik",
-        "Vicdanlılık",
-        "Doğruluk",
-        "Atılganlık",
-        "Sağduyu",
-        "Basiret",
-        "Feraset",
-        "İrade",
-        "Dirayet",
-        "Efendilik",
-        "Olgunluk"
-      ],
-      "softConflicts": [
-        "degerler",
-        "kisilik_ozellikleri"
-      ],
-      "hardConflicts": [
-        "erdemler"
-      ]
-    },
-    {
-      "id": "duygu_durumlari",
-      "name": "Duygu Durumları",
-      "difficulty": 3,
-      "words": [
-        "Efkar",
-        "Keder",
-        "Istırap",
-        "Burukluk",
-        "Hasret",
-        "Nostalji",
-        "Mahcubiyet",
-        "Hicap",
-        "Kıvanç",
-        "Coşku",
-        "Galeyan",
-        "Hınç",
-        "Kin",
-        "Garez",
-        "Haset",
-        "Gıpta",
-        "Tasa"
-      ],
-      "softConflicts": [
-        "ruhsal_kavramlar",
-        "soyut_isimler"
-      ],
-      "hardConflicts": [
-        "duygular"
-      ]
-    },
-    {
       "id": "zihinsel_surecler",
       "name": "Zihinsel Süreçler",
       "difficulty": 2,
@@ -17280,7 +17170,7 @@
       "softConflicts": [
         "din_felsefesi",
         "dini_tarihi_kavramlar",
-        "duygu_durumlari",
+        "duygular",
         "inanc_sistemleri",
         "kozmoloji_varolus",
         "metafizik_kavramlar"
@@ -17317,7 +17207,6 @@
         "duygular",
         "erdemler",
         "etik_kavramlari",
-        "karakter_erdemleri",
         "kisilik_ozellikleri",
         "soyut_isimler"
       ]
@@ -17352,7 +17241,6 @@
       ],
       "softConflicts": [
         "degerler",
-        "duygu_durumlari",
         "duygular",
         "estetik_kavramlar",
         "metafizik_kavramlar"
@@ -18382,7 +18270,6 @@
       ],
       "softConflicts": [
         "bankacilik_para",
-        "bankacilik_terimleri",
         "borsa_yatirim_terimleri",
         "muhasebe_terimleri",
         "ticaret_terimleri",
@@ -18416,40 +18303,8 @@
       ],
       "softConflicts": [
         "bankacilik_para",
-        "bankacilik_terimleri",
         "ekonomi_terimleri",
         "kripto_dijital_finans_terimleri"
-      ]
-    },
-    {
-      "id": "bankacilik_terimleri",
-      "name": "Bankacılık terimleri",
-      "difficulty": 2,
-      "words": [
-        "Havale",
-        "Reeskont",
-        "Munzam",
-        "Kefil",
-        "Kefalet",
-        "Vadesiz",
-        "Anapara",
-        "Taksit",
-        "Gecikme",
-        "Kredibilite",
-        "Kambiyo",
-        "Dekont",
-        "Virman",
-        "Disponibilite",
-        "Provizyon",
-        "Faktoring"
-      ],
-      "softConflicts": [
-        "borsa_yatirim_terimleri",
-        "ekonomi_terimleri",
-        "muhasebe_terimleri"
-      ],
-      "hardConflicts": [
-        "bankacilik_para"
       ]
     },
     {
@@ -18482,7 +18337,6 @@
       ],
       "softConflicts": [
         "bankacilik_para",
-        "bankacilik_terimleri",
         "ekonomi_terimleri",
         "vergi_terimleri"
       ]
@@ -20394,43 +20248,6 @@
       ]
     },
     {
-      "id": "yer_sekilleri",
-      "name": "Yer şekilleri",
-      "difficulty": 2,
-      "words": [
-        "Peribacası",
-        "Kırgıbayır",
-        "Mesa",
-        "Büt",
-        "İnselberg",
-        "Kuesta",
-        "Horst",
-        "Graben",
-        "Obruk",
-        "Dolin",
-        "Uvala",
-        "Polye",
-        "Lapya",
-        "Düden",
-        "Maar",
-        "Kaldera",
-        "Krater",
-        "Lakolit",
-        "Batolit",
-        "Dayk",
-        "Sil"
-      ],
-      "softConflicts": [
-        "buzul_terimleri",
-        "col_olusumlari",
-        "kiyi_olusumlari",
-        "magara_olusumlari"
-      ],
-      "hardConflicts": [
-        "cografi_sekiller"
-      ]
-    },
-    {
       "id": "magara_olusumlari",
       "name": "Mağara oluşumları",
       "difficulty": 3,
@@ -20456,8 +20273,7 @@
         "Speleotem"
       ],
       "softConflicts": [
-        "magaralar",
-        "yer_sekilleri"
+        "magaralar"
       ]
     },
     {
@@ -20555,8 +20371,8 @@
         "Karsınırı"
       ],
       "softConflicts": [
-        "kiyi_olusumlari",
-        "yer_sekilleri"
+        "cografi_sekiller",
+        "kiyi_olusumlari"
       ]
     },
     {
@@ -20589,8 +20405,8 @@
         "Bolson"
       ],
       "softConflicts": [
-        "kiyi_olusumlari",
-        "yer_sekilleri"
+        "cografi_sekiller",
+        "kiyi_olusumlari"
       ]
     },
     {
@@ -20623,9 +20439,7 @@
       ],
       "softConflicts": [
         "buzul_terimleri",
-        "cografi_sekiller",
-        "col_olusumlari",
-        "yer_sekilleri"
+        "col_olusumlari"
       ]
     },
     {

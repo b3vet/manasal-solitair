@@ -44,7 +44,13 @@ olduğundan bir kelime ikisine de eşit okunur), böylece asla yan yana gelmezle
   Efsanevi↔Mitolojik Yaratıklar, Duygu Durumları↔Duygular, Erdemler↔Karakter
   Erdemleri, Bankacılık ve Para↔Bankacılık terimleri…
 
-_(İleride içerik temizliği için aday: bu yinelenen çiftler birleştirilebilir.)_
+> **Güncelleme (categories.json v4):** Bu yinelenen çiftlerin **10 tanesi
+> birleştirildi** (kelimeler tek kategoride toplandı, ikinci id kaldırıldı):
+> Kaplumbağa/Salata/Fasulye türleri ×2, Soyu tükenmiş memeliler ×2,
+> Denizler↔Okyanuslar, Coğrafi Şekiller↔Yer şekilleri, Efsanevi↔Mitolojik
+> Yaratıklar, Duygular↔Duygu Durumları, Erdemler↔Karakter Erdemleri, Bankacılık
+> ve Para↔Bankacılık terimleri. Havuz **640 → 630** kategori. (Aşağıdaki v3
+> hard-çift listesi tarihsel kayıttır; kaldırılan id'ler artık havuzda yok.)
 
 Ayrıca **jenerik ↔ alt tür** ilişkileri (Taşıtlar↔{Kara/Hava/Deniz Taşıtları},
 Giysiler↔{Alt/Dış giyim}, Müzik Aletleri↔{Telli/Tuşlu çalgılar}, Ülkeler↔bölge
