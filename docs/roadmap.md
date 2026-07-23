@@ -198,8 +198,13 @@ Faz 1 ile paralel — devreye alınması önerilir.)_
 
 ## Faz 5 — Dağıtım & büyüme (en son) ⬜
 
-- **5.1 Mağaza yayını** ⬜ · M — App Store (TestFlight→prod) + Google Play
+- **5.1 Mağaza yayını** 🔨 · M — App Store (TestFlight→prod) + Google Play
   (Android hazır, test lazım) + Web'i **PWA** yap (yüklenebilir manifest).
+  - **Yapıldı (PWA marka):** web ikonları + favicon Kilim'e göre yeniden üretildi
+    (`flutter_launcher_icons` `web:`), manifest `theme_color`/`background_color`
+    ve `index.html` tema rengi Kilim terrakottasına (#B14E24) düzeltildi (eskiden
+    teal #0E7A6D). Manifest zaten `display: standalone` + maskable ikonlarla
+    yüklenebilir. Kalan: hizmet çalışanı/çevrimdışı doğrulaması, kurulum ipucu.
 - **5.2 Soft-launch** ⬜ · M — TestFlight public link ile sınırlı kitle,
   veriyle bölüm zorluğunu ayarla, sonra tam lansman.
 - **5.3 ASO** ⬜ · S — Türkçe anahtar kelimeler, Kilim temalı ekran
