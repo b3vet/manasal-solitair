@@ -186,6 +186,14 @@ Sonraki sürümler için şablon satırı:
 - TestFlight "What to Test" (tr) girildi; "manasal testers" (iç grup) build'i otomatik aldı.
 - ASC: 1.3.1 sürümünde build 10 → build 11 değiştirildi. Metadata değişikliği yok.
 
+**1.3.1 (build 12) — minimum iOS 15.0 (2026-11-10)**
+- Teknik: `IPHONEOS_DEPLOYMENT_TARGET` 13.0 → 15.0 (proje düzeyi; Runner + RunnerTests miras alır).
+  Neden: build 9–11'deki ITMS-90068 uyarısı (iOS 13.0 hedefleri Nisan 2027'den itibaren engellenecek).
+  Bağımlılıklar (SPM) en çok iOS 13.0 istiyor; 15.0 yeterli. Oyun içeriği build 11 ile aynı.
+- TestFlight "What to Test" (tr): "Teknik güncelleme: minimum iOS sürümü 15.0'a yükseltildi. Oyun
+  içeriği build 11 ile aynı."
+- ASC: 1.3.1 sürümünde build 11 → build 12 değiştirildi. Metadata değişikliği yok.
+
 ---
 
 ## Bakım kuralı
