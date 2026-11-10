@@ -170,6 +170,15 @@ Sonraki sürümler için şablon satırı:
 - ASC: metin, URL'ler, kategori, yaş 4+, fiyat, 175 ülke, inceleme notu, build 9, 6+6 ekran
   görüntüsü. Kalan: App Privacy (web arayüzü) + "Submit for Review" (Berke).
 
+**1.3.1 (build 10) — ayar metni + açılış ekranı (2026-11-10)**
+- Ayarlar › "Kullanım verisi" alt metni: "Oyun istatistikleri ve çökme raporları (Firebase).
+  Kimliğinle eşleştirilmez." ("Anonim" iddiası kaldırıldı; gizlilik metniyle tutarlı.)
+  Gizlilik bağlantısı satırı eklenmedi (`url_launcher` bağımlılığı yok).
+- iOS açılış ekranı: Flutter yer tutucusu yerine ortada 128pt kilim ikonu (yuvarlatılmış),
+  zemin `LaunchBackground` (açık `#F4E9D7` / koyu `#1A120D`) — ilk Flutter karesiyle aynı.
+  Android `launch_background.xml` aynı ikon + renk.
+- ASC: 1.3.1 sürümünde build 9 → build 10 değiştirildi. Metadata değişikliği yok.
+
 ---
 
 ## Bakım kuralı
