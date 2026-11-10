@@ -159,7 +159,7 @@ Faz 1 ile paralel — devreye alınması önerilir.)_
   link at" için en düşük sürtünme.
 - **Yapıldı (içerik):** İki statik, kendine yeten HTML (Kilim, açık/koyu) hazır
   ve güncel — tanıtımda günlük bulmaca + adil eşleştirme kartları; gizlilik
-  politikası GERÇEK duruma göre (web'de veri yok, mobilde anonim analitik +
+  politikası GERÇEK duruma göre (web'de veri yok, mobilde kimlikle eşleştirilmeyen analitik +
   opt-out). Sahip/iletişim/tarih dolduruldu. `README.md` yayın adımlarını anlatır.
 - **Bekleyen (kullanıcı):** Ayrı bir repoya alıp gh-pages'e yayınla; çıkan
   gizlilik URL'sini mağaza + `app-store-metadata.md`'ye yaz. Ekran görüntülerini

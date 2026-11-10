@@ -68,7 +68,7 @@ class MetaService extends ChangeNotifier {
   bool haptics;
   String reducedMotion; // 'system' | 'on' | 'off'
   String themeMode; // 'system' | 'light' | 'dark'
-  bool analyticsEnabled; // anonim kullanım/çökme raporu (opt-out)
+  bool analyticsEnabled; // oyun istatistiği + çökme raporu, kimliksiz (opt-out)
   bool tutorialCompleted; // etkileşimli öğretici oynandı mı
 
   int? _resumeLevelId;

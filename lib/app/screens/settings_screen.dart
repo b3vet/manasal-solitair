@@ -58,7 +58,9 @@ class SettingsScreen extends StatelessWidget {
               _switchRow(
                 colors,
                 label: 'Kullanım verisi',
-                subtitle: 'Anonim analitik ve çökme raporu',
+                subtitle:
+                    'Oyun istatistikleri ve çökme raporları (Firebase). '
+                    'Kimliğinle eşleştirilmez.',
                 value: meta.analyticsEnabled,
                 onChanged: (v) {
                   meta.updateSettings(analyticsEnabled: v);

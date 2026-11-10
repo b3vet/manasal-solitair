@@ -92,7 +92,9 @@ Tüm oyun/meta kodu yalnız bu sınıfı çağırır (Firebase'e doğrudan bağl
 
 - **Opt-out:** `meta.analyticsEnabled` (Ayarlar'da anahtar). Kapalıysa hiç
   gönderme (`Analytics.enabled=false`, `setAnalyticsCollectionEnabled(false)`).
-- **PII yok:** kimlik/konum toplama; yalnız anonim kullanım + cihaz türü.
+- **Kimlikle eşleştirilmez ("anonim" değil):** hesap/IDFA yok; Firebase uygulama-örneği
+  kimliği/IDFV, IP'den kaba konum ve cihaz türü toplanır. Ayarlar alt metni: "Oyun
+  istatistikleri ve çökme raporları (Firebase). Kimliğinle eşleştirilmez."
 - **İfşa:** `docs/site/privacy.html` toplanan veriyi anlatmalı; App Store/Play
   "gizlilik etiketleri" (nutrition labels) doldurulmalı (Usage Data, Crash Data).
 - **KVKK/COPPA (4+):** çocuk kitlesi olasılığı → reklam kimliği kullanma,
