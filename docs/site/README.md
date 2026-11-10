@@ -25,8 +25,9 @@ Bu dosyalar **ana uygulama deposundan ayrı** yayımlanmak üzere hazırdır. Ad
 - **Ekran görüntüleri:** `index.html` içindeki `.shot-note` bloğunu gerçek
   `<img>`'lerle değiştir (ana ekran, oyun tahtası, günlük bulmaca).
 - **Mağaza linkleri:** yayınlanınca App Store/Play rozetlerini/linklerini ekle.
+- Yayın: https://github.com/b3vet/manasal-solitair-site → https://b3vet.github.io/manasal-solitair-site/ (2026-11-10).
 - İçerik güncel: sahip **Berke Üçvet**, iletişim **berkeucvet@gmail.com**,
-  gizlilik son güncelleme **23 Temmuz 2026**.
+  gizlilik son güncelleme **10 Kasım 2026** (koda göre doğrulandı).
 
 > Not: Oynanabilir web sürümü ana repoda (`gh-pages`) —
 > https://b3vet.github.io/manasal-solitair/ — tanıtımdaki "Tarayıcıda Oyna"

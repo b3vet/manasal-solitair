@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gizlilik Politikası — Manasal Solitaire</title>
 <!--
-  Bu politika güncel duruma göredir: WEB sürümü hiçbir veri toplamaz; MOBİL
-  (iOS/Android) uygulama opsiyonel, ANONİM kullanım/çökme istatistikleri
-  toplar (Firebase Analytics + Crashlytics), Ayarlar'dan kapatılabilir.
+  Bu politika koda göre doğrulandı (2026-11-10, v1.3.1): WEB sürümü hiçbir veri
+  toplamaz; MOBİL (iOS/Android) uygulama kimlikle ilişkilendirilmeyen
+  kullanım/çökme istatistikleri toplar (Firebase Analytics + Crashlytics;
+  uygulama-örneği kimliği/IDFV, IDFA yok), Ayarlar'dan kapatılabilir.
 -->
 <style>
   :root{
@@ -39,34 +40,47 @@
 <main>
 <header>
   <h1>Gizlilik Politikası</h1>
-  <div class="updated">Manasal Solitaire · Son güncelleme: 23 Temmuz 2026</div>
+  <div class="updated">Manasal Solitaire · Son güncelleme: 10 Kasım 2026</div>
 </header>
 
 <p>Bu politika, <strong>Manasal Solitaire</strong> uygulamasının verilerinizle
-ilişkisini açıklar. Kısacası: <strong>kişisel kimlik veriniz (ad, e-posta,
-konum) toplanmaz.</strong> Tarayıcı (web) sürümü hiçbir veri toplamaz; mobil
-uygulama yalnızca <strong>opsiyonel, anonim</strong> kullanım/çökme
-istatistikleri toplar ve bunu <strong>kapatabilirsiniz</strong>.</p>
+ilişkisini açıklar. Kısacası: <strong>hesap yoktur; adınız, e-postanız, telefon
+numaranız veya hassas konumunuz toplanmaz.</strong> Tarayıcı (web) sürümü hiçbir
+veri toplamaz; mobil uygulama yalnızca kimliğinizle ilişkilendirilmeyen
+<strong>kullanım ve çökme istatistikleri</strong> toplar ve bunu
+<strong>kapatabilirsiniz</strong>.</p>
 
 <h2>1. Cihazınızda yerel kalan veriler</h2>
 <div class="box">
   <p>Oyun ilerlemeniz (tamamlanan bölümler, yıldızlar, krediler, başarımlar),
-  günlük bulmaca seriniz, ayarlarınız (ses, titreşim, tema) ve devam kaydınız
-  <strong>yalnızca cihazınızda yerel olarak</strong> saklanır (cihaz depolaması
-  / SharedPreferences). Bu veriler bir sunucuya gönderilmez, hesabınız yoktur.</p>
+  günlük bulmaca seriniz, ayarlarınız (ses, titreşim, hareket, tema) ve devam
+  kaydınız <strong>yalnızca cihazınızda yerel olarak</strong> saklanır (cihaz
+  depolaması / SharedPreferences). Bu veriler bir sunucuya gönderilmez,
+  hesabınız yoktur.</p>
 </div>
 
-<h2>2. Anonim analitik ve çökme raporu <span class="soft">(mobil, opsiyonel)</span></h2>
-<p>Mobil uygulama (iOS/Android), oyunu iyileştirmek için <em>anonim</em> kullanım
-istatistikleri ve çökme raporları toplar (Google Firebase Analytics &amp;
-Crashlytics):</p>
+<h2>2. Kullanım istatistikleri ve çökme raporu <span class="soft">(mobil, kapatılabilir)</span></h2>
+<p>Mobil uygulama (iOS/Android), oyunu iyileştirmek için Google
+<strong>Firebase Analytics</strong> ve <strong>Firebase Crashlytics</strong>
+kullanır. Bu veriler adınızla, e-postanızla veya herhangi bir hesapla
+ilişkilendirilmez; reklam veya izleme (tracking) amacıyla kullanılmaz.</p>
 <ul>
-  <li>Toplanan veri anonimdir; <strong>adınız, e-postanız veya konumunuz
-  toplanmaz</strong>.</li>
-  <li>Örnek olaylar: hangi bölümün başlatıldığı/tamamlandığı, ipucu/geri-al
-  kullanımı, uygulama çökmesi ve teknik tanılama.</li>
-  <li>Ayarlar → <strong>"Kullanım verisi"</strong> anahtarıyla bunu istediğiniz
-  zaman <strong>kapatabilirsiniz</strong> (opt-out).</li>
+  <li><strong>Oyun içi etkileşim:</strong> bölüm başlatma/tamamlama/kaybetme
+  (bölüm numarası, oyun modu, kullanılan hamle, yıldız, ilk denemede mi,
+  kaybetme nedeni), ipucu ve geri-al kullanımı.</li>
+  <li><strong>Otomatik ölçümler (Firebase Analytics):</strong> ilk açılış,
+  oturum ve ekran görüntüleme olayları, uygulama/işletim sistemi sürümü, cihaz
+  modeli, dil ve IP adresinden kabaca türetilen ülke/bölge (IP adresinin
+  kendisi saklanmaz).</li>
+  <li><strong>Çökme ve tanılama (Crashlytics):</strong> uygulama çöktüğünde veya
+  bir hata oluştuğunda hata kaydı (stack trace), cihaz/işletim sistemi bilgisi
+  ve uygulamanın o anki teknik durumu.</li>
+  <li><strong>Tanımlayıcılar:</strong> Firebase, kurulumu ayırt etmek için
+  rastgele bir uygulama-örneği kimliği ve iOS'ta satıcı tanımlayıcısını (IDFV)
+  kullanır. <strong>Reklam kimliği (IDFA) toplanmaz</strong>; uygulamada reklam
+  yoktur ve sizi başka uygulama veya sitelerde izlemeyiz.</li>
+  <li>Ayarlar → <strong>"Kullanım verisi"</strong> anahtarıyla analitiği ve
+  çökme raporunu istediğiniz zaman <strong>kapatabilirsiniz</strong> (opt-out).</li>
   <li><strong>Tarayıcı (web) sürümünde analitik yoktur</strong> — hiçbir olay
   toplanmaz veya gönderilmez.</li>
 </ul>
@@ -84,14 +98,15 @@ sildiğinizde bu veriler de silinir. Ayrı bir hesap veya bulut yedeği yoktur.<
 
 <h2>5. Çocuklar</h2>
 <p>Uygulama her yaşa uygundur (4+) ve bilerek çocuklardan kişisel veri toplamaz.
-Kişisel kimlik verisi toplanmaz; yalnızca anonim ve kapatılabilir teknik
-istatistikler söz konusudur.</p>
+Kimlik bilgisi toplanmaz; yalnızca kimlikle ilişkilendirilmeyen ve
+kapatılabilir teknik istatistikler söz konusudur.</p>
 
 <h2>6. Haklarınız</h2>
-<p>Kişisel kimlik veriniz işlenmediğinden tarafımızda size ait erişilecek,
-düzeltilecek veya silinecek bir veri bulunmaz. Anonim analitiği Ayarlar'dan
-kapatabilir, cihazınızdaki yerel veriyi uygulamayı silerek temizleyebilirsiniz.
-(KVKK / GDPR kapsamındaki haklarınız saklıdır.)</p>
+<p>Ad, e-posta veya hesap gibi kimlik bilgileriniz işlenmediğinden tarafımızda
+sizinle eşleştirilebilecek bir kayıt bulunmaz. Kullanım istatistiklerini ve
+çökme raporunu Ayarlar'dan kapatabilir, cihazınızdaki yerel veriyi uygulamayı
+silerek temizleyebilirsiniz. Sorularınız için aşağıdaki adresten
+ulaşabilirsiniz. (KVKK / GDPR kapsamındaki haklarınız saklıdır.)</p>
 
 <h2>7. Değişiklikler</h2>
 <p>Bu politika güncellenebilir; önemli değişikliklerde yukarıdaki "Son

@@ -19,54 +19,92 @@
 | Birincil dil | Türkçe (tr) |
 | Fiyat | Ücretsiz (para modeli kararı: Roadmap dışı — sonra) |
 
-## 2. Mağaza listeleme metni (güncel: v1.0.0 — TASLAK, yayınlanmadı)
+## 2. Mağaza listeleme metni (güncel: v1.3.1 — App Store Connect'e girildi 2026-11-10, incelemeye gönderilmedi)
 
-**Alt başlık (subtitle, ≤30 karakter):**
+**Ad:** Manasal Solitaire
+
+**Alt başlık (subtitle, ≤30 karakter — 30):**
 > Anlamı benzer kelimeleri topla
 
-**Tanıtım metni (promotional text, ≤170):**
-> Klondike solitaire'in Türkçe kelime hâli. Kartlar renkle değil, _anlamla_
-> eşleşir — okur, düşünür, toplarsın.
+**Tanıtım metni (promotional text, ≤170 — 118):**
+> Her gün yeni bir Günlük Bulmaca! Kartlar renkle değil, anlamla eşleşir: oku, düşün, kelimeleri doğru kategoride topla.
 
-**Açıklama (description):**
-> Manasal Solitaire, solitaire'i kelimelerle yeniden yorumlar. Kartlarda Türkçe
-> kelimeler yazar; onları sayı ya da renge göre değil, ait oldukları
-> **kategoriye** göre toplarsın. Kartlarda kategori yazmaz — hangi kelimenin
-> nereye ait olduğunu okuyup düşünerek bulursun.
+**Açıklama (description, ≤4000 — 1195):**
+> Manasal Solitaire, solitaire'i kelimelerle yeniden yorumlar. Kartlarda Türkçe kelimeler yazar; onları sayıya ya da renge göre değil, ait oldukları kategoriye göre toplarsın. Kelime kartlarında kategori yazmaz: hangi kelimenin nereye ait olduğunu okuyup düşünerek bulursun.
 >
+> NASIL OYNANIR
+> • Kategori kartını boş bir toplama alanına taşı.
+> • O kategoriye ait kelimeleri üstüne sürükleyip topla.
+> • Desteye dokunarak sıradaki kartı aç; hamlelerini akıllıca kullan.
+> • İlk oyunda adım adım öğretici, kuralları sana oynatarak öğretir.
+>
+> NELER VAR
 > • 150 elle dengelenmiş bölüm, gitgide artan zorluk
-> • 640+ kategori, 13.000+ kelime
-> • Sınırlı hamle: her hamle önemli
-> • Geri alma & ipucu kredileri, başarımlar
-> • Tamamen Türkçe, sakin ve zarif "Kilim" tasarımı
-> • Çevrimdışı oynanır; arka planda müziğin çalmaya devam eder
+> • Günlük Bulmaca: her gün herkese aynı yeni bölüm, günlük seri ve spoiler'sız sonuç paylaşımı
+> • Yıldız hedefleri: her bölümde 3 yıldız için kalan hamle hedefi
+> • İstatistik ekranı: ilerleme, yıldızlar, günlük seri ve daha fazlası tek bakışta
+> • 630 kategori, 13.000'den fazla Türkçe kelime
+> • Adil eşleştirme: birbirine karışabilecek kategoriler aynı bölümde karşına çıkmaz
+> • Geri alma ve ipucu kredileri, başarımlar
+> • Sakin ve zarif "Kilim" tasarımı, açık ve koyu tema
+> • İnternetsiz oynanır; oyunun sesi arka planda çalan müziğini kesmez
+>
+> Hesap gerekmez, reklam yoktur. İlerlemen yalnızca cihazında saklanır.
 
-**Anahtar kelimeler (keywords, ≤100 karakter, virgülle):**
-> kelime oyunu,bulmaca,solitaire,türkçe,kelime,zeka,pasyans,kategori,beyin,sözcük
+**Anahtar kelimeler (keywords, ≤100 — 92 karakter / 100 bayt):**
+> kelime oyunu,bulmaca,türkçe,pasyans,kategori,zeka,günlük,kelime,beyin,sözcük,kart,eşleştirme
 
 **URL'ler:**
 | Alan | Değer |
 |---|---|
-| Destek URL | `docs/site/index.html` hazır — kullanıcı ayrı repoya alıp yayınlayacak |
-| Pazarlama URL | `docs/site/index.html` (aynı) |
-| Gizlilik politikası URL | `docs/site/privacy.html` hazır — yayınlanınca URL buraya · **App Store zorunlu** |
-| Telif | © 2026 Berke Üçvet |
+| Destek URL | https://b3vet.github.io/manasal-solitair-site/ (repo: `b3vet/manasal-solitair-site`, kaynak `docs/site/`) |
+| Pazarlama URL | https://b3vet.github.io/manasal-solitair-site/ |
+| Gizlilik politikası URL | https://b3vet.github.io/manasal-solitair-site/privacy.html |
+| Telif | 2026 Berke Üçvet (App Store "©" önekini kendisi ekler; LS listelemesiyle aynı biçim) |
+
+**Diğer ASC alanları:** kategori Games › Word + Games › Puzzle (Oyunlar birincil kategorisinin iki alt
+kategorisi); yaş 4+ (2025 anketi, tümü Yok/Hayır); fiyat Ücretsiz, IAP yok; erişilebilirlik 175 ülke;
+içerik hakları "üçüncü taraf içerik kullanmıyor"; yayın seçeneği **elle yayınla** (Manually release).
+
+**App Review notu (EN):**
+```
+No login or account is required. The app is entirely in Turkish.
+
+How to play: tap "Oyna" (Play) on the home screen. On the first game a 4-step interactive tutorial starts: drag a category card (dark blue) to an empty slot, then drag the word cards that belong to that category onto it. Tap the deck (top-left) to draw the next card. Collect every category within the move limit to win; stars depend on moves left. "Günlük Bulmaca" on the home screen is the daily puzzle; "İstatistik" shows stats.
+
+Data: the app uses only Firebase Analytics (gameplay events such as level start/complete, hint/undo use) and Firebase Crashlytics (crash reports). No ads, no in-app purchases, no tracking, no IDFA, no ATT prompt. Users can turn analytics and crash reporting off in Ayarlar (Settings) > "Kullanım verisi".
+```
 
 ## 3. Görsel varlıklar (checklist)
 
-- [ ] Uygulama ikonu 1024×1024 (hazır — kilim markası, opak).
-- [ ] iPhone 6.7" ekran görüntüleri (≥3): ana ekran, oyun tahtası, bölümler
-      patikası, kazanma. Kilim teması iyi durur.
-- [ ] iPhone 6.5" ve 5.5" (gerekirse) + iPad.
+- [x] Uygulama ikonu 1024×1024 (hazır — kilim markası, opak).
+- [x] iPhone 6.9" (1320×2868, iPhone 17 Pro Max simülatörü) — 6 gerçek ekran:
+      oyun, öğretici, günlük bulmaca, kazanma/yıldız, istatistik, ana ekran. ASC'ye yüklendi (v1.3.1).
+- [x] iPad 13" (2064×2752, iPad Pro 13" M5 simülatörü) — aynı 6 ekran (uygulama iPad'i destekler:
+      `TARGETED_DEVICE_FAMILY = 1,2`). ASC'ye yüklendi.
 - [ ] App Preview videosu (opsiyonel, tavsiye): 15–30 sn tatmin edici anlar.
 - [ ] Google Play: feature graphic 1024×500, telefon ekran görüntüleri.
 
-## 4. Gizlilik etiketleri (App Store / Play Data Safety)
+## 4. Gizlilik etiketleri (App Store "App Privacy")
 
-Analitik (Faz 3.1) eklendiğinde doldur:
-- Usage Data (analytics) — anonim, uygulama işlevi/analitik.
-- Crash Data — Crashlytics.
-- PII / konum / reklam kimliği: **yok** (hedef).
+Koddan türetildi (2026-11-10, v1.3.1). Kanıt: `lib/app/analytics/` (Firebase yalnız mobilde,
+koşullu import), `analytics_service.dart` olayları (`level_start/complete/fail`, `hint_used`,
+`undo_used`), `setUserId` yok, `setUserProperty` çağrılmıyor; Crashlytics Flutter + platform
+hatalarını kaydeder; `Ayarlar → Kullanım verisi` ikisini birden kapatır. Derlenen ipa'da
+`AdSupport`/`AppTrackingTransparency` bağlı değil, `ASIdentifierManager` referansı yok; çalışma
+anı log'u: "IDFA will not be accessible", "Analytics collection enabled".
+
+| Veri türü | Amaç | Kullanıcıya bağlı | İzleme |
+|---|---|---|---|
+| Kullanım Verisi › Ürün Etkileşimi | Analitik | Hayır | Hayır |
+| Tanılama › Çökme Verisi | Uygulama İşlevselliği, Analitik | Hayır | Hayır |
+| Tanılama › Performans Verisi | Uygulama İşlevselliği, Analitik | Hayır | Hayır |
+| Tanılama › Diğer Tanılama Verisi | Uygulama İşlevselliği, Analitik | Hayır | Hayır |
+| Tanımlayıcılar › Cihaz Kimliği (uygulama-örneği kimliği / IDFV) | Analitik | Hayır | Hayır |
+| Konum › Kaba Konum (IP'den türetilen ülke/bölge — Firebase) | Analitik | Hayır | Hayır |
+
+IDFA yok → ATT gerekmez. Reklam yok. API App Privacy'yi desteklemediği için ASC web arayüzünden
+girilir.
 
 ---
 
@@ -83,6 +121,7 @@ Analitik (Faz 3.1) eklendiğinde doldur:
 | 1.2.0 | 6 | 2026-07 | ✅ web | Yeni: Günlük Bulmaca — her gün yeni bir bölüm, günlük seri (🔥) ve spoiler'sız sonuç paylaşımı. | yok |
 | 1.3.0 | 7 | 2026-07 | ✅ web | Yeni: İstatistik ekranı — ilerleme, yıldız, günlük seri ve daha fazlası tek bakışta. | yok |
 | 1.3.1 | 8 | 2026-07 | ✅ web | İçerik cilası: yinelenen kategoriler birleştirildi, bölümler yeniden dengelendi. | yok |
+| 1.3.1 | 9 | 2026-11-10 | 🔨 App Store (ilk mağaza sürümü; build VALID, incelemeye gönderilmedi) | İlk App Store sürümü ("What's New" ilk sürümde gösterilmez). | Bölüm 2 + 3 + 4 baştan: 1.3.1 metni, URL'ler, ekran görüntüleri, gizlilik etiketi. |
 
 <!--
 Sonraki sürümler için şablon satırı:
@@ -122,6 +161,14 @@ Sonraki sürümler için şablon satırı:
 - Denetimin bulduğu 10 yinelenen kategori çifti birleştirildi (categories.json
   v4, havuz 640 → 630); kelimeler tek kategoride toplandı, çakışma kenarları
   yönlendirildi. 150 bölüm yeniden üretildi (0 hard / adil aralıkta 0 soft).
+
+**1.3.1 (build 9) — ilk App Store gönderimi hazırlığı (2026-11-10)**
+- Kod değişikliği yok; build numarası 9 (ASC'deki en yüksek: 4). `ios/ExportOptions-appstore.plist`
+  eklendi (imzalı arşiv, `manageAppVersionAndBuildNumber=false`).
+- Destek/gizlilik sitesi ayrı repoda yayında; gizlilik metni koda göre düzeltildi ("anonim" yerine
+  kimlikle ilişkilendirilmeyen; IDFV/uygulama-örneği kimliği, IP'den kaba konum, IDFA yok).
+- ASC: metin, URL'ler, kategori, yaş 4+, fiyat, 175 ülke, inceleme notu, build 9, 6+6 ekran
+  görüntüsü. Kalan: App Privacy (web arayüzü) + "Submit for Review" (Berke).
 
 ---
 
