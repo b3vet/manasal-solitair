@@ -179,6 +179,13 @@ Sonraki sürümler için şablon satırı:
   Android `launch_background.xml` aynı ikon + renk.
 - ASC: 1.3.1 sürümünde build 9 → build 10 değiştirildi. Metadata değişikliği yok.
 
+**1.3.1 (build 11) — sürüm etiketi (2026-11-10)**
+- Ayarlar › Hakkında kartı: elle yazılmış "Sürüm 1.0.0" yerine gerçek sürüm ("Sürüm 1.3.1 ·
+  N kategori tamamlandı"). Sürüm adı çalışma anında `package_info_plus` ile okunur (iOS:
+  CFBundleShortVersionString = pubspec `version` adı) — kayamaz; yapı numarası gösterilmez.
+- TestFlight "What to Test" (tr) girildi; "manasal testers" (iç grup) build'i otomatik aldı.
+- ASC: 1.3.1 sürümünde build 10 → build 11 değiştirildi. Metadata değişikliği yok.
+
 ---
 
 ## Bakım kuralı
