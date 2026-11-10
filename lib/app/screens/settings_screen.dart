@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 
 import '../analytics/analytics_service.dart';
+import '../app_version.dart';
 import '../audio/sound_service.dart';
 import '../meta/meta_scope.dart';
 import '../meta/meta_service.dart';
@@ -279,8 +280,10 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  'Sürüm 1.0.0 · ${meta.totalCategoriesCompleted} '
-                  'kategori tamamlandı',
+                  aboutSubtitle(
+                    AppVersion.current,
+                    meta.totalCategoriesCompleted,
+                  ),
                   style: TextStyle(color: colors.inkSoft, fontSize: 13),
                 ),
               ],

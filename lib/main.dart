@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/analytics/analytics_service.dart';
+import 'app/app_version.dart';
 import 'app/audio/sound_service.dart';
 import 'app/meta/meta_scope.dart';
 import 'app/meta/meta_service.dart';
@@ -28,6 +29,8 @@ void main() async {
           ]
         : const [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown],
   );
+  // Ayarlar'daki sürüm etiketi (pubspec adı, ör. 1.3.1).
+  await AppVersion.load();
   final prefs = await SharedPreferences.getInstance();
   final meta = MetaService.load(Store(prefs));
   SoundService.instance.enabled = meta.sound;

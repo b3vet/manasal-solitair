@@ -1,12 +1,15 @@
 // Ayarlar: "Kullanım verisi" alt metni doğru (anonim iddiası yok), anahtar
 // meta'yı günceller; dar (iPhone) ve geniş (iPad) ekranda taşma yok.
+// Hakkında kartı sürümü platformdan okur (elle yazılmış "1.0.0" yok).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:manasal_solitaire/app/app_version.dart';
 import 'package:manasal_solitaire/app/meta/meta_scope.dart';
 import 'package:manasal_solitaire/app/meta/meta_service.dart';
 import 'package:manasal_solitaire/app/screens/settings_screen.dart';
 import 'package:manasal_solitaire/app/theme/app_theme.dart';
 import 'package:manasal_solitaire/persistence/store.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _usageSubtitle =
@@ -74,5 +77,50 @@ void main() {
     await tester.tap(toggle);
     await tester.pumpAndSettle();
     expect(meta.analyticsEnabled, isTrue);
+  });
+
+  group('Hakkında kartı sürümü', () {
+    setUpAll(() async {
+      PackageInfo.setMockInitialValues(
+        appName: 'Manasal Solitaire',
+        packageName: 'com.example.manasal',
+        version: '1.3.1',
+        buildNumber: '11',
+        buildSignature: '',
+      );
+      await AppVersion.load();
+    });
+
+    for (final (name, size) in const [
+      ('iPhone Pro Max', Size(440, 956)),
+      ('iPad', Size(1032, 1376)),
+    ]) {
+      testWidgets('platform sürümünü gösterir, yapı no yok ($name)', (
+        tester,
+      ) async {
+        final meta = await _fresh();
+        await _pump(tester, meta, size);
+        await tester.scrollUntilVisible(
+          find.text('Manasal Solitaire'),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+
+        expect(AppVersion.current, '1.3.1');
+        expect(
+          find.text('Sürüm 1.3.1 · 0 kategori tamamlandı'),
+          findsOneWidget,
+        );
+        expect(find.textContaining('1.0.0'), findsNothing);
+        expect(find.textContaining('(11)'), findsNothing);
+        expect(find.textContaining('+11'), findsNothing);
+        expect(tester.takeException(), isNull);
+      });
+    }
+
+    test('sürüm okunamazsa yalnız kategori sayısı', () {
+      expect(aboutSubtitle('', 3), '3 kategori tamamlandı');
+      expect(aboutSubtitle('1.3.1', 3), 'Sürüm 1.3.1 · 3 kategori tamamlandı');
+    });
   });
 }
